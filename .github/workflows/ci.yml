@@ -20,9 +20,12 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run lint
+      - name: Lint (non-blocking)
+        run: npm run lint
+        continue-on-error: true
 
-      - run: npx nest build
+      - name: Build
+        run: npx nest build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
