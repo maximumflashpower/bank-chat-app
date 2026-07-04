@@ -2,7 +2,6 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
-  ConflictException,
   Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +15,8 @@ import { TransactionStatus } from '../entities/transaction-status.enum';
 import { CreateAccountDto } from '../dto/create-account.dto';
 import { TransferDto } from '../dto/transfer.dto';
 import { DepositDto } from '../dto/deposit.dto';
+import { NotificationService } from '../../notification/services/notification.service';
+import { NotificationType } from '../../notification/entities/notification-type.enum';
 
 @Injectable()
 export class LedgerService {
@@ -27,6 +28,7 @@ export class LedgerService {
     @InjectRepository(Transaction)
     private txRepo: Repository<Transaction>,
     private dataSource: DataSource,
+    private notificationService: NotificationService,
   ) {}
 
   async createAccount(userId: string, dto: CreateAccountDto): Promise<Account> {
@@ -44,6 +46,15 @@ export class LedgerService {
     await this.accountRepo.save(account);
 
     this.logger.log(`Account created: ${account.id} — user: ${userId} — type: ${dto.type}`);
+
+    await this.notificationService.create({
+      userId,
+      type: NotificationType.ACCOUNT,
+      title: 'Cuenta creada',
+      body: `Tu cuenta ${dto.type} (${accountNumber}) ha sido creada exitosamente.`,
+      metadata: { accountId: account.id, accountNumber, type: dto.type },
+    });
+
     return account;
   }
 
@@ -103,13 +114,21 @@ export class LedgerService {
       const savedTx = await manager.save(tx);
 
       this.logger.log(`Deposit: ${dto.amount} to account ${accountId} — new balance: ${newBalance}`);
+
+      await this.notificationService.create({
+        userId,
+        type: NotificationType.TRANSACTION,
+        title: 'Depósito recibido',
+        body: `Recibiste ${dto.amount.toLocaleString('es-MX')} ${account.currency} en tu cuenta ${account.alias ?? account.accountNumber}.`,
+        metadata: { transactionId: savedTx.id, accountId, amount: dto.amount, balanceAfter: newBalance },
+      });
+
       return savedTx;
     });
   }
 
   async transfer(userId: string, fromAccountId: string, dto: TransferDto): Promise<Transaction[]> {
     return this.dataSource.transaction(async (manager) => {
-      // Lock both accounts
       const fromAccount = await manager.findOne(Account, {
         where: { id: fromAccountId },
         lock: { mode: 'pessimistic_write' },
@@ -145,17 +164,14 @@ export class LedgerService {
         throw new BadRequestException('Insufficient funds');
       }
 
-      // Debit source
       const fromNewBalance = Number(fromAccount.balance) - amount;
       fromAccount.balance = fromNewBalance;
       await manager.save(fromAccount);
 
-      // Credit destination
       const toNewBalance = Number(toAccount.balance) + amount;
       toAccount.balance = toNewBalance;
       await manager.save(toAccount);
 
-      // Create both transaction records
       const txOut = manager.create(Transaction, {
         accountId: fromAccount.id,
         counterpartyAccountId: toAccount.id,
@@ -181,6 +197,27 @@ export class LedgerService {
       const savedTxIn = await manager.save(txIn);
 
       this.logger.log(`Transfer: ${amount} from ${fromAccountId} to ${toAccount.id}`);
+
+      // Notify sender
+      await this.notificationService.create({
+        userId: fromAccount.userId,
+        type: NotificationType.TRANSACTION,
+        title: 'Transferencia enviada',
+        body: `Enviaste ${amount.toLocaleString('es-MX')} ${fromAccount.currency} a ${dto.toAccountNumber}.`,
+        metadata: { transactionId: savedTxOut.id, accountId: fromAccount.id, amount, toAccount: toAccount.id },
+      });
+
+      // Notify receiver (could be different user)
+      if (toAccount.userId !== fromAccount.userId) {
+        await this.notificationService.create({
+          userId: toAccount.userId,
+          type: NotificationType.TRANSACTION,
+          title: 'Transferencia recibida',
+          body: `Recibiste ${amount.toLocaleString('es-MX')} ${toAccount.currency} en tu cuenta ${toAccount.alias ?? toAccount.accountNumber}.`,
+          metadata: { transactionId: savedTxIn.id, accountId: toAccount.id, amount, fromAccount: fromAccount.id },
+        });
+      }
+
       return [savedTxOut, savedTxIn];
     });
   }
@@ -193,8 +230,6 @@ export class LedgerService {
       take: limit,
     });
   }
-
-  // --- Private helpers ---
 
   private generateAccountNumber(): string {
     const timestamp = Date.now().toString().slice(-10);

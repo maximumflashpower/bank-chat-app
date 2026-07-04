@@ -9,12 +9,14 @@ import { IdentityModule } from './modules/identity/identity.module';
 import { UserModule } from './modules/user/user.module';
 import { LedgerModule } from './modules/ledger/ledger.module';
 import { AuditModule } from './modules/audit/audit.module';
+import { NotificationModule } from './modules/notification/notification.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
 import { AuditLog } from './modules/audit/entities/audit-log.entity';
+import { Notification } from './modules/notification/entities/notification.entity';
 import * as path from 'path';
 
 @Module({
@@ -37,7 +39,7 @@ import * as path from 'path';
         ssl: config.get<boolean>('DB_SSL'),
         synchronize: config.get<boolean>('DB_SYNC'),
         logging: config.get<boolean>('DB_LOGGING'),
-        entities: [IdentityUser, Credential, UserProfile, Account, Transaction, AuditLog],
+        entities: [IdentityUser, Credential, UserProfile, Account, Transaction, AuditLog, Notification],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
       }),
@@ -62,6 +64,7 @@ import * as path from 'path';
     UserModule,
     LedgerModule,
     AuditModule,
+    NotificationModule,
   ],
   providers: [
     {
