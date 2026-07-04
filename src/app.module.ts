@@ -5,6 +5,8 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { envValidationSchema } from './config/env_validation';
+import { IdentityUser } from './modules/identity/entities/identity-user.entity';
+import { Credential } from './modules/identity/entities/credential.entity';
 import * as path from 'path';
 
 @Module({
@@ -29,7 +31,7 @@ import * as path from 'path';
         ssl: config.get<boolean>('DB_SSL'),
         synchronize: config.get<boolean>('DB_SYNC'),
         logging: config.get<boolean>('DB_LOGGING'),
-        entities: [path.join(__dirname, 'modules/**/*.entity{.ts,.js}')],
+        entities: [IdentityUser, Credential],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
       }),
