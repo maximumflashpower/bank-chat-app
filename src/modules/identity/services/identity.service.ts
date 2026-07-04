@@ -23,6 +23,9 @@ import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { LoginDto } from '../dto/login.dto';
 import { JwtPayload } from '../strategies/jwt.strategy';
 import { AuthResponse, OtpResponse } from '../dto/auth-response.interface';
+import { AuditService } from '../../audit/services/audit.service';
+import { AuditEventType } from '../../audit/entities/audit-event.enum';
+import { AuditSeverity } from '../../audit/entities/audit-severity.enum';
 
 @Injectable()
 export class IdentityService {
@@ -36,6 +39,7 @@ export class IdentityService {
     private config: ConfigService,
     private jwtService: JwtService,
     @InjectRedis() private redis: Redis,
+    private auditService: AuditService,
   ) {}
 
   async register(dto: RegisterDto): Promise<OtpResponse> {
@@ -62,6 +66,13 @@ export class IdentityService {
 
     this.logger.log(`User registered: ${user.id} — phone: ${dto.phoneNumber}`);
 
+    await this.auditService.log({
+      userId: user.id,
+      eventType: AuditEventType.USER_REGISTERED,
+      description: `User registered with phone ${dto.phoneNumber}`,
+      metadata: { phoneNumber: dto.phoneNumber, email: dto.email },
+    });
+
     return {
       message: 'Registration successful. Verify your phone with the OTP sent.',
       phoneNumber: dto.phoneNumber,
@@ -79,6 +90,13 @@ export class IdentityService {
     }
 
     if (storedOtp !== dto.otp) {
+      await this.auditService.log({
+        userId: null,
+        eventType: AuditEventType.OTP_FAILED,
+        severity: AuditSeverity.WARNING,
+        description: `OTP verification failed for ${dto.phoneNumber}`,
+        metadata: { phoneNumber: dto.phoneNumber },
+      });
       throw new BadRequestException('Invalid OTP code.');
     }
 
@@ -96,6 +114,13 @@ export class IdentityService {
     const tokens = this.issueTokens(user);
 
     this.logger.log(`User verified: ${user.id} — phone: ${dto.phoneNumber}`);
+
+    await this.auditService.log({
+      userId: user.id,
+      eventType: AuditEventType.USER_VERIFIED,
+      description: `User verified phone ${dto.phoneNumber}`,
+      metadata: { phoneNumber: dto.phoneNumber },
+    });
 
     return {
       ...tokens,
@@ -118,10 +143,24 @@ export class IdentityService {
     });
 
     if (!user) {
+      await this.auditService.log({
+        userId: null,
+        eventType: AuditEventType.LOGIN_FAILED,
+        severity: AuditSeverity.WARNING,
+        description: `Login failed — user not found: ${dto.phoneNumber}`,
+        metadata: { phoneNumber: dto.phoneNumber },
+      });
       throw new UnauthorizedException('Invalid credentials');
     }
 
     if (user.status === UserStatus.BLOCKED || user.status === UserStatus.SUSPENDED) {
+      await this.auditService.log({
+        userId: user.id,
+        eventType: AuditEventType.LOGIN_FAILED,
+        severity: AuditSeverity.CRITICAL,
+        description: `Login blocked — account ${user.status}: ${dto.phoneNumber}`,
+        metadata: { phoneNumber: dto.phoneNumber, status: user.status },
+      });
       throw new UnauthorizedException(`Account is ${user.status}`);
     }
 
@@ -142,6 +181,15 @@ export class IdentityService {
       }
 
       await this.credentialRepo.save(passwordCredential);
+
+      await this.auditService.log({
+        userId: user.id,
+        eventType: AuditEventType.LOGIN_FAILED,
+        severity: passwordCredential.failedAttempts >= 5 ? AuditSeverity.CRITICAL : AuditSeverity.WARNING,
+        description: `Login failed — wrong password (attempt ${passwordCredential.failedAttempts}): ${dto.phoneNumber}`,
+        metadata: { phoneNumber: dto.phoneNumber, attempts: passwordCredential.failedAttempts },
+      });
+
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -152,6 +200,13 @@ export class IdentityService {
     await this.userRepo.save(user);
 
     const tokens = this.issueTokens(user);
+
+    await this.auditService.log({
+      userId: user.id,
+      eventType: AuditEventType.USER_LOGIN,
+      description: `User logged in: ${dto.phoneNumber}`,
+      metadata: { phoneNumber: dto.phoneNumber },
+    });
 
     return {
       ...tokens,
@@ -211,8 +266,6 @@ export class IdentityService {
 
     return user;
   }
-
-  // --- Private helpers ---
 
   private generateOtp(): string {
     const length = this.config.get<number>('OTP_LENGTH', 6);

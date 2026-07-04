@@ -8,6 +8,7 @@ import { IdentityService } from './services/identity.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { IdentityUser } from './entities/identity-user.entity';
 import { Credential } from './entities/credential.entity';
+import { AuditModule } from '../audit/audit.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { Credential } from './entities/credential.entity';
         signOptions: { expiresIn: config.get<string>('JWT_EXPIRES_IN', '15m') as any },
       }),
     }),
+    AuditModule,
   ],
   controllers: [IdentityController],
   providers: [IdentityService, JwtStrategy],

@@ -1,0 +1,17 @@
+export enum AuditEventType {
+  USER_REGISTERED = 'user_registered',
+  USER_VERIFIED = 'user_verified',
+  USER_LOGIN = 'user_login',
+  USER_LOGOUT = 'user_logout',
+  PASSWORD_SET = 'password_set',
+  PASSWORD_CHANGED = 'password_changed',
+  PROFILE_UPDATED = 'profile_updated',
+  ACCOUNT_CREATED = 'account_created',
+  DEPOSIT = 'deposit',
+  TRANSFER = 'transfer',
+  WITHDRAWAL = 'withdrawal',
+  ACCOUNT_FROZEN = 'account_frozen',
+  ACCOUNT_CLOSED = 'account_closed',
+  LOGIN_FAILED = 'login_failed',
+  OTP_FAILED = 'otp_failed',
+}
