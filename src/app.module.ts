@@ -5,6 +5,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { envValidationSchema } from './config/env_validation';
+import { IdentityModule } from './modules/identity/identity.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import * as path from 'path';
@@ -46,13 +47,16 @@ import * as path from 'path';
       }),
     }),
 
-    // Rate limiting (throttler v6 API)
+    // Rate limiting
     ThrottlerModule.forRoot([
       {
         ttl: Number(process.env.THROTTLE_TTL) || 60000,
         limit: Number(process.env.THROTTLE_LIMIT) || 10,
       },
     ]),
+
+    // Feature modules
+    IdentityModule,
   ],
   providers: [
     {
