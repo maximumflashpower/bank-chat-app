@@ -6,8 +6,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { envValidationSchema } from './config/env_validation';
 import { IdentityModule } from './modules/identity/identity.module';
+import { UserModule } from './modules/user/user.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
+import { UserProfile } from './modules/user/entities/user-profile.entity';
 import * as path from 'path';
 
 @Module({
@@ -32,7 +34,7 @@ import * as path from 'path';
         ssl: config.get<boolean>('DB_SSL'),
         synchronize: config.get<boolean>('DB_SYNC'),
         logging: config.get<boolean>('DB_LOGGING'),
-        entities: [IdentityUser, Credential],
+        entities: [IdentityUser, Credential, UserProfile],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
       }),
@@ -57,6 +59,7 @@ import * as path from 'path';
 
     // Feature modules
     IdentityModule,
+    UserModule,
   ],
   providers: [
     {

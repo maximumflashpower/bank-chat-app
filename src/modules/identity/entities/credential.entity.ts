@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, Index } from 'typeorm';
+import { Entity, Column, ManyToOne, Index, JoinColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../../../common/base.entity';
 import { CredentialType } from './credential-type.enum';
@@ -36,5 +36,6 @@ export class Credential extends BaseEntity {
   lockedUntil: Date | null;
 
   @ManyToOne(() => IdentityUser, (user) => user.credentials, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
   user: IdentityUser;
 }
