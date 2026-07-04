@@ -12,6 +12,7 @@ import { AuditModule } from './modules/audit/audit.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { GovernanceModule } from './modules/governance/governance.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
@@ -23,6 +24,11 @@ import { Conversation } from './modules/chat/entities/conversation.entity';
 import { ConversationParticipant } from './modules/chat/entities/conversation-participant.entity';
 import { Message } from './modules/chat/entities/message.entity';
 import { StoredFile } from './modules/storage/entities/stored-file.entity';
+import { GovPolicy } from './modules/governance/entities/gov-policy.entity';
+import { GovDecisionLog } from './modules/governance/entities/gov-decision-log.entity';
+import { GovDriftDetection } from './modules/governance/entities/gov-drift-detection.entity';
+import { GovFrameworkMapping } from './modules/governance/entities/gov-framework-mapping.entity';
+import { GovViolation } from './modules/governance/entities/gov-violation.entity';
 import * as path from 'path';
 
 @Module({
@@ -57,6 +63,11 @@ import * as path from 'path';
           ConversationParticipant,
           Message,
           StoredFile,
+          GovPolicy,
+          GovDecisionLog,
+          GovDriftDetection,
+          GovFrameworkMapping,
+          GovViolation,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -85,6 +96,7 @@ import * as path from 'path';
     NotificationModule,
     ChatModule,
     StorageModule,
+    GovernanceModule,
   ],
   providers: [
     {
