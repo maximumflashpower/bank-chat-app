@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsEnum, IsOptional, MaxLength, IsObject } from 'class-validator';
+import {
+  IsString,
+  IsEnum,
+  IsOptional,
+  MaxLength,
+  IsObject,
+} from 'class-validator';
 import { MessageType } from '../entities/message-type.enum';
 
 export class SendMessageDto {
@@ -13,7 +19,10 @@ export class SendMessageDto {
   @MaxLength(10000)
   content?: string;
 
-  @ApiProperty({ required: false, description: 'Media metadata for non-text messages' })
+  @ApiProperty({
+    required: false,
+    description: 'Media metadata for non-text messages',
+  })
   @IsOptional()
   @IsObject()
   mediaMetadata?: Record<string, any>;
@@ -24,7 +33,10 @@ export class SendMessageDto {
   @MaxLength(100)
   clientMessageId?: string;
 
-  @ApiProperty({ required: false, description: 'UUID of message being replied to' })
+  @ApiProperty({
+    required: false,
+    description: 'UUID of message being replied to',
+  })
   @IsString()
   @IsOptional()
   replyToId?: string;

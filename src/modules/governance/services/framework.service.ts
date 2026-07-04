@@ -14,7 +14,10 @@ export class FrameworkService {
     private readonly frameworkRepo: Repository<GovFrameworkMapping>,
   ) {}
 
-  async mapToFramework(dto: FrameworkMapDto, assessorId: string): Promise<GovFrameworkMapping> {
+  async mapToFramework(
+    dto: FrameworkMapDto,
+    assessorId: string,
+  ): Promise<GovFrameworkMapping> {
     const mapping = this.frameworkRepo.create({
       ...dto,
       assessorId,
@@ -22,7 +25,9 @@ export class FrameworkService {
       status: FrameworkStatus.COMPLIANT,
     });
     const saved = await this.frameworkRepo.save(mapping);
-    this.logger.log(`Framework mapping created: ${saved.id} — ${dto.frameworkName}/${dto.frameworkControl}`);
+    this.logger.log(
+      `Framework mapping created: ${saved.id} — ${dto.frameworkName}/${dto.frameworkControl}`,
+    );
     return saved;
   }
 
@@ -46,12 +51,20 @@ export class FrameworkService {
   }> {
     const mappings = await this.findAll(frameworkName);
     const totalControls = mappings.length;
-    const compliant = mappings.filter(m => m.status === FrameworkStatus.COMPLIANT).length;
-    const nonCompliant = mappings.filter(m => m.status === FrameworkStatus.NON_COMPLIANT).length;
-    const partial = mappings.filter(m => m.status === FrameworkStatus.PARTIALLY).length;
-    const avgCoverage = totalControls > 0
-      ? mappings.reduce((sum, m) => sum + Number(m.coveragePct), 0) / totalControls
-      : 0;
+    const compliant = mappings.filter(
+      (m) => m.status === FrameworkStatus.COMPLIANT,
+    ).length;
+    const nonCompliant = mappings.filter(
+      (m) => m.status === FrameworkStatus.NON_COMPLIANT,
+    ).length;
+    const partial = mappings.filter(
+      (m) => m.status === FrameworkStatus.PARTIALLY,
+    ).length;
+    const avgCoverage =
+      totalControls > 0
+        ? mappings.reduce((sum, m) => sum + Number(m.coveragePct), 0) /
+          totalControls
+        : 0;
     return {
       framework: frameworkName,
       totalControls,
@@ -62,9 +75,13 @@ export class FrameworkService {
     };
   }
 
-  async updateCoverage(id: string, coveragePct: number): Promise<GovFrameworkMapping> {
+  async updateCoverage(
+    id: string,
+    coveragePct: number,
+  ): Promise<GovFrameworkMapping> {
     const mapping = await this.frameworkRepo.findOne({ where: { id } });
-    if (!mapping) throw new NotFoundException(`Framework mapping ${id} not found`);
+    if (!mapping)
+      throw new NotFoundException(`Framework mapping ${id} not found`);
     mapping.coveragePct = coveragePct;
     mapping.lastAssessed = new Date();
     if (coveragePct >= 100) {
@@ -75,7 +92,9 @@ export class FrameworkService {
       mapping.status = FrameworkStatus.NON_COMPLIANT;
     }
     const updated = await this.frameworkRepo.save(mapping);
-    this.logger.log(`Framework mapping updated: ${id} — coverage: ${coveragePct}% — status: ${updated.status}`);
+    this.logger.log(
+      `Framework mapping updated: ${id} — coverage: ${coveragePct}% — status: ${updated.status}`,
+    );
     return updated;
   }
 }

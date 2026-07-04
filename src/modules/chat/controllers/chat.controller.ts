@@ -12,7 +12,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { ChatService } from '../services/chat.service';
 import { CreateConversationDto } from '../dto/create-conversation.dto';
@@ -28,12 +33,18 @@ export class ChatController {
   @Post('conversations')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new conversation' })
-  async createConversation(@Request() req: any, @Body() dto: CreateConversationDto) {
+  async createConversation(
+    @Request() req: any,
+    @Body() dto: CreateConversationDto,
+  ) {
     return this.chatService.createConversation(req.user.id, dto);
   }
 
   @Get('conversations')
-  @ApiOperation({ summary: 'List user conversations with last message preview and unread count' })
+  @ApiOperation({
+    summary:
+      'List user conversations with last message preview and unread count',
+  })
   async getConversations(@Request() req: any) {
     return this.chatService.getUserConversations(req.user.id);
   }
@@ -41,14 +52,23 @@ export class ChatController {
   @Get('conversations/:id/messages')
   @ApiOperation({ summary: 'Get messages in a conversation (paginated)' })
   @ApiQuery({ name: 'limit', required: false, type: Number })
-  @ApiQuery({ name: 'before', required: false, description: 'Message UUID for cursor pagination' })
+  @ApiQuery({
+    name: 'before',
+    required: false,
+    description: 'Message UUID for cursor pagination',
+  })
   async getMessages(
     @Request() req: any,
     @Param('id') conversationId: string,
     @Query('limit') limit?: number,
     @Query('before') before?: string,
   ) {
-    return this.chatService.getMessages(req.user.id, conversationId, limit, before);
+    return this.chatService.getMessages(
+      req.user.id,
+      conversationId,
+      limit,
+      before,
+    );
   }
 
   @Post('conversations/:id/messages')
@@ -71,13 +91,19 @@ export class ChatController {
 
   @Post('conversations/:id/participants/:userId')
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Add a participant to a group/channel (admin only)' })
+  @ApiOperation({
+    summary: 'Add a participant to a group/channel (admin only)',
+  })
   async addParticipant(
     @Request() req: any,
     @Param('id') conversationId: string,
     @Param('userId') targetUserId: string,
   ) {
-    return this.chatService.addParticipant(req.user.id, conversationId, targetUserId);
+    return this.chatService.addParticipant(
+      req.user.id,
+      conversationId,
+      targetUserId,
+    );
   }
 
   @Patch('conversations/:id/participants/:userId/remove')
@@ -88,7 +114,11 @@ export class ChatController {
     @Param('id') conversationId: string,
     @Param('userId') targetUserId: string,
   ) {
-    return this.chatService.removeParticipant(req.user.id, conversationId, targetUserId);
+    return this.chatService.removeParticipant(
+      req.user.id,
+      conversationId,
+      targetUserId,
+    );
   }
 
   @Patch('messages/:id')

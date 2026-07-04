@@ -35,7 +35,9 @@ export class Credential extends BaseEntity {
   @Column({ name: 'locked_until', type: 'timestamptz', nullable: true })
   lockedUntil: Date | null;
 
-  @ManyToOne(() => IdentityUser, (user) => user.credentials, { onDelete: 'CASCADE' })
+  @ManyToOne(() => IdentityUser, (user) => user.credentials, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   user: IdentityUser;
 }

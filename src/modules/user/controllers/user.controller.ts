@@ -9,7 +9,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { UserService } from '../services/user.service';
 import { SetPasswordDto } from '../dto/set-password.dto';
@@ -25,7 +30,9 @@ export class UserController {
 
   @Post('set-password')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Set password for the first time (after OTP verification)' })
+  @ApiOperation({
+    summary: 'Set password for the first time (after OTP verification)',
+  })
   @ApiResponse({ status: 200, description: 'Password set successfully' })
   async setPassword(@Request() req: any, @Body() dto: SetPasswordDto) {
     return this.userService.setPassword(req.user.id, dto);
@@ -36,7 +43,11 @@ export class UserController {
   @ApiOperation({ summary: 'Change existing password' })
   @ApiResponse({ status: 200, description: 'Password changed successfully' })
   async changePassword(@Request() req: any, @Body() dto: ChangePasswordDto) {
-    return this.userService.changePassword(req.user.id, dto.oldPassword, dto.newPassword);
+    return this.userService.changePassword(
+      req.user.id,
+      dto.oldPassword,
+      dto.newPassword,
+    );
   }
 
   @Get('profile')

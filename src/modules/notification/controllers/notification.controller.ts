@@ -9,7 +9,13 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { NotificationService } from '../services/notification.service';
 import { NotificationStatus } from '../entities/notification-status.enum';
@@ -22,7 +28,10 @@ export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
   @Get()
-  @ApiOperation({ summary: 'List user notifications with pagination and optional status filter' })
+  @ApiOperation({
+    summary:
+      'List user notifications with pagination and optional status filter',
+  })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'offset', required: false, type: Number })
   @ApiQuery({ name: 'status', required: false, enum: NotificationStatus })
@@ -32,7 +41,11 @@ export class NotificationController {
     @Query('offset') offset?: number,
     @Query('status') status?: NotificationStatus,
   ) {
-    return this.notificationService.getUserNotifications(req.user.id, { limit, offset, status });
+    return this.notificationService.getUserNotifications(req.user.id, {
+      limit,
+      offset,
+      status,
+    });
   }
 
   @Get('unread/count')

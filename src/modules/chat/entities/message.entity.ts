@@ -18,27 +18,54 @@ export class Message extends BaseEntity {
   senderId: string;
 
   @ApiProperty({ enum: MessageType, example: MessageType.TEXT })
-  @Column({ name: 'type', type: 'enum', enum: MessageType, default: MessageType.TEXT })
+  @Column({
+    name: 'type',
+    type: 'enum',
+    enum: MessageType,
+    default: MessageType.TEXT,
+  })
   type: MessageType;
 
   @ApiProperty({ enum: MessageDelivery, example: MessageDelivery.SENT })
-  @Column({ name: 'delivery_status', type: 'enum', enum: MessageDelivery, default: MessageDelivery.SENT })
+  @Column({
+    name: 'delivery_status',
+    type: 'enum',
+    enum: MessageDelivery,
+    default: MessageDelivery.SENT,
+  })
   deliveryStatus: MessageDelivery;
 
   @ApiProperty({ example: 'Hola, ¿cómo estás?' })
   @Column({ name: 'content', type: 'text', nullable: true })
   content: string | null;
 
-  @ApiProperty({ example: '{"url":"https://...","size":1024}', description: 'Media metadata JSON', required: false })
+  @ApiProperty({
+    example: '{"url":"https://...","size":1024}',
+    description: 'Media metadata JSON',
+    required: false,
+  })
   @Column({ name: 'media_metadata', type: 'jsonb', nullable: true })
   mediaMetadata: Record<string, any> | null;
 
-  @ApiProperty({ example: 'msg-uuid-client', description: 'Client-side idempotency key', required: false })
+  @ApiProperty({
+    example: 'msg-uuid-client',
+    description: 'Client-side idempotency key',
+    required: false,
+  })
   @Index()
-  @Column({ name: 'client_message_id', type: 'varchar', length: 100, nullable: true })
+  @Column({
+    name: 'client_message_id',
+    type: 'varchar',
+    length: 100,
+    nullable: true,
+  })
   clientMessageId: string | null;
 
-  @ApiProperty({ example: null, description: 'Reply-to message UUID', required: false })
+  @ApiProperty({
+    example: null,
+    description: 'Reply-to message UUID',
+    required: false,
+  })
   @Index()
   @Column({ name: 'reply_to_id', type: 'uuid', nullable: true })
   replyToId: string | null;

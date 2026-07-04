@@ -9,7 +9,12 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { FrameworkService } from '../services/framework.service';
 import { FrameworkMapDto } from '../dto/framework-map.dto';
@@ -45,7 +50,10 @@ export class FrameworkController {
   @Patch(':id/coverage')
   @ApiOperation({ summary: 'Update coverage percentage' })
   @ApiResponse({ status: 200, description: 'Coverage updated' })
-  async updateCoverage(@Param('id') id: string, @Body() body: { coveragePct: number }) {
+  async updateCoverage(
+    @Param('id') id: string,
+    @Body() body: { coveragePct: number },
+  ) {
     return this.frameworkService.updateCoverage(id, body.coveragePct);
   }
 }

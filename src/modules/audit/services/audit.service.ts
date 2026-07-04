@@ -44,15 +44,22 @@ export class AuditService {
       });
       await this.auditRepo.save(entry);
     } catch (err) {
-      this.logger.error(`Failed to write audit log: ${(err as Error).message}`, err.stack);
+      this.logger.error(
+        `Failed to write audit log: ${(err as Error).message}`,
+        err.stack,
+      );
     }
   }
 
-  async query(dto: QueryAuditDto): Promise<{ data: AuditLog[]; total: number }> {
+  async query(
+    dto: QueryAuditDto,
+  ): Promise<{ data: AuditLog[]; total: number }> {
     const qb = this.auditRepo.createQueryBuilder('audit');
 
     if (dto.eventType) {
-      qb.andWhere('audit.event_type = :eventType', { eventType: dto.eventType });
+      qb.andWhere('audit.event_type = :eventType', {
+        eventType: dto.eventType,
+      });
     }
     if (dto.severity) {
       qb.andWhere('audit.severity = :severity', { severity: dto.severity });

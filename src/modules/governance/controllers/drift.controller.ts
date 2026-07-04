@@ -1,12 +1,10 @@
+import { Controller, Get, Post, Param, Body, UseGuards } from '@nestjs/common';
 import {
-  Controller,
-  Get,
-  Post,
-  Param,
-  Body,
-  UseGuards,
-} from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { DriftService } from '../services/drift.service';
 
@@ -27,8 +25,14 @@ export class DriftController {
   @Post(':id/remediate')
   @ApiOperation({ summary: 'Execute drift remediation' })
   @ApiResponse({ status: 200, description: 'Remediation started' })
-  async remediate(@Param('id') id: string, @Body() body: { remediationAction?: string }) {
-    return this.driftService.remediate(id, body.remediationAction || 'Manual remediation');
+  async remediate(
+    @Param('id') id: string,
+    @Body() body: { remediationAction?: string },
+  ) {
+    return this.driftService.remediate(
+      id,
+      body.remediationAction || 'Manual remediation',
+    );
   }
 
   @Post(':id/resolve')

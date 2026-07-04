@@ -38,7 +38,9 @@ export class DecisionService {
       context: params.context || {},
     });
     const saved = await this.decisionRepo.save(log);
-    this.logger.debug(`Decision logged: ${saved.id} — result: ${params.decisionResult} — policy: ${params.policyId} v${params.policyVersion}`);
+    this.logger.debug(
+      `Decision logged: ${saved.id} — result: ${params.decisionResult} — policy: ${params.policyId} v${params.policyVersion}`,
+    );
     return saved;
   }
 
@@ -52,11 +54,15 @@ export class DecisionService {
     const where: any = {};
     if (query.policyId) where.policyId = query.policyId;
     if (query.decisionResult) where.decisionResult = query.decisionResult;
-    if (query.evaluatedEntityType) where.evaluatedEntityType = query.evaluatedEntityType;
+    if (query.evaluatedEntityType)
+      where.evaluatedEntityType = query.evaluatedEntityType;
     if (query.actorId) where.actorId = query.actorId;
 
     if (query.fromDate && query.toDate) {
-      where.createdAt = Between(new Date(query.fromDate), new Date(query.toDate));
+      where.createdAt = Between(
+        new Date(query.fromDate),
+        new Date(query.toDate),
+      );
     } else if (query.fromDate) {
       where.createdAt = MoreThan(new Date(query.fromDate));
     } else if (query.toDate) {

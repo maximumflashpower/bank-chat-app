@@ -40,7 +40,9 @@ async function bootstrap() {
   // Swagger
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Bank Chat App API')
-    .setDescription('Hybrid banking platform API — WeChat + WhatsApp + Telegram')
+    .setDescription(
+      'Hybrid banking platform API — WeChat + WhatsApp + Telegram',
+    )
     .setVersion('1.0.0')
     .addBearerAuth()
     .build();

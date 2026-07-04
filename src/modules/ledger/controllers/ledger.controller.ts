@@ -10,7 +10,13 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { LedgerService } from '../services/ledger.service';
 import { CreateAccountDto } from '../dto/create-account.dto';
@@ -52,14 +58,22 @@ export class LedgerController {
   @Post('accounts/:id/deposit')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Deposit funds into an account' })
-  async deposit(@Request() req: any, @Param('id') accountId: string, @Body() dto: DepositDto) {
+  async deposit(
+    @Request() req: any,
+    @Param('id') accountId: string,
+    @Body() dto: DepositDto,
+  ) {
     return this.ledgerService.deposit(req.user.id, accountId, dto);
   }
 
   @Post('accounts/:id/transfer')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Transfer funds to another account' })
-  async transfer(@Request() req: any, @Param('id') accountId: string, @Body() dto: TransferDto) {
+  async transfer(
+    @Request() req: any,
+    @Param('id') accountId: string,
+    @Body() dto: TransferDto,
+  ) {
     return this.ledgerService.transfer(req.user.id, accountId, dto);
   }
 

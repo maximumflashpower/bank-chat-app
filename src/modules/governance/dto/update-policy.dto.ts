@@ -1,4 +1,10 @@
-import { IsString, IsEnum, IsOptional, IsObject, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsEnum,
+  IsOptional,
+  IsObject,
+  MaxLength,
+} from 'class-validator';
 import { PolicyDomain } from '../entities/policy-domain.enum';
 import { PolicyLanguage } from '../entities/policy-language.enum';
 import { Severity } from '../entities/severity.enum';

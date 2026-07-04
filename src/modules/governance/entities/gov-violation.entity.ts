@@ -1,8 +1,4 @@
-import {
-  Entity,
-  Column,
-  Index,
-} from 'typeorm';
+import { Entity, Column, Index } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
 import { ViolationStatus } from './violation-status.enum';
 import { Severity } from './severity.enum';
@@ -25,7 +21,11 @@ export class GovViolation extends BaseEntity {
   @Column({ type: 'enum', enum: Severity })
   severity: Severity;
 
-  @Column({ type: 'enum', enum: ViolationStatus, default: ViolationStatus.OPEN })
+  @Column({
+    type: 'enum',
+    enum: ViolationStatus,
+    default: ViolationStatus.OPEN,
+  })
   status: ViolationStatus;
 
   @Column({ type: 'uuid', nullable: true })

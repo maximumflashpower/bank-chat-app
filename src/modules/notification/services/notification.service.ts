@@ -44,13 +44,19 @@ export class NotificationService {
       }),
     );
 
-    this.logger.log(`Notification created: ${saved.id} — user: ${dto.userId} — type: ${dto.type}`);
+    this.logger.log(
+      `Notification created: ${saved.id} — user: ${dto.userId} — type: ${dto.type}`,
+    );
     return saved;
   }
 
   async getUserNotifications(
     userId: string,
-    options: { limit?: number; offset?: number; status?: NotificationStatus } = {},
+    options: {
+      limit?: number;
+      offset?: number;
+      status?: NotificationStatus;
+    } = {},
   ): Promise<{ data: Notification[]; total: number }> {
     const { limit = 50, offset = 0, status } = options;
     const qb = this.notifRepo.createQueryBuilder('n');
@@ -59,9 +65,7 @@ export class NotificationService {
     if (status) {
       qb.andWhere('n.status = :status', { status });
     }
-    qb.orderBy('n.created_at', 'DESC')
-      .skip(offset)
-      .take(limit);
+    qb.orderBy('n.created_at', 'DESC').skip(offset).take(limit);
 
     const [data, total] = await qb.getManyAndCount();
     return { data, total };
@@ -74,7 +78,10 @@ export class NotificationService {
     return { unread: count };
   }
 
-  async markAsRead(userId: string, notificationId: string): Promise<Notification> {
+  async markAsRead(
+    userId: string,
+    notificationId: string,
+  ): Promise<Notification> {
     const notif = await this.notifRepo.findOne({
       where: { id: notificationId, userId },
     });

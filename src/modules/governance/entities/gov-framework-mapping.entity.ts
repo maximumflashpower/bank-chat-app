@@ -1,8 +1,4 @@
-import {
-  Entity,
-  Column,
-  Index,
-} from 'typeorm';
+import { Entity, Column, Index } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
 import { FrameworkName } from './framework-name.enum';
 import { FrameworkStatus } from './framework-status.enum';
@@ -31,6 +27,10 @@ export class GovFrameworkMapping extends BaseEntity {
   @Column({ type: 'uuid', nullable: true })
   assessorId: string;
 
-  @Column({ type: 'enum', enum: FrameworkStatus, default: FrameworkStatus.COMPLIANT })
+  @Column({
+    type: 'enum',
+    enum: FrameworkStatus,
+    default: FrameworkStatus.COMPLIANT,
+  })
   status: FrameworkStatus;
 }

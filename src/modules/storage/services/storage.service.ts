@@ -25,7 +25,10 @@ export class StorageService {
     private fileRepo: Repository<StoredFile>,
     private config: ConfigService,
   ) {
-    this.uploadDir = this.config.get<string>('UPLOAD_DIR', join(process.cwd(), 'uploads'));
+    this.uploadDir = this.config.get<string>(
+      'UPLOAD_DIR',
+      join(process.cwd(), 'uploads'),
+    );
     if (!existsSync(this.uploadDir)) {
       mkdirSync(this.uploadDir, { recursive: true });
     }
@@ -39,9 +42,14 @@ export class StorageService {
       throw new BadRequestException('No file provided');
     }
 
-    const maxBytes = this.config.get<number>('MAX_FILE_SIZE_BYTES', 10 * 1024 * 1024);
+    const maxBytes = this.config.get<number>(
+      'MAX_FILE_SIZE_BYTES',
+      10 * 1024 * 1024,
+    );
     if (file.size > maxBytes) {
-      throw new BadRequestException(`File exceeds maximum size of ${maxBytes} bytes`);
+      throw new BadRequestException(
+        `File exceeds maximum size of ${maxBytes} bytes`,
+      );
     }
 
     const ext = extname(file.originalname) || '';
@@ -56,7 +64,10 @@ export class StorageService {
     const filePath = join(dirPath, storedName);
     writeFileSync(filePath, file.buffer);
 
-    const fileHash = createHash('sha256').update(file.buffer).digest('hex').slice(0, 64);
+    const fileHash = createHash('sha256')
+      .update(file.buffer)
+      .digest('hex')
+      .slice(0, 64);
 
     const stored = this.fileRepo.create({
       userId,
@@ -72,7 +83,9 @@ export class StorageService {
     });
     await this.fileRepo.save(stored);
 
-    this.logger.log(`File uploaded: ${stored.id} — name: ${file.originalname} — size: ${file.size}`);
+    this.logger.log(
+      `File uploaded: ${stored.id} — name: ${file.originalname} — size: ${file.size}`,
+    );
 
     return {
       id: stored.id,

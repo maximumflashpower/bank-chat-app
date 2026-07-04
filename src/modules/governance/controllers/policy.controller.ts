@@ -12,7 +12,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { PolicyService } from '../services/policy.service';
 import { CreatePolicyDto } from '../dto/create-policy.dto';
@@ -35,7 +40,10 @@ export class PolicyController {
   @Get()
   @ApiOperation({ summary: 'List all policies' })
   @ApiResponse({ status: 200, description: 'List of policies' })
-  async findAll(@Query('domain') domain?: string, @Query('status') status?: string) {
+  async findAll(
+    @Query('domain') domain?: string,
+    @Query('status') status?: string,
+  ) {
     return this.policyService.findAll({ domain, status });
   }
 
@@ -71,14 +79,20 @@ export class PolicyController {
   @Post(':id/rollback')
   @ApiOperation({ summary: 'Rollback policy to a previous version' })
   @ApiResponse({ status: 200, description: 'Policy rolled back' })
-  async rollback(@Param('id') id: string, @Body() body: { targetVersion: number }) {
+  async rollback(
+    @Param('id') id: string,
+    @Body() body: { targetVersion: number },
+  ) {
     return this.policyService.rollback(id, body.targetVersion);
   }
 
   @Post(':id/test')
   @ApiOperation({ summary: 'Dry-run test a policy against input' })
   @ApiResponse({ status: 200, description: 'Test result' })
-  async dryRunTest(@Param('id') id: string, @Body() body: { input: Record<string, any> }) {
+  async dryRunTest(
+    @Param('id') id: string,
+    @Body() body: { input: Record<string, any> },
+  ) {
     return this.policyService.dryRunTest(id, body.input);
   }
 }

@@ -15,15 +15,25 @@ export class ConversationParticipant extends BaseEntity {
   @Column({ name: 'conversation_id', type: 'uuid' })
   conversationId: string;
 
-  @ApiProperty({ example: false, description: 'Admin privileges in group/channel' })
+  @ApiProperty({
+    example: false,
+    description: 'Admin privileges in group/channel',
+  })
   @Column({ name: 'is_admin', type: 'boolean', default: false })
   isAdmin: boolean;
 
-  @ApiProperty({ example: false, description: 'Soft-muted (cannot send messages)' })
+  @ApiProperty({
+    example: false,
+    description: 'Soft-muted (cannot send messages)',
+  })
   @Column({ name: 'is_muted', type: 'boolean', default: false })
   isMuted: boolean;
 
-  @ApiProperty({ example: null, description: 'Last read message timestamp', required: false })
+  @ApiProperty({
+    example: null,
+    description: 'Last read message timestamp',
+    required: false,
+  })
   @Column({ name: 'last_read_at', type: 'timestamptz', nullable: true })
   lastReadAt: Date | null;
 

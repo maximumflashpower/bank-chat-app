@@ -6,7 +6,10 @@ import { Credential } from './credential.entity';
 
 @Entity({ name: 'identity_users' })
 export class IdentityUser extends BaseEntity {
-  @ApiProperty({ example: '+525512345678', description: 'Phone number with country code' })
+  @ApiProperty({
+    example: '+525512345678',
+    description: 'Phone number with country code',
+  })
   @Index({ unique: true })
   @Column({ name: 'phone_number', type: 'varchar', length: 20, unique: true })
   phoneNumber: string;
@@ -25,7 +28,12 @@ export class IdentityUser extends BaseEntity {
   lastName: string | null;
 
   @ApiProperty({ enum: UserStatus, example: UserStatus.PENDING })
-  @Column({ name: 'status', type: 'enum', enum: UserStatus, default: UserStatus.PENDING })
+  @Column({
+    name: 'status',
+    type: 'enum',
+    enum: UserStatus,
+    default: UserStatus.PENDING,
+  })
   status: UserStatus;
 
   @ApiProperty({ example: false })
@@ -37,10 +45,17 @@ export class IdentityUser extends BaseEntity {
   lastLoginAt: Date | null;
 
   @ApiProperty({ example: '192.168.1.1' })
-  @Column({ name: 'last_login_ip', type: 'varchar', length: 45, nullable: true })
+  @Column({
+    name: 'last_login_ip',
+    type: 'varchar',
+    length: 45,
+    nullable: true,
+  })
   lastLoginIp: string | null;
 
   @ApiProperty({ type: () => [Credential] })
-  @OneToMany(() => Credential, (credential) => credential.user, { cascade: true })
+  @OneToMany(() => Credential, (credential) => credential.user, {
+    cascade: true,
+  })
   credentials: Credential[];
 }

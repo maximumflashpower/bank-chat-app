@@ -7,7 +7,10 @@ import { Transaction } from './entities/transaction.entity';
 import { NotificationModule } from '../notification/notification.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Account, Transaction]), NotificationModule],
+  imports: [
+    TypeOrmModule.forFeature([Account, Transaction]),
+    NotificationModule,
+  ],
   controllers: [LedgerController],
   providers: [LedgerService],
   exports: [LedgerService],

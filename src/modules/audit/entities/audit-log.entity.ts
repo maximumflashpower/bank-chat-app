@@ -6,7 +6,10 @@ import { AuditSeverity } from './audit-severity.enum';
 
 @Entity({ name: 'audit_logs' })
 export class AuditLog extends BaseEntity {
-  @ApiProperty({ type: String, description: 'User UUID who triggered the event' })
+  @ApiProperty({
+    type: String,
+    description: 'User UUID who triggered the event',
+  })
   @Index()
   @Column({ name: 'user_id', type: 'uuid', nullable: true })
   userId: string | null;
@@ -17,7 +20,12 @@ export class AuditLog extends BaseEntity {
   eventType: AuditEventType;
 
   @ApiProperty({ enum: AuditSeverity, example: AuditSeverity.INFO })
-  @Column({ name: 'severity', type: 'enum', enum: AuditSeverity, default: AuditSeverity.INFO })
+  @Column({
+    name: 'severity',
+    type: 'enum',
+    enum: AuditSeverity,
+    default: AuditSeverity.INFO,
+  })
   severity: AuditSeverity;
 
   @ApiProperty({ example: 'User logged in successfully' })
@@ -32,7 +40,10 @@ export class AuditLog extends BaseEntity {
   @Column({ name: 'user_agent', type: 'varchar', length: 500, nullable: true })
   userAgent: string | null;
 
-  @ApiProperty({ example: '{"amount": 5000, "accountId": "..."}', description: 'Additional context as JSON' })
+  @ApiProperty({
+    example: '{"amount": 5000, "accountId": "..."}',
+    description: 'Additional context as JSON',
+  })
   @Column({ name: 'metadata', type: 'jsonb', nullable: true })
   metadata: Record<string, any> | null;
 

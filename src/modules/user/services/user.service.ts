@@ -32,7 +32,10 @@ export class UserService {
     private config: ConfigService,
   ) {}
 
-  async setPassword(userId: string, dto: SetPasswordDto): Promise<{ message: string }> {
+  async setPassword(
+    userId: string,
+    dto: SetPasswordDto,
+  ): Promise<{ message: string }> {
     const user = await this.userRepo.findOne({
       where: { id: userId },
       relations: { credentials: true },
@@ -52,7 +55,9 @@ export class UserService {
     );
 
     if (existingPassword) {
-      throw new ConflictException('Password already set. Use change-password endpoint.');
+      throw new ConflictException(
+        'Password already set. Use change-password endpoint.',
+      );
     }
 
     const rounds = this.config.get<number>('BCRYPT_ROUNDS', 12);
@@ -91,7 +96,10 @@ export class UserService {
     return profile;
   }
 
-  async updateProfile(userId: string, dto: UpdateProfileDto): Promise<UserProfile> {
+  async updateProfile(
+    userId: string,
+    dto: UpdateProfileDto,
+  ): Promise<UserProfile> {
     const profile = await this.getProfile(userId);
 
     Object.assign(profile, {
@@ -109,7 +117,11 @@ export class UserService {
     return saved;
   }
 
-  async changePassword(userId: string, oldPassword: string, newPassword: string): Promise<{ message: string }> {
+  async changePassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string,
+  ): Promise<{ message: string }> {
     const user = await this.userRepo.findOne({
       where: { id: userId },
       relations: { credentials: true },
@@ -124,10 +136,15 @@ export class UserService {
     );
 
     if (!passwordCredential) {
-      throw new BadRequestException('No password set. Use set-password endpoint.');
+      throw new BadRequestException(
+        'No password set. Use set-password endpoint.',
+      );
     }
 
-    const isValid = await bcrypt.compare(oldPassword, passwordCredential.hashedValue);
+    const isValid = await bcrypt.compare(
+      oldPassword,
+      passwordCredential.hashedValue,
+    );
     if (!isValid) {
       throw new BadRequestException('Current password is incorrect');
     }

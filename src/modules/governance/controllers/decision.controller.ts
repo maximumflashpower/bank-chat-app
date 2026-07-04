@@ -1,11 +1,10 @@
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import {
-  Controller,
-  Get,
-  Param,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { DecisionService } from '../services/decision.service';
 import { DecisionQueryDto } from '../dto/decision-query.dto';
