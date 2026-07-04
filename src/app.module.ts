@@ -11,6 +11,7 @@ import { LedgerModule } from './modules/ledger/ledger.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { StorageModule } from './modules/storage/storage.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
@@ -21,6 +22,7 @@ import { Notification } from './modules/notification/entities/notification.entit
 import { Conversation } from './modules/chat/entities/conversation.entity';
 import { ConversationParticipant } from './modules/chat/entities/conversation-participant.entity';
 import { Message } from './modules/chat/entities/message.entity';
+import { StoredFile } from './modules/storage/entities/stored-file.entity';
 import * as path from 'path';
 
 @Module({
@@ -54,6 +56,7 @@ import * as path from 'path';
           Conversation,
           ConversationParticipant,
           Message,
+          StoredFile,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -81,6 +84,7 @@ import * as path from 'path';
     AuditModule,
     NotificationModule,
     ChatModule,
+    StorageModule,
   ],
   providers: [
     {
