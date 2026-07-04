@@ -8,7 +8,13 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiBody,
+} from '@nestjs/swagger';
 import { IdentityService } from '../services/identity.service';
 import { RegisterDto } from '../dto/register.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';

@@ -1,8 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsNumber, IsOptional, Min, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  Min,
+  MaxLength,
+} from 'class-validator';
 
 export class TransferDto {
-  @ApiProperty({ example: '000123456789', description: 'Destination account number' })
+  @ApiProperty({
+    example: '000123456789',
+    description: 'Destination account number',
+  })
   @IsString()
   @IsNotEmpty()
   toAccountNumber: string;

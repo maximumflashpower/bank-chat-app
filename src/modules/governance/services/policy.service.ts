@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { GovPolicy } from '../entities/gov-policy.entity';
@@ -17,7 +22,9 @@ export class PolicyService {
   ) {}
 
   async create(dto: CreatePolicyDto, userId: string): Promise<GovPolicy> {
-    const existing = await this.policyRepo.findOne({ where: { name: dto.name } });
+    const existing = await this.policyRepo.findOne({
+      where: { name: dto.name },
+    });
     if (existing) {
       throw new ConflictException(`Policy '${dto.name}' already exists`);
     }
@@ -33,7 +40,10 @@ export class PolicyService {
     return saved;
   }
 
-  async findAll(filter?: { domain?: string; status?: string }): Promise<GovPolicy[]> {
+  async findAll(filter?: {
+    domain?: string;
+    status?: string;
+  }): Promise<GovPolicy[]> {
     const where: any = {};
     if (filter?.domain) where.domain = filter.domain;
     if (filter?.status) where.status = filter.status;
@@ -74,7 +84,10 @@ export class PolicyService {
     const target = await this.policyRepo.findOne({
       where: { name: current.name, version: targetVersion },
     });
-    if (!target) throw new NotFoundException(`Version ${targetVersion} of policy ${current.name} not found`);
+    if (!target)
+      throw new NotFoundException(
+        `Version ${targetVersion} of policy ${current.name} not found`,
+      );
 
     const newVersion = current.version + 1;
     const rolled = this.policyRepo.create({
@@ -86,16 +99,23 @@ export class PolicyService {
     current.status = PolicyStatus.ARCHIVED;
     await this.policyRepo.save(current);
     const saved = await this.policyRepo.save(rolled);
-    this.logger.log(`Policy rolled back: ${current.name} to version ${targetVersion} → new version ${newVersion}`);
+    this.logger.log(
+      `Policy rolled back: ${current.name} to version ${targetVersion} → new version ${newVersion}`,
+    );
     return saved;
   }
 
-  async dryRunTest(id: string, input: Record<string, any>): Promise<{ result: string; rationale: string }> {
+  async dryRunTest(
+    id: string,
+    input: Record<string, any>,
+  ): Promise<{ result: string; rationale: string }> {
     const policy = await this.findOne(id);
     const evaluation = this.evaluateJsonRules(policy.codeContent, input);
     return {
       result: evaluation.result,
-      rationale: evaluation.rationale || `Dry-run evaluation of policy '${policy.name}' v${policy.version}`,
+      rationale:
+        evaluation.rationale ||
+        `Dry-run evaluation of policy '${policy.name}' v${policy.version}`,
     };
   }
 
@@ -105,7 +125,10 @@ export class PolicyService {
     return this.policyRepo.find({ where });
   }
 
-  evaluateJsonRules(codeContent: string, input: Record<string, any>): { result: string; rationale: string } {
+  evaluateJsonRules(
+    codeContent: string,
+    input: Record<string, any>,
+  ): { result: string; rationale: string } {
     try {
       const rules = JSON.parse(codeContent);
       if (!rules.conditions || !Array.isArray(rules.conditions)) {
@@ -114,7 +137,11 @@ export class PolicyService {
       let allMatch = true;
       for (const cond of rules.conditions) {
         const inputValue = input[cond.field];
-        const passes = this.compareValues(inputValue, cond.operator, cond.value);
+        const passes = this.compareValues(
+          inputValue,
+          cond.operator,
+          cond.value,
+        );
         if (!passes) {
           allMatch = false;
           break;
@@ -128,23 +155,37 @@ export class PolicyService {
       }
       return { result: 'permit', rationale: 'Conditions not met — permitted' };
     } catch (e) {
-      return { result: 'undefined', rationale: `Failed to parse policy rules: ${e.message}` };
+      return {
+        result: 'undefined',
+        rationale: `Failed to parse policy rules: ${e.message}`,
+      };
     }
   }
 
   private compareValues(actual: any, operator: string, expected: any): boolean {
     switch (operator) {
-      case '==': return actual == expected;
-      case '!=': return actual != expected;
-      case '>': return actual > expected;
-      case '<': return actual < expected;
-      case '>=': return actual >= expected;
-      case '<=': return actual <= expected;
-      case 'in': return Array.isArray(expected) && expected.includes(actual);
-      case 'not_in': return Array.isArray(expected) && !expected.includes(actual);
-      case 'contains': return typeof actual === 'string' && actual.includes(expected);
-      case 'exists': return actual !== undefined && actual !== null;
-      default: return false;
+      case '==':
+        return actual == expected;
+      case '!=':
+        return actual != expected;
+      case '>':
+        return actual > expected;
+      case '<':
+        return actual < expected;
+      case '>=':
+        return actual >= expected;
+      case '<=':
+        return actual <= expected;
+      case 'in':
+        return Array.isArray(expected) && expected.includes(actual);
+      case 'not_in':
+        return Array.isArray(expected) && !expected.includes(actual);
+      case 'contains':
+        return typeof actual === 'string' && actual.includes(expected);
+      case 'exists':
+        return actual !== undefined && actual !== null;
+      default:
+        return false;
     }
   }
 }

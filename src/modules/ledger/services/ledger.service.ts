@@ -45,7 +45,9 @@ export class LedgerService {
     });
     await this.accountRepo.save(account);
 
-    this.logger.log(`Account created: ${account.id} — user: ${userId} — type: ${dto.type}`);
+    this.logger.log(
+      `Account created: ${account.id} — user: ${userId} — type: ${dto.type}`,
+    );
 
     await this.notificationService.create({
       userId,
@@ -66,7 +68,9 @@ export class LedgerService {
   }
 
   async getAccountById(userId: string, accountId: string): Promise<Account> {
-    const account = await this.accountRepo.findOne({ where: { id: accountId } });
+    const account = await this.accountRepo.findOne({
+      where: { id: accountId },
+    });
     if (!account) {
       throw new NotFoundException('Account not found');
     }
@@ -76,12 +80,19 @@ export class LedgerService {
     return account;
   }
 
-  async getBalance(userId: string, accountId: string): Promise<{ balance: number; currency: string }> {
+  async getBalance(
+    userId: string,
+    accountId: string,
+  ): Promise<{ balance: number; currency: string }> {
     const account = await this.getAccountById(userId, accountId);
     return { balance: account.balance, currency: account.currency };
   }
 
-  async deposit(userId: string, accountId: string, dto: DepositDto): Promise<Transaction> {
+  async deposit(
+    userId: string,
+    accountId: string,
+    dto: DepositDto,
+  ): Promise<Transaction> {
     return this.dataSource.transaction(async (manager) => {
       const account = await manager.findOne(Account, {
         where: { id: accountId },
@@ -113,21 +124,32 @@ export class LedgerService {
       });
       const savedTx = await manager.save(tx);
 
-      this.logger.log(`Deposit: ${dto.amount} to account ${accountId} — new balance: ${newBalance}`);
+      this.logger.log(
+        `Deposit: ${dto.amount} to account ${accountId} — new balance: ${newBalance}`,
+      );
 
       await this.notificationService.create({
         userId,
         type: NotificationType.TRANSACTION,
         title: 'Depósito recibido',
         body: `Recibiste ${dto.amount.toLocaleString('es-MX')} ${account.currency} en tu cuenta ${account.alias ?? account.accountNumber}.`,
-        metadata: { transactionId: savedTx.id, accountId, amount: dto.amount, balanceAfter: newBalance },
+        metadata: {
+          transactionId: savedTx.id,
+          accountId,
+          amount: dto.amount,
+          balanceAfter: newBalance,
+        },
       });
 
       return savedTx;
     });
   }
 
-  async transfer(userId: string, fromAccountId: string, dto: TransferDto): Promise<Transaction[]> {
+  async transfer(
+    userId: string,
+    fromAccountId: string,
+    dto: TransferDto,
+  ): Promise<Transaction[]> {
     return this.dataSource.transaction(async (manager) => {
       const fromAccount = await manager.findOne(Account, {
         where: { id: fromAccountId },
@@ -196,7 +218,9 @@ export class LedgerService {
       });
       const savedTxIn = await manager.save(txIn);
 
-      this.logger.log(`Transfer: ${amount} from ${fromAccountId} to ${toAccount.id}`);
+      this.logger.log(
+        `Transfer: ${amount} from ${fromAccountId} to ${toAccount.id}`,
+      );
 
       // Notify sender
       await this.notificationService.create({
@@ -204,7 +228,12 @@ export class LedgerService {
         type: NotificationType.TRANSACTION,
         title: 'Transferencia enviada',
         body: `Enviaste ${amount.toLocaleString('es-MX')} ${fromAccount.currency} a ${dto.toAccountNumber}.`,
-        metadata: { transactionId: savedTxOut.id, accountId: fromAccount.id, amount, toAccount: toAccount.id },
+        metadata: {
+          transactionId: savedTxOut.id,
+          accountId: fromAccount.id,
+          amount,
+          toAccount: toAccount.id,
+        },
       });
 
       // Notify receiver (could be different user)
@@ -214,7 +243,12 @@ export class LedgerService {
           type: NotificationType.TRANSACTION,
           title: 'Transferencia recibida',
           body: `Recibiste ${amount.toLocaleString('es-MX')} ${toAccount.currency} en tu cuenta ${toAccount.alias ?? toAccount.accountNumber}.`,
-          metadata: { transactionId: savedTxIn.id, accountId: toAccount.id, amount, fromAccount: fromAccount.id },
+          metadata: {
+            transactionId: savedTxIn.id,
+            accountId: toAccount.id,
+            amount,
+            fromAccount: fromAccount.id,
+          },
         });
       }
 
@@ -222,7 +256,11 @@ export class LedgerService {
     });
   }
 
-  async getTransactions(userId: string, accountId: string, limit = 50): Promise<Transaction[]> {
+  async getTransactions(
+    userId: string,
+    accountId: string,
+    limit = 50,
+  ): Promise<Transaction[]> {
     const account = await this.getAccountById(userId, accountId);
     return this.txRepo.find({
       where: { accountId: account.id },
@@ -233,7 +271,9 @@ export class LedgerService {
 
   private generateAccountNumber(): string {
     const timestamp = Date.now().toString().slice(-10);
-    const random = Math.floor(Math.random() * 99999).toString().padStart(5, '0');
+    const random = Math.floor(Math.random() * 99999)
+      .toString()
+      .padStart(5, '0');
     return `00${timestamp}${random}`.slice(0, 20);
   }
 }

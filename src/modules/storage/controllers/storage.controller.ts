@@ -16,7 +16,14 @@ import {
   Header,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiConsumes, ApiBody, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiBody,
+  ApiQuery,
+} from '@nestjs/swagger';
 import type { Response, Request } from 'express';
 import { createReadStream } from 'fs';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
@@ -39,21 +46,17 @@ export class StorageController {
       properties: { file: { type: 'string', format: 'binary' } },
     },
   })
-  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 10 * 1024 * 1024 } }))
-  async uploadFile(
-    @Req() req: any,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
+  @UseInterceptors(
+    FileInterceptor('file', { limits: { fileSize: 10 * 1024 * 1024 } }),
+  )
+  async uploadFile(@Req() req: any, @UploadedFile() file: Express.Multer.File) {
     return this.storageService.upload(req.user.id, file);
   }
 
   @Get('files')
   @ApiOperation({ summary: 'List user files' })
   @ApiQuery({ name: 'limit', required: false, type: Number })
-  async listFiles(
-    @Req() req: any,
-    @Query('limit') limit?: number,
-  ) {
+  async listFiles(@Req() req: any, @Query('limit') limit?: number) {
     return this.storageService.listByUser(req.user.id, limit);
   }
 

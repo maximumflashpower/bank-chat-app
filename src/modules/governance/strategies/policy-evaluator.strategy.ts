@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 
 export interface IEvaluationStrategy {
-  evaluate(codeContent: string, input: Record<string, any>): { result: string; rationale: string };
+  evaluate(
+    codeContent: string,
+    input: Record<string, any>,
+  ): { result: string; rationale: string };
 }
 
 /**
@@ -12,11 +15,17 @@ export interface IEvaluationStrategy {
 export class JsonRuleEvaluatorStrategy implements IEvaluationStrategy {
   private readonly logger = new Logger(JsonRuleEvaluatorStrategy.name);
 
-  evaluate(codeContent: string, input: Record<string, any>): { result: string; rationale: string } {
+  evaluate(
+    codeContent: string,
+    input: Record<string, any>,
+  ): { result: string; rationale: string } {
     try {
       const rules = JSON.parse(codeContent);
       if (!rules.conditions || !Array.isArray(rules.conditions)) {
-        return { result: 'undefined', rationale: 'No conditions defined in policy' };
+        return {
+          result: 'undefined',
+          rationale: 'No conditions defined in policy',
+        };
       }
       let allMatch = true;
       for (const cond of rules.conditions) {
@@ -41,17 +50,28 @@ export class JsonRuleEvaluatorStrategy implements IEvaluationStrategy {
 
   private compare(actual: any, operator: string, expected: any): boolean {
     switch (operator) {
-      case '==': return actual == expected;
-      case '!=': return actual != expected;
-      case '>': return actual > expected;
-      case '<': return actual < expected;
-      case '>=': return actual >= expected;
-      case '<=': return actual <= expected;
-      case 'in': return Array.isArray(expected) && expected.includes(actual);
-      case 'not_in': return Array.isArray(expected) && !expected.includes(actual);
-      case 'contains': return typeof actual === 'string' && actual.includes(expected);
-      case 'exists': return actual !== undefined && actual !== null;
-      default: return false;
+      case '==':
+        return actual == expected;
+      case '!=':
+        return actual != expected;
+      case '>':
+        return actual > expected;
+      case '<':
+        return actual < expected;
+      case '>=':
+        return actual >= expected;
+      case '<=':
+        return actual <= expected;
+      case 'in':
+        return Array.isArray(expected) && expected.includes(actual);
+      case 'not_in':
+        return Array.isArray(expected) && !expected.includes(actual);
+      case 'contains':
+        return typeof actual === 'string' && actual.includes(expected);
+      case 'exists':
+        return actual !== undefined && actual !== null;
+      default:
+        return false;
     }
   }
 }

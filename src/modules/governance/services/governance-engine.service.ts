@@ -30,17 +30,25 @@ export class GovernanceEngineService {
     private readonly violationService: ViolationService,
   ) {}
 
-  async evaluate(dto: EvaluateRequestDto, actorId?: string): Promise<EvaluationResult> {
+  async evaluate(
+    dto: EvaluateRequestDto,
+    actorId?: string,
+  ): Promise<EvaluationResult> {
     const startTime = Date.now();
     const policies = await this.policyService.getActivePolicies(dto.domain);
-    this.logger.debug(`Euating against ${policies.length} active policies${dto.domain ? ` in domain: ${dto.domain}` : ''}`);
+    this.logger.debug(
+      `Euating against ${policies.length} active policies${dto.domain ? ` in domain: ${dto.domain}` : ''}`,
+    );
 
     const decisions: EvaluationResult['decisions'] = [];
     let finalResult = DecisionResult.PERMIT;
     const rationales: string[] = [];
 
     for (const policy of policies) {
-      const evalResult = this.policyService.evaluateJsonRules(policy.codeContent, dto.input);
+      const evalResult = this.policyService.evaluateJsonRules(
+        policy.codeContent,
+        dto.input,
+      );
 
       decisions.push({
         policyId: policy.id,
@@ -66,7 +74,8 @@ export class GovernanceEngineService {
 
       // If enforce mode and deny, create violation
       if (
-        (evalResult.result === 'deny' || evalResult.result === DecisionResult.DENY) &&
+        (evalResult.result === 'deny' ||
+          evalResult.result === DecisionResult.DENY) &&
         policy.enforcementMode === EnforcementMode.ENFORCE
       ) {
         await this.violationService.create({
@@ -79,21 +88,30 @@ export class GovernanceEngineService {
       }
 
       // Aggregate final result
-      if (evalResult.result === 'deny' || evalResult.result === DecisionResult.DENY) {
+      if (
+        evalResult.result === 'deny' ||
+        evalResult.result === DecisionResult.DENY
+      ) {
         finalResult = DecisionResult.DENY;
         rationales.push(`${policy.name}: ${evalResult.rationale}`);
-      } else if (evalResult.result === 'conditional' && finalResult !== DecisionResult.DENY) {
+      } else if (
+        evalResult.result === 'conditional' &&
+        finalResult !== DecisionResult.DENY
+      ) {
         finalResult = DecisionResult.CONDITIONAL;
         rationales.push(`${policy.name}: ${evalResult.rationale}`);
       }
     }
 
     const evaluationTimeMs = Date.now() - startTime;
-    const finalRationale = rationales.length > 0
-      ? rationales.join('; ')
-      : 'All policies permitted the request';
+    const finalRationale =
+      rationales.length > 0
+        ? rationales.join('; ')
+        : 'All policies permitted the request';
 
-    this.logger.log(`Evaluation complete: result=${finalResult} — ${policies.length} policies — ${evaluationTimeMs}ms`);
+    this.logger.log(
+      `Evaluation complete: result=${finalResult} — ${policies.length} policies — ${evaluationTimeMs}ms`,
+    );
 
     return {
       result: finalResult,
@@ -112,7 +130,7 @@ export class GovernanceEngineService {
     driftSummary: any;
   }> {
     const allPolicies = await this.policyService.findAll();
-    const activePolicies = allPolicies.filter(p => p.status === 'active');
+    const activePolicies = allPolicies.filter((p) => p.status === 'active');
     const violations = await this.violationService.findAll();
 
     return {
@@ -120,7 +138,7 @@ export class GovernanceEngineService {
       activePolicies: activePolicies.length,
       totalDecisions: 0,
       totalViolations: violations.length,
-      openViolations: violations.filter(v => v.status === 'open').length,
+      openViolations: violations.filter((v) => v.status === 'open').length,
       driftSummary: null,
     };
   }

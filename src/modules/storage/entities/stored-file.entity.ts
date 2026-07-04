@@ -15,7 +15,10 @@ export class StoredFile extends BaseEntity {
   @Column({ name: 'original_name', type: 'varchar', length: 255 })
   originalName: string;
 
-  @ApiProperty({ example: 'a1b2c3d4-e5f6-...', description: 'Generated unique filename' })
+  @ApiProperty({
+    example: 'a1b2c3d4-e5f6-...',
+    description: 'Generated unique filename',
+  })
   @Column({ name: 'stored_name', type: 'varchar', length: 255 })
   storedName: string;
 
@@ -31,20 +34,37 @@ export class StoredFile extends BaseEntity {
   @Column({ name: 'file_path', type: 'varchar', length: 500 })
   filePath: string;
 
-  @ApiProperty({ example: 'a1b2c3d4', description: 'Short hash for quick lookup' })
+  @ApiProperty({
+    example: 'a1b2c3d4',
+    description: 'Short hash for quick lookup',
+  })
   @Index()
   @Column({ name: 'file_hash', type: 'varchar', length: 64, nullable: true })
   fileHash: string | null;
 
   @ApiProperty({ enum: StorageTier, example: StorageTier.LOCAL })
-  @Column({ name: 'storage_tier', type: 'enum', enum: StorageTier, default: StorageTier.LOCAL })
+  @Column({
+    name: 'storage_tier',
+    type: 'enum',
+    enum: StorageTier,
+    default: StorageTier.LOCAL,
+  })
   storageTier: StorageTier;
 
   @ApiProperty({ enum: FileStatus, example: FileStatus.READY })
-  @Column({ name: 'status', type: 'enum', enum: FileStatus, default: FileStatus.UPLOADING })
+  @Column({
+    name: 'status',
+    type: 'enum',
+    enum: FileStatus,
+    default: FileStatus.UPLOADING,
+  })
   status: FileStatus;
 
-  @ApiProperty({ example: '{"width":1920,"height":1080}', description: 'Extracted metadata', required: false })
+  @ApiProperty({
+    example: '{"width":1920,"height":1080}',
+    description: 'Extracted metadata',
+    required: false,
+  })
   @Column({ name: 'metadata', type: 'jsonb', nullable: true })
   metadata: Record<string, any> | null;
 }

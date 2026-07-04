@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsEnum, IsOptional, IsObject, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsEnum,
+  IsOptional,
+  IsObject,
+  MaxLength,
+} from 'class-validator';
 import { NotificationType } from '../entities/notification-type.enum';
 import { NotificationChannel } from '../entities/notification-channel.enum';
 

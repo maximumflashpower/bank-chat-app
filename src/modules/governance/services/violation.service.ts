@@ -27,11 +27,17 @@ export class ViolationService {
       status: ViolationStatus.OPEN,
     });
     const saved = await this.violationRepo.save(violation);
-    this.logger.warn(`Violation created: ${saved.id} — policy: ${params.policyId} — severity: ${params.severity}`);
+    this.logger.warn(
+      `Violation created: ${saved.id} — policy: ${params.policyId} — severity: ${params.severity}`,
+    );
     return saved;
   }
 
-  async findAll(filter?: { status?: string; severity?: string; policyId?: string }): Promise<GovViolation[]> {
+  async findAll(filter?: {
+    status?: string;
+    severity?: string;
+    policyId?: string;
+  }): Promise<GovViolation[]> {
     const where: any = {};
     if (filter?.status) where.status = filter.status;
     if (filter?.severity) where.severity = filter.severity;
@@ -53,13 +59,19 @@ export class ViolationService {
 
     if (dto.status === ViolationStatus.WAIVED) {
       if (!dto.waivedJustification) {
-        throw new Error('Waived justification is required when waiving a violation');
+        throw new Error(
+          'Waived justification is required when waiving a violation',
+        );
       }
       violation.waivedJustification = dto.waivedJustification;
-      if (dto.waiverExpiresAt) violation.waiverExpiresAt = new Date(dto.waiverExpiresAt);
+      if (dto.waiverExpiresAt)
+        violation.waiverExpiresAt = new Date(dto.waiverExpiresAt);
     }
 
-    if (dto.status === ViolationStatus.RESOLVED || dto.status === ViolationStatus.WAIVED) {
+    if (
+      dto.status === ViolationStatus.RESOLVED ||
+      dto.status === ViolationStatus.WAIVED
+    ) {
       violation.resolvedAt = new Date();
     }
 
@@ -78,10 +90,14 @@ export class ViolationService {
   }
 
   async getExpiredWaivers(): Promise<GovViolation[]> {
-    return this.violationRepo.find({
-      where: { status: ViolationStatus.WAIVED },
-    }).then(violations =>
-      violations.filter(v => v.waiverExpiresAt && new Date(v.waiverExpiresAt) < new Date()),
-    );
+    return this.violationRepo
+      .find({
+        where: { status: ViolationStatus.WAIVED },
+      })
+      .then((violations) =>
+        violations.filter(
+          (v) => v.waiverExpiresAt && new Date(v.waiverExpiresAt) < new Date(),
+        ),
+      );
   }
 }

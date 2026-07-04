@@ -43,7 +43,9 @@ export class IdentityService {
   ) {}
 
   async register(dto: RegisterDto): Promise<OtpResponse> {
-    const existing = await this.userRepo.findOne({ where: { phoneNumber: dto.phoneNumber } });
+    const existing = await this.userRepo.findOne({
+      where: { phoneNumber: dto.phoneNumber },
+    });
     if (existing) {
       throw new ConflictException('Phone number already registered');
     }
@@ -86,7 +88,9 @@ export class IdentityService {
     const storedOtp = await this.redis.get(redisKey);
 
     if (!storedOtp) {
-      throw new BadRequestException('OTP expired or not found. Please register first.');
+      throw new BadRequestException(
+        'OTP expired or not found. Please register first.',
+      );
     }
 
     if (storedOtp !== dto.otp) {
@@ -100,7 +104,9 @@ export class IdentityService {
       throw new BadRequestException('Invalid OTP code.');
     }
 
-    const user = await this.userRepo.findOne({ where: { phoneNumber: dto.phoneNumber } });
+    const user = await this.userRepo.findOne({
+      where: { phoneNumber: dto.phoneNumber },
+    });
     if (!user) {
       throw new BadRequestException('User not found.');
     }
@@ -153,7 +159,10 @@ export class IdentityService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    if (user.status === UserStatus.BLOCKED || user.status === UserStatus.SUSPENDED) {
+    if (
+      user.status === UserStatus.BLOCKED ||
+      user.status === UserStatus.SUSPENDED
+    ) {
       await this.auditService.log({
         userId: user.id,
         eventType: AuditEventType.LOGIN_FAILED,
@@ -169,10 +178,15 @@ export class IdentityService {
     );
 
     if (!passwordCredential) {
-      throw new UnauthorizedException('No password credential set. Use OTP flow first.');
+      throw new UnauthorizedException(
+        'No password credential set. Use OTP flow first.',
+      );
     }
 
-    const isValid = await bcrypt.compare(dto.password, passwordCredential.hashedValue);
+    const isValid = await bcrypt.compare(
+      dto.password,
+      passwordCredential.hashedValue,
+    );
     if (!isValid) {
       passwordCredential.failedAttempts += 1;
 
@@ -185,9 +199,15 @@ export class IdentityService {
       await this.auditService.log({
         userId: user.id,
         eventType: AuditEventType.LOGIN_FAILED,
-        severity: passwordCredential.failedAttempts >= 5 ? AuditSeverity.CRITICAL : AuditSeverity.WARNING,
+        severity:
+          passwordCredential.failedAttempts >= 5
+            ? AuditSeverity.CRITICAL
+            : AuditSeverity.WARNING,
         description: `Login failed — wrong password (attempt ${passwordCredential.failedAttempts}): ${dto.phoneNumber}`,
-        metadata: { phoneNumber: dto.phoneNumber, attempts: passwordCredential.failedAttempts },
+        metadata: {
+          phoneNumber: dto.phoneNumber,
+          attempts: passwordCredential.failedAttempts,
+        },
       });
 
       throw new UnauthorizedException('Invalid credentials');
@@ -278,7 +298,10 @@ export class IdentityService {
     return otp;
   }
 
-  private issueTokens(user: IdentityUser): { accessToken: string; refreshToken: string } {
+  private issueTokens(user: IdentityUser): {
+    accessToken: string;
+    refreshToken: string;
+  } {
     const payload: JwtPayload = {
       sub: user.id,
       phoneNumber: user.phoneNumber,

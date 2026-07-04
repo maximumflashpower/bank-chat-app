@@ -32,11 +32,19 @@ export class DriftService {
       status: DriftStatus.OPEN,
     });
     const saved = await this.driftRepo.save(drift);
-    this.logger.warn(`Drift detected: ${saved.id} — resource: ${params.resourceType}/${params.resourceId} — severity: ${severity}`);
+    this.logger.warn(
+      `Drift detected: ${saved.id} — resource: ${params.resourceType}/${params.resourceId} — severity: ${severity}`,
+    );
     return saved;
   }
 
-  async getReport(): Promise<{ total: number; open: number; remediating: number; resolved: number; bySeverity: Record<string, number> }> {
+  async getReport(): Promise<{
+    total: number;
+    open: number;
+    remediating: number;
+    resolved: number;
+    bySeverity: Record<string, number>;
+  }> {
     const all = await this.driftRepo.find();
     const bySeverity: Record<string, number> = {};
     for (const d of all) {
@@ -44,14 +52,18 @@ export class DriftService {
     }
     return {
       total: all.length,
-      open: all.filter(d => d.status === DriftStatus.OPEN).length,
-      remediating: all.filter(d => d.status === DriftStatus.REMEDIATING).length,
-      resolved: all.filter(d => d.status === DriftStatus.RESOLVED).length,
+      open: all.filter((d) => d.status === DriftStatus.OPEN).length,
+      remediating: all.filter((d) => d.status === DriftStatus.REMEDIATING)
+        .length,
+      resolved: all.filter((d) => d.status === DriftStatus.RESOLVED).length,
       bySeverity,
     };
   }
 
-  async remediate(id: string, remediationAction: string): Promise<GovDriftDetection> {
+  async remediate(
+    id: string,
+    remediationAction: string,
+  ): Promise<GovDriftDetection> {
     const drift = await this.driftRepo.findOne({ where: { id } });
     if (!drift) throw new NotFoundException(`Drift ${id} not found`);
     drift.remediationAction = remediationAction;
@@ -71,7 +83,10 @@ export class DriftService {
     return updated;
   }
 
-  private computeDiff(expected: Record<string, any>, actual: Record<string, any>): Record<string, any> {
+  private computeDiff(
+    expected: Record<string, any>,
+    actual: Record<string, any>,
+  ): Record<string, any> {
     const diff: Record<string, any> = {};
     const allKeys = new Set([...Object.keys(expected), ...Object.keys(actual)]);
     for (const key of allKeys) {
@@ -87,7 +102,7 @@ export class DriftService {
     if (keys.length === 0) return Severity.LOW;
     const criticalKeys = ['password', 'secret', 'key', 'token', 'permission'];
     for (const k of keys) {
-      if (criticalKeys.some(c => k.toLowerCase().includes(c))) {
+      if (criticalKeys.some((c) => k.toLowerCase().includes(c))) {
         return Severity.CRITICAL;
       }
     }

@@ -25,7 +25,11 @@ export class GovPolicy extends BaseEntity {
   @Column({ type: 'enum', enum: PolicyDomain })
   domain: PolicyDomain;
 
-  @Column({ type: 'enum', enum: PolicyLanguage, default: PolicyLanguage.JSON_RULES })
+  @Column({
+    type: 'enum',
+    enum: PolicyLanguage,
+    default: PolicyLanguage.JSON_RULES,
+  })
   language: PolicyLanguage;
 
   @Column({ type: 'text' })
@@ -40,7 +44,11 @@ export class GovPolicy extends BaseEntity {
   @Column({ type: 'enum', enum: Severity, default: Severity.MEDIUM })
   severity: Severity;
 
-  @Column({ type: 'enum', enum: EnforcementMode, default: EnforcementMode.DRY_RUN })
+  @Column({
+    type: 'enum',
+    enum: EnforcementMode,
+    default: EnforcementMode.DRY_RUN,
+  })
   enforcementMode: EnforcementMode;
 
   @Column({ type: 'jsonb', default: '{}' })

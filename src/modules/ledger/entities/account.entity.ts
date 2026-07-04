@@ -1,4 +1,11 @@
-import { Entity, Column, Index, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  Index,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../../../common/base.entity';
 import { IdentityUser } from '../../identity/entities/identity-user.entity';
@@ -13,11 +20,17 @@ export class Account extends BaseEntity {
   @Column({ name: 'user_id', type: 'uuid' })
   userId: string;
 
-  @ApiProperty({ example: 'MXN-checking-001', description: 'Human-readable account alias' })
+  @ApiProperty({
+    example: 'MXN-checking-001',
+    description: 'Human-readable account alias',
+  })
   @Column({ name: 'alias', type: 'varchar', length: 100, nullable: true })
   alias: string | null;
 
-  @ApiProperty({ example: '000123456789', description: 'Unique account number' })
+  @ApiProperty({
+    example: '000123456789',
+    description: 'Unique account number',
+  })
   @Index({ unique: true })
   @Column({ name: 'account_number', type: 'varchar', length: 20, unique: true })
   accountNumber: string;
@@ -27,11 +40,25 @@ export class Account extends BaseEntity {
   type: AccountType;
 
   @ApiProperty({ enum: AccountStatus, example: AccountStatus.ACTIVE })
-  @Column({ name: 'status', type: 'enum', enum: AccountStatus, default: AccountStatus.ACTIVE })
+  @Column({
+    name: 'status',
+    type: 'enum',
+    enum: AccountStatus,
+    default: AccountStatus.ACTIVE,
+  })
   status: AccountStatus;
 
-  @ApiProperty({ example: '1000.00', description: 'Available balance (numeric, 2 decimals)' })
-  @Column({ name: 'balance', type: 'numeric', precision: 18, scale: 2, default: 0 })
+  @ApiProperty({
+    example: '1000.00',
+    description: 'Available balance (numeric, 2 decimals)',
+  })
+  @Column({
+    name: 'balance',
+    type: 'numeric',
+    precision: 18,
+    scale: 2,
+    default: 0,
+  })
   balance: number;
 
   @ApiProperty({ example: 'MXN' })
@@ -39,11 +66,26 @@ export class Account extends BaseEntity {
   currency: string;
 
   @ApiProperty({ example: '5000.00', description: 'Daily transfer limit' })
-  @Column({ name: 'daily_limit', type: 'numeric', precision: 18, scale: 2, default: 5000 })
+  @Column({
+    name: 'daily_limit',
+    type: 'numeric',
+    precision: 18,
+    scale: 2,
+    default: 5000,
+  })
   dailyLimit: number;
 
-  @ApiProperty({ example: false, description: 'Minimum balance enforcement flag' })
-  @Column({ name: 'min_balance', type: 'numeric', precision: 18, scale: 2, default: 0 })
+  @ApiProperty({
+    example: false,
+    description: 'Minimum balance enforcement flag',
+  })
+  @Column({
+    name: 'min_balance',
+    type: 'numeric',
+    precision: 18,
+    scale: 2,
+    default: 0,
+  })
   minBalance: number;
 
   @ApiProperty({ type: () => [Transaction] })

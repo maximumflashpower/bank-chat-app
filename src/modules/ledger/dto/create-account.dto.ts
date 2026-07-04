@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsEnum, IsNotEmpty, Length } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsEnum,
+  IsNotEmpty,
+  Length,
+} from 'class-validator';
 import { AccountType } from '../entities/account-type.enum';
 
 export class CreateAccountDto {
