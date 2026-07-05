@@ -22,6 +22,8 @@ import { MfaFactor } from './modules/identity/entities/mfa-factor.entity';
 import { Passkey } from './modules/identity/entities/passkey.entity';
 import { Consent } from './modules/privacy/entities/consent.entity';
 import { DsarRequest } from './modules/privacy/entities/dsar-request.entity';
+import { ProcessingActivity } from './modules/privacy/entities/processing-activity.entity';
+import { Dpia } from './modules/privacy/entities/dpia.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -67,6 +69,8 @@ import * as path from 'path';
           Passkey,
           Consent,
           DsarRequest,
+          ProcessingActivity,
+          Dpia,
           UserProfile,
           Account,
           Transaction,
