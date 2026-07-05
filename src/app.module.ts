@@ -15,6 +15,10 @@ import { StorageModule } from './modules/storage/storage.module';
 import { GovernanceModule } from './modules/governance/governance.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
+import { Role } from './modules/identity/entities/role.entity';
+import { UserRole } from './modules/identity/entities/user-role.entity';
+import { MfaFactor } from './modules/identity/entities/mfa-factor.entity';
+import { Passkey } from './modules/identity/entities/passkey.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -54,6 +58,10 @@ import * as path from 'path';
         entities: [
           IdentityUser,
           Credential,
+          Role,
+          UserRole,
+          MfaFactor,
+          Passkey,
           UserProfile,
           Account,
           Transaction,
