@@ -3,6 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../../../common/base.entity';
 import { UserStatus } from './user-status.enum';
 import { Credential } from './credential.entity';
+import { UserRole } from './user-role.entity';
+import { MfaFactor } from './mfa-factor.entity';
+import { Passkey } from './passkey.entity';
 
 @Entity({ name: 'identity_users' })
 export class IdentityUser extends BaseEntity {
@@ -53,9 +56,29 @@ export class IdentityUser extends BaseEntity {
   })
   lastLoginIp: string | null;
 
+  // ── Existing relation ──
   @ApiProperty({ type: () => [Credential] })
   @OneToMany(() => Credential, (credential) => credential.user, {
     cascade: true,
   })
   credentials: Credential[];
+
+  // ── WO-004: New relations ──
+  @ApiProperty({ type: () => [UserRole] })
+  @OneToMany(() => UserRole, (userRole) => userRole.user, {
+    cascade: true,
+  })
+  userRoles: UserRole[];
+
+  @ApiProperty({ type: () => [MfaFactor] })
+  @OneToMany(() => MfaFactor, (mfaFactor) => mfaFactor.user, {
+    cascade: true,
+  })
+  mfaFactors: MfaFactor[];
+
+  @ApiProperty({ type: () => [Passkey] })
+  @OneToMany(() => Passkey, (passkey) => passkey.user, {
+    cascade: true,
+  })
+  passkeys: Passkey[];
 }
