@@ -1,4 +1,6 @@
 import { Entity, Column, OneToMany, Index } from 'typeorm';
+import { Consent } from '../../privacy/entities/consent.entity';
+import { DsarRequest } from '../../privacy/entities/dsar-request.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../../../common/base.entity';
 import { UserStatus } from './user-status.enum';
@@ -81,4 +83,16 @@ export class IdentityUser extends BaseEntity {
     cascade: true,
   })
   passkeys: Passkey[];
+
+  @ApiProperty({ type: () => [Consent] })
+  @OneToMany(() => Consent, (consent) => consent.user, {
+    cascade: true,
+  })
+  consents: Consent[];
+
+  @ApiProperty({ type: () => [DsarRequest] })
+  @OneToMany(() => DsarRequest, (dsar) => dsar.user, {
+    cascade: true,
+  })
+  dsarRequests: DsarRequest[];
 }

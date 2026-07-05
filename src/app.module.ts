@@ -6,6 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { envValidationSchema } from './config/env_validation';
 import { IdentityModule } from './modules/identity/identity.module';
+import { PrivacyModule } from './modules/privacy/privacy.module';
 import { UserModule } from './modules/user/user.module';
 import { LedgerModule } from './modules/ledger/ledger.module';
 import { AuditModule } from './modules/audit/audit.module';
@@ -19,6 +20,8 @@ import { Role } from './modules/identity/entities/role.entity';
 import { UserRole } from './modules/identity/entities/user-role.entity';
 import { MfaFactor } from './modules/identity/entities/mfa-factor.entity';
 import { Passkey } from './modules/identity/entities/passkey.entity';
+import { Consent } from './modules/privacy/entities/consent.entity';
+import { DsarRequest } from './modules/privacy/entities/dsar-request.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -62,6 +65,8 @@ import * as path from 'path';
           UserRole,
           MfaFactor,
           Passkey,
+          Consent,
+          DsarRequest,
           UserProfile,
           Account,
           Transaction,
@@ -98,6 +103,7 @@ import * as path from 'path';
     ]),
 
     IdentityModule,
+    PrivacyModule,
     UserModule,
     LedgerModule,
     AuditModule,
