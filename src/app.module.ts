@@ -26,6 +26,9 @@ import { ProcessingActivity } from './modules/privacy/entities/processing-activi
 import { Dpia } from './modules/privacy/entities/dpia.entity';
 import { BreachNotification } from './modules/privacy/entities/breach-notification.entity';
 import { RetentionSchedule } from './modules/privacy/entities/retention-schedule.entity';
+import { PolicyVersion } from './modules/privacy/entities/policy-version.entity';
+import { DpoContact } from './modules/privacy/entities/dpo-contact.entity';
+import { ThirdPartyProcessor } from './modules/privacy/entities/third-party-processor.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -75,6 +78,9 @@ import * as path from 'path';
           Dpia,
           BreachNotification,
           RetentionSchedule,
+          PolicyVersion,
+          DpoContact,
+          ThirdPartyProcessor,
           UserProfile,
           Account,
           Transaction,
