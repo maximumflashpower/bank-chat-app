@@ -24,6 +24,8 @@ import { Consent } from './modules/privacy/entities/consent.entity';
 import { DsarRequest } from './modules/privacy/entities/dsar-request.entity';
 import { ProcessingActivity } from './modules/privacy/entities/processing-activity.entity';
 import { Dpia } from './modules/privacy/entities/dpia.entity';
+import { BreachNotification } from './modules/privacy/entities/breach-notification.entity';
+import { RetentionSchedule } from './modules/privacy/entities/retention-schedule.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -71,6 +73,8 @@ import * as path from 'path';
           DsarRequest,
           ProcessingActivity,
           Dpia,
+          BreachNotification,
+          RetentionSchedule,
           UserProfile,
           Account,
           Transaction,
