@@ -18,6 +18,9 @@ import { RetentionService } from './services/retention.service';
 import { PolicyVersionService } from './services/policy-version.service';
 import { DpoContactService } from './services/dpo-contact.service';
 import { ThirdPartyProcessorService } from './services/third-party-processor.service';
+import { PrivacyByDesignService } from './services/privacy-by-design.service';
+import { PrivacyMetricsService } from './services/privacy-metrics.service';
+import { AiPrivacyService } from './services/ai-privacy.service';
 import { ConsentController } from './controllers/consent.controller';
 import { DsarController } from './controllers/dsar.controller';
 import { ProcessingActivityController } from './controllers/processing-activity.controller';
@@ -27,6 +30,9 @@ import { RetentionController } from './controllers/retention.controller';
 import { PolicyVersionController } from './controllers/policy-version.controller';
 import { DpoContactController } from './controllers/dpo-contact.controller';
 import { ThirdPartyProcessorController } from './controllers/third-party-processor.controller';
+import { PrivacyByDesignController } from './controllers/privacy-by-design.controller';
+import { PrivacyMetricsController } from './controllers/privacy-metrics.controller';
+import { AiPrivacyController } from './controllers/ai-privacy.controller';
 
 @Module({
   imports: [
@@ -52,6 +58,9 @@ import { ThirdPartyProcessorController } from './controllers/third-party-process
     PolicyVersionController,
     DpoContactController,
     ThirdPartyProcessorController,
+    PrivacyByDesignController,
+    PrivacyMetricsController,
+    AiPrivacyController,
   ],
   providers: [
     ConsentService,
@@ -63,6 +72,9 @@ import { ThirdPartyProcessorController } from './controllers/third-party-process
     PolicyVersionService,
     DpoContactService,
     ThirdPartyProcessorService,
+    PrivacyByDesignService,
+    PrivacyMetricsService,
+    AiPrivacyService,
   ],
   exports: [
     ConsentService,
@@ -74,6 +86,9 @@ import { ThirdPartyProcessorController } from './controllers/third-party-process
     PolicyVersionService,
     DpoContactService,
     ThirdPartyProcessorService,
+    PrivacyByDesignService,
+    PrivacyMetricsService,
+    AiPrivacyService,
   ],
 })
 export class PrivacyModule {}
