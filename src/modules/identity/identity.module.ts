@@ -8,6 +8,7 @@ import { RbacController } from './controllers/rbac.controller';
 import { MfaController } from './controllers/mfa.controller';
 import { PasskeyController } from './controllers/passkey.controller';
 import { GovernanceController } from './controllers/governance.controller';
+import { AuthExtendedController } from './controllers/auth-extended.controller';
 import { IdentityService } from './services/identity.service';
 import { RbacService } from './services/rbac.service';
 import { MfaService } from './services/mfa.service';
@@ -21,6 +22,11 @@ import { AccessReviewService } from './services/access-review.service';
 import { SessionGovernanceService } from './services/session-governance.service';
 import { DeviceTrustService } from './services/device-trust.service';
 import { GovAuditService } from './services/gov-audit.service';
+import { SsoService } from './services/sso.service';
+import { PasswordlessService } from './services/passwordless.service';
+import { AuthSecurityService } from './services/auth-security.service';
+import { ComplianceService } from './services/compliance.service';
+import { SecurityAuditService } from './services/security-audit.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { IdentityUser } from './entities/identity-user.entity';
 import { Credential } from './entities/credential.entity';
@@ -36,6 +42,8 @@ import { SessionAuditLog } from './entities/session-audit-log.entity';
 import { AccessReview } from './entities/access-review.entity';
 import { DeviceTrust } from './entities/device-trust.entity';
 import { GovAuditLog } from './entities/gov-audit-log.entity';
+import { IdentitySession } from './entities/identity-session.entity';
+import { IdentitySsoConfig } from './entities/identity-sso-config.entity';
 import { AuditModule } from '../audit/audit.module';
 
 @Module({
@@ -55,6 +63,8 @@ import { AuditModule } from '../audit/audit.module';
       AccessReview,
       DeviceTrust,
       GovAuditLog,
+      IdentitySession,
+      IdentitySsoConfig,
     ]),
     PassportModule,
     JwtModule.registerAsync({
@@ -69,7 +79,14 @@ import { AuditModule } from '../audit/audit.module';
     }),
     AuditModule,
   ],
-  controllers: [IdentityController, RbacController, MfaController, PasskeyController, GovernanceController],
+  controllers: [
+    IdentityController,
+    RbacController,
+    MfaController,
+    PasskeyController,
+    GovernanceController,
+    AuthExtendedController,
+  ],
   providers: [
     IdentityService,
     RbacService,
@@ -84,6 +101,11 @@ import { AuditModule } from '../audit/audit.module';
     SessionGovernanceService,
     DeviceTrustService,
     GovAuditService,
+    SsoService,
+    PasswordlessService,
+    AuthSecurityService,
+    ComplianceService,
+    SecurityAuditService,
     JwtStrategy,
   ],
   exports: [
@@ -101,6 +123,11 @@ import { AuditModule } from '../audit/audit.module';
     SessionGovernanceService,
     DeviceTrustService,
     GovAuditService,
+    SsoService,
+    PasswordlessService,
+    AuthSecurityService,
+    ComplianceService,
+    SecurityAuditService,
   ],
 })
 export class IdentityModule {}
