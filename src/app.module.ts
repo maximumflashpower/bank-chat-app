@@ -14,6 +14,9 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { GovernanceModule } from './modules/governance/governance.module';
+import { DataPipelineModule } from './modules/data-pipeline/data-pipeline.module';
+import { MonitoringModule } from './modules/monitoring/monitoring.module';
+import { ChangeManagementModule } from './modules/change-management/change-management.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -43,6 +46,12 @@ import { GovDecisionLog } from './modules/governance/entities/gov-decision-log.e
 import { GovDriftDetection } from './modules/governance/entities/gov-drift-detection.entity';
 import { GovFrameworkMapping } from './modules/governance/entities/gov-framework-mapping.entity';
 import { GovViolation } from './modules/governance/entities/gov-violation.entity';
+import { DataPipeline } from './modules/data-pipeline/entities/data-pipeline.entity';
+import { DataCatalogEntry } from './modules/data-pipeline/entities/data-catalog-entry.entity';
+import { MonitorMetric } from './modules/monitoring/entities/monitor-metric.entity';
+import { AlertRule } from './modules/monitoring/entities/alert-rule.entity';
+import { ChangeRequest } from './modules/change-management/entities/change-request.entity';
+import { FeatureFlag } from './modules/change-management/entities/feature-flag.entity';
 import * as path from 'path';
 
 @Module({
@@ -95,6 +104,12 @@ import * as path from 'path';
           GovDriftDetection,
           GovFrameworkMapping,
           GovViolation,
+          DataPipeline,
+          DataCatalogEntry,
+          MonitorMetric,
+          AlertRule,
+          ChangeRequest,
+          FeatureFlag,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -125,6 +140,9 @@ import * as path from 'path';
     ChatModule,
     StorageModule,
     GovernanceModule,
+    DataPipelineModule,
+    MonitoringModule,
+    ChangeManagementModule,
   ],
   providers: [
     {
