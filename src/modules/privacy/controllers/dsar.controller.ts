@@ -5,6 +5,9 @@ import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { DsarService } from '../services/dsar.service';
 import { CreateDsarRequestDto } from '../dto/create-dsar-request.dto';
 import { DsarReviewDto } from '../dto/dsar-review.dto';
+import { DataPortabilityDto } from '../dto/data-portability.dto';
+import { RectificationDto } from '../dto/rectification.dto';
+import { ObjectionDto } from '../dto/objection.dto';
 
 @ApiTags('Privacy — DSAR')
 @ApiBearerAuth()
@@ -74,5 +77,28 @@ export class DsarController {
   @ApiOperation({ summary: 'Listar solicitudes vencidas (PRIV-DSAR-004) — Admin' })
   async checkOverdue() {
     return this.dsarService.checkOverdueRequests();
+  }
+
+  // --- Privacidad: Portabilidad, Rectificación, Objeción ---
+
+  @Post('dsar/portability')
+  @ApiOperation({ summary: 'Exportación de portabilidad de datos (PRIV-DSAR-008)' })
+  async exportPortability(@Req() req: Request, @Body() dto: DataPortabilityDto) {
+    const userId = (req.user as any)?.id;
+    return this.dsarService.exportPortabilityData(userId, dto);
+  }
+
+  @Post('dsar/rectification')
+  @ApiOperation({ summary: 'Solicitar rectificación de datos (PRIV-DSAR-009)' })
+  async submitRectification(@Req() req: Request, @Body() dto: RectificationDto) {
+    const userId = (req.user as any)?.id;
+    return this.dsarService.submitRectification(userId, dto);
+  }
+
+  @Post('dsar/objection')
+  @ApiOperation({ summary: 'Ejercer derecho de objeción (PRIV-DSAR-010)' })
+  async submitObjection(@Req() req: Request, @Body() dto: ObjectionDto) {
+    const userId = (req.user as any)?.id;
+    return this.dsarService.submitObjection(userId, dto);
   }
 }
