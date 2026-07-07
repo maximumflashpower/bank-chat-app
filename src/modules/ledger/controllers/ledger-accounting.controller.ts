@@ -42,6 +42,13 @@ export class LedgerAccountingController {
   }
 
   // Fiscal Periods
+  @Post('periods/create')
+  @ApiOperation({ summary: 'Crear periodo fiscal' })
+  async createPeriod(@Body() body: any) {
+    return this.periodService.create(body);
+  }
+
+
   @Get('periods')
   @ApiOperation({ summary: 'Estado de periodos' })
   async listPeriods() {
