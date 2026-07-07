@@ -17,6 +17,7 @@ import { GovernanceModule } from './modules/governance/governance.module';
 import { DataPipelineModule } from './modules/data-pipeline/data-pipeline.module';
 import { MonitoringModule } from './modules/monitoring/monitoring.module';
 import { ChangeManagementModule } from './modules/change-management/change-management.module';
+import { TaxModule } from './modules/tax/tax.module.js';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -60,6 +61,11 @@ import { MonitorMetric } from './modules/monitoring/entities/monitor-metric.enti
 import { AlertRule } from './modules/monitoring/entities/alert-rule.entity';
 import { ChangeRequest } from './modules/change-management/entities/change-request.entity';
 import { FeatureFlag } from './modules/change-management/entities/feature-flag.entity';
+import { TaxCalculationResult } from './modules/tax/entities/tax-calculation-result.entity.js';
+import { TaxJurisdictionRule } from './modules/tax/entities/tax-jurisdiction-rule.entity.js';
+import { TaxDeclarationPeriod } from './modules/tax/entities/tax-declaration-period.entity.js';
+import { TaxWithholdingCertificate } from './modules/tax/entities/tax-withholding-certificate.entity.js';
+import { TaxProductMapping } from './modules/tax/entities/tax-product-mapping.entity.js';
 import * as path from 'path';
 
 @Module({
@@ -126,6 +132,11 @@ import * as path from 'path';
           AlertRule,
           ChangeRequest,
           FeatureFlag,
+          TaxCalculationResult,
+          TaxJurisdictionRule,
+          TaxDeclarationPeriod,
+          TaxWithholdingCertificate,
+          TaxProductMapping,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -159,6 +170,7 @@ import * as path from 'path';
     DataPipelineModule,
     MonitoringModule,
     ChangeManagementModule,
+    TaxModule,
   ],
   providers: [
     {
