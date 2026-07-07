@@ -35,6 +35,11 @@ import { ThirdPartyProcessor } from './modules/privacy/entities/third-party-proc
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
+import { LedgerJournalEntry } from './modules/ledger/entities/ledger_journal_entry.entity';
+import { LedgerJournalLine } from './modules/ledger/entities/ledger_journal_line.entity';
+import { LedgerChartOfAccounts } from './modules/ledger/entities/ledger_chart_of_accounts.entity';
+import { LedgerFiscalPeriod } from './modules/ledger/entities/ledger_fiscal_period.entity';
+import { LedgerReconciliation } from './modules/ledger/entities/ledger_reconciliation.entity';
 import { AuditLog } from './modules/audit/entities/audit-log.entity';
 import { ForensicCase } from './modules/audit/entities/forensic-case.entity';
 import { ForensicEvidenceItem } from './modules/audit/entities/forensic-evidence-item.entity';
@@ -96,6 +101,11 @@ import * as path from 'path';
           UserProfile,
           Account,
           Transaction,
+          LedgerJournalEntry,
+          LedgerJournalLine,
+          LedgerChartOfAccounts,
+          LedgerFiscalPeriod,
+          LedgerReconciliation,
           AuditLog,
           ForensicCase,
           ForensicEvidenceItem,
