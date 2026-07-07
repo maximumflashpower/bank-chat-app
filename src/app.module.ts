@@ -19,6 +19,7 @@ import { MonitoringModule } from './modules/monitoring/monitoring.module';
 import { ChangeManagementModule } from './modules/change-management/change-management.module';
 import { TaxModule } from './modules/tax/tax.module.js';
 import { AccountingAiModule } from './modules/accounting-ai/accounting-ai.module.js';
+import { PaymentsModule } from './modules/payments/payments.module.js';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -72,6 +73,10 @@ import { AiJournalSuggestion } from './modules/accounting-ai/entities/ai-journal
 import { AiAnomalyDetectionResult } from './modules/accounting-ai/entities/ai-anomaly-detection-result.entity.js';
 import { AiRecurringTemplate } from './modules/accounting-ai/entities/ai-recurring-template.entity.js';
 import { CashflowClassificationLog } from './modules/accounting-ai/entities/cashflow-classification-log.entity.js';
+import { PayInstruction } from './modules/payments/entities/pay-instruction.entity.js';
+import { PayTransactionRecord } from './modules/payments/entities/pay-transaction-record.entity.js';
+import { PayReconciliationEntry } from './modules/payments/entities/pay-reconciliation-entry.entity.js';
+import { BankConnectionConfig } from './modules/payments/entities/bank-connection-config.entity.js';
 import * as path from 'path';
 
 @Module({
@@ -148,6 +153,10 @@ import * as path from 'path';
           AiAnomalyDetectionResult,
           AiRecurringTemplate,
           CashflowClassificationLog,
+          PayInstruction,
+          PayTransactionRecord,
+          PayReconciliationEntry,
+          BankConnectionConfig,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -183,6 +192,7 @@ import * as path from 'path';
     ChangeManagementModule,
     TaxModule,
     AccountingAiModule,
+    PaymentsModule,
   ],
   providers: [
     {
