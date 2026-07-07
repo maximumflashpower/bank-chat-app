@@ -13,7 +13,7 @@ import { QueryAuditDto } from '../dto/query-audit.dto';
 @ApiTags('Audit')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('audit')
+@Controller('api/v1/audit')
 export class AuditController {
   constructor(private readonly auditService: AuditService) {}
 
