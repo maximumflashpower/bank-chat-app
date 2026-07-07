@@ -36,6 +36,9 @@ import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
 import { AuditLog } from './modules/audit/entities/audit-log.entity';
+import { ForensicCase } from './modules/audit/entities/forensic-case.entity';
+import { ForensicEvidenceItem } from './modules/audit/entities/forensic-evidence-item.entity';
+import { SecurityEventClassified } from './modules/audit/entities/security-event-classified.entity';
 import { Notification } from './modules/notification/entities/notification.entity';
 import { Conversation } from './modules/chat/entities/conversation.entity';
 import { ConversationParticipant } from './modules/chat/entities/conversation-participant.entity';
@@ -94,6 +97,9 @@ import * as path from 'path';
           Account,
           Transaction,
           AuditLog,
+          ForensicCase,
+          ForensicEvidenceItem,
+          SecurityEventClassified,
           Notification,
           Conversation,
           ConversationParticipant,
