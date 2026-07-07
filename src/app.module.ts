@@ -18,6 +18,7 @@ import { DataPipelineModule } from './modules/data-pipeline/data-pipeline.module
 import { MonitoringModule } from './modules/monitoring/monitoring.module';
 import { ChangeManagementModule } from './modules/change-management/change-management.module';
 import { TaxModule } from './modules/tax/tax.module.js';
+import { AccountingAiModule } from './modules/accounting-ai/accounting-ai.module.js';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -66,6 +67,11 @@ import { TaxJurisdictionRule } from './modules/tax/entities/tax-jurisdiction-rul
 import { TaxDeclarationPeriod } from './modules/tax/entities/tax-declaration-period.entity.js';
 import { TaxWithholdingCertificate } from './modules/tax/entities/tax-withholding-certificate.entity.js';
 import { TaxProductMapping } from './modules/tax/entities/tax-product-mapping.entity.js';
+import { AiOcrExtractionTask } from './modules/accounting-ai/entities/ai-ocr-extraction-task.entity.js';
+import { AiJournalSuggestion } from './modules/accounting-ai/entities/ai-journal-suggestion.entity.js';
+import { AiAnomalyDetectionResult } from './modules/accounting-ai/entities/ai-anomaly-detection-result.entity.js';
+import { AiRecurringTemplate } from './modules/accounting-ai/entities/ai-recurring-template.entity.js';
+import { CashflowClassificationLog } from './modules/accounting-ai/entities/cashflow-classification-log.entity.js';
 import * as path from 'path';
 
 @Module({
@@ -137,6 +143,11 @@ import * as path from 'path';
           TaxDeclarationPeriod,
           TaxWithholdingCertificate,
           TaxProductMapping,
+          AiOcrExtractionTask,
+          AiJournalSuggestion,
+          AiAnomalyDetectionResult,
+          AiRecurringTemplate,
+          CashflowClassificationLog,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -171,6 +182,7 @@ import * as path from 'path';
     MonitoringModule,
     ChangeManagementModule,
     TaxModule,
+    AccountingAiModule,
   ],
   providers: [
     {
