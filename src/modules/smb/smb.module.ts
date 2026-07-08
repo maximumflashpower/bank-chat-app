@@ -14,21 +14,27 @@ import { SmbReceivableService } from './services/smb-receivable.service';
 import { SmbBankingService } from './services/smb-banking.service';
 import { SmbReportService } from './services/smb-report.service';
 import { SmbInventoryInvoiceService } from './services/smb-inventory-invoice.service';
+import { SmbReportSnapshot } from './entities/smb-report-snapshot.entity';
+import { SmbReportingService } from './services/smb-reporting.service';
+import { SmbReportingModule } from './smb-reporting.module';
 import { SmbController } from './controllers/smb.controller';
 import { BankingController } from './controllers/banking.controller';
 import { ReportsController } from './controllers/reports.controller';
 import { SmbInventoryInvoiceController } from './controllers/smb-inventory-invoice.controller';
+import { SmbReportingController } from './controllers/smb-reporting.controller';
 
 @Module({
   imports: [
     SmbInventoryModule,
     TaxModule,
+    SmbReportingModule,
     TypeOrmModule.forFeature([
       SmbCompanyProfile,
       SmbContactParty,
       SmbInvoiceDocument,
       SmbInvoiceLineItem,
       SmbBankAccountLinked,
+      SmbReportSnapshot,
     ]),
   ],
   controllers: [
@@ -36,6 +42,7 @@ import { SmbInventoryInvoiceController } from './controllers/smb-inventory-invoi
     BankingController,
     ReportsController,
     SmbInventoryInvoiceController,
+    SmbReportingController,
   ],
   providers: [
     SmbSetupService,
@@ -45,6 +52,8 @@ import { SmbInventoryInvoiceController } from './controllers/smb-inventory-invoi
     SmbBankingService,
     SmbReportService,
     SmbInventoryInvoiceService,
+    SmbReportingService,
+    SmbReportingService,
   ],
   exports: [
     SmbSetupService,
@@ -53,6 +62,8 @@ import { SmbInventoryInvoiceController } from './controllers/smb-inventory-invoi
     SmbBankingService,
     SmbReportService,
     SmbInventoryInvoiceService,
+    SmbReportingService,
+    SmbReportingService,
   ],
 })
 export class SmbModule {}
