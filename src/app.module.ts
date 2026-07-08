@@ -91,6 +91,7 @@ import { InventoryAccountMapping } from './modules/ledger/entities/inventory-acc
 import { InventoryJournalLink } from './modules/ledger/entities/inventory-journal-link.entity';
 import { InventoryPostingRule } from './modules/ledger/entities/inventory-posting-rule.entity';
 import { InventoryTaxLine } from './modules/tax/entities/inventory-tax-line.entity';
+import { SmbInvoiceLineItem } from './modules/smb/entities/smb-invoice-line-item.entity';
 import * as path from 'path';
 
 @Module({
@@ -183,6 +184,7 @@ import * as path from 'path';
           InventoryJournalLink,
           InventoryPostingRule,
           InventoryTaxLine,
+          SmbInvoiceLineItem,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,

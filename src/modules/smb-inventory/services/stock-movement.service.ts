@@ -179,13 +179,13 @@ export class StockMovementService {
       });
     }
 
-    level.onHand += quantityDelta;
+    level.onHand = Number(level.onHand) + quantityDelta;
 
     if (operation === 'receive' || operation === 'transfer_in' || operation === 'return') {
       if (unitCost !== undefined && unitCost > 0) {
-        const totalExisting = level.onHand - quantityDelta;
+        const totalExisting = Number(level.onHand) - quantityDelta;
         const totalNew = quantityDelta * unitCost;
-        const totalCombined = (totalExisting * level.movingAvgCost) + totalNew;
+        const totalCombined = (totalExisting * Number(level.movingAvgCost)) + totalNew;
         const newOnHand = level.onHand;
         level.movingAvgCost = newOnHand > 0 ? totalCombined / newOnHand : unitCost;
         level.lastCost = unitCost;
@@ -196,11 +196,11 @@ export class StockMovementService {
     }
 
     if (operation === 'sale') {
-      level.committed = Math.max(0, level.committed - Math.abs(quantityDelta));
+      level.committed = Math.max(0, Number(level.committed) - Math.abs(quantityDelta));
     }
 
-    level.available = level.onHand - level.committed;
-    level.totalValue = level.onHand * level.movingAvgCost;
+    level.available = Number(level.onHand) - Number(level.committed);
+    level.totalValue = Number(level.onHand) * Number(level.movingAvgCost);
     level.lastMovementDate = new Date();
 
     await this.levelRepo.save(level);
