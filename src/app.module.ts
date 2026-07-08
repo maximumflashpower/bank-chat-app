@@ -87,6 +87,9 @@ import { SmbInventoryItem } from './modules/smb-inventory/entities/smb-inventory
 import { SmbWarehouse } from './modules/smb-inventory/entities/smb-warehouse.entity.js';
 import { SmbStockMovement } from './modules/smb-inventory/entities/smb-stock-movement.entity.js';
 import { SmbStockLevel } from './modules/smb-inventory/entities/smb-stock-level.entity.js';
+import { InventoryAccountMapping } from './modules/ledger/entities/inventory-account-mapping.entity';
+import { InventoryJournalLink } from './modules/ledger/entities/inventory-journal-link.entity';
+import { InventoryPostingRule } from './modules/ledger/entities/inventory-posting-rule.entity';
 import * as path from 'path';
 
 @Module({
@@ -175,6 +178,9 @@ import * as path from 'path';
           SmbWarehouse,
           SmbStockMovement,
           SmbStockLevel,
+          InventoryAccountMapping,
+          InventoryJournalLink,
+          InventoryPostingRule,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,

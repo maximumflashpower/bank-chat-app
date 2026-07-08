@@ -3,4 +3,5 @@ export enum JournalSourceType {
   API = 'api',
   IMPORT = 'import',
   SYSTEM = 'system',
+  INVENTORY = 'inventory',
 }
