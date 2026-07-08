@@ -21,6 +21,7 @@ import { TaxModule } from './modules/tax/tax.module.js';
 import { AccountingAiModule } from './modules/accounting-ai/accounting-ai.module.js';
 import { PaymentsModule } from './modules/payments/payments.module.js';
 import { SmbModule } from './modules/smb/smb.module.js';
+import { SmbReportingModule } from './modules/smb/smb-reporting.module';
 import { SmbInventoryModule } from './modules/smb-inventory/smb-inventory.module.js';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
@@ -92,6 +93,7 @@ import { InventoryJournalLink } from './modules/ledger/entities/inventory-journa
 import { InventoryPostingRule } from './modules/ledger/entities/inventory-posting-rule.entity';
 import { InventoryTaxLine } from './modules/tax/entities/inventory-tax-line.entity';
 import { SmbInvoiceLineItem } from './modules/smb/entities/smb-invoice-line-item.entity';
+import { SmbReportSnapshot } from './modules/smb/entities/smb-report-snapshot.entity';
 import * as path from 'path';
 
 @Module({
@@ -185,6 +187,7 @@ import * as path from 'path';
           InventoryPostingRule,
           InventoryTaxLine,
           SmbInvoiceLineItem,
+          SmbReportSnapshot,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -222,6 +225,7 @@ import * as path from 'path';
     AccountingAiModule,
     PaymentsModule,
     SmbModule,
+    SmbReportingModule,
     SmbInventoryModule,
   ],
   providers: [
