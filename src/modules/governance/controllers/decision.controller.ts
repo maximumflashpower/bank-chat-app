@@ -29,4 +29,31 @@ export class DecisionController {
   async findById(@Param('id') id: string) {
     return this.decisionService.findById(id);
   }
+
+  @Get(':id/rationale')
+  @ApiOperation({ summary: 'Export decision rationale' })
+  @ApiResponse({ status: 200, description: 'Decision rationale' })
+  async exportRationale(@Param('id') id: string) {
+    return this.decisionService.exportRationale(id);
+  }
+
+  @Get('analytics')
+  @ApiOperation({ summary: 'Decision analytics' })
+  @ApiResponse({ status: 200, description: 'Aggregated analytics' })
+  async getAnalytics(
+    @Query('fromDate') fromDate?: string,
+    @Query('toDate') toDate?: string,
+  ) {
+    return this.decisionService.getAnalytics(fromDate, toDate);
+  }
+
+  @Get('audit-trail')
+  @ApiOperation({ summary: 'Decision audit trail / replay' })
+  @ApiResponse({ status: 200, description: 'Audit trail' })
+  async getAuditTrail(
+    @Query('entityType') entityType?: string,
+    @Query('entityId') entityId?: string,
+  ) {
+    return this.decisionService.getAuditTrail(entityType, entityId);
+  }
 }

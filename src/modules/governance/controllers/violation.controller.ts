@@ -16,6 +16,7 @@ import {
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
 import { ViolationService } from '../services/violation.service';
 import { ResolveViolationDto } from '../dto/resolve-violation.dto';
+import { Severity } from '../entities/severity.enum';
 
 @ApiTags('Governance — Violations')
 @ApiBearerAuth()
@@ -40,6 +41,27 @@ export class ViolationController {
   @ApiResponse({ status: 200, description: 'Violation details' })
   async findOne(@Param('id') id: string) {
     return this.violationService.findOne(id);
+  }
+
+  @Post()
+  @ApiOperation({ summary: 'Manually create a violation' })
+  @ApiResponse({ status: 201, description: 'Violation created' })
+  async create(
+    @Body() body: {
+      policyId: string;
+      entityType: string;
+      entityId: string;
+      violationDetail: string;
+      severity: Severity;
+    }
+  ) {
+    return this.violationService.create({
+      policyId: body.policyId,
+      entityType: body.entityType,
+      entityId: body.entityId,
+      violationDetail: body.violationDetail,
+      severity: body.severity,
+    });
   }
 
   @Post(':id/resolve')

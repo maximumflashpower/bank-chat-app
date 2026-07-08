@@ -95,4 +95,36 @@ export class PolicyController {
   ) {
     return this.policyService.dryRunTest(id, body.input);
   }
+
+  @Post(':id/activate')
+  @ApiOperation({ summary: 'Activate policy' })
+  @ApiResponse({ status: 200, description: 'Policy activated' })
+  async activate(@Param('id') id: string) {
+    return this.policyService.activate(id);
+  }
+
+  @Post(':id/deactivate')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Deactivate policy' })
+  @ApiResponse({ status: 200, description: 'Policy deactivated' })
+  async deactivate(@Param('id') id: string) {
+    return this.policyService.deactivate(id);
+  }
+
+  @Post(':id/canary-rollout')
+  @ApiOperation({ summary: 'Canary rollout policy' })
+  @ApiResponse({ status: 200, description: 'Canary rollout configured' })
+  async canaryRollout(
+    @Param('id') id: string,
+    @Body() body: { percentage: number },
+  ) {
+    return this.policyService.canaryRollout(id, body.percentage);
+  }
+
+  @Get('active')
+  @ApiOperation({ summary: 'List active policies' })
+  @ApiResponse({ status: 200, description: 'List of active policies' })
+  async getActive(@Query('domain') domain?: string) {
+    return this.policyService.getActivePolicies(domain);
+  }
 }

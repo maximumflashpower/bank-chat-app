@@ -56,4 +56,11 @@ export class FrameworkController {
   ) {
     return this.frameworkService.updateCoverage(id, body.coveragePct);
   }
+
+  @Get('policy/:policyId')
+  @ApiOperation({ summary: 'Find framework mappings for a policy' })
+  @ApiResponse({ status: 200, description: 'Policy framework mappings' })
+  async findByPolicy(@Param('policyId') policyId: string) {
+    return this.frameworkService.findByPolicy(policyId);
+  }
 }
