@@ -188,4 +188,39 @@ export class PolicyService {
         return false;
     }
   }
+
+  // GOV-POLICY-010: Activate/Deactivate policy
+  async activate(id: string): Promise<GovPolicy> {
+    const policy = await this.policyRepo.findOne({ where: { id } });
+    if (!policy) throw new NotFoundException(`Policy ${id} not found`);
+    policy.status = 'ACTIVE' as any;
+    return this.policyRepo.save(policy);
+  }
+
+  async deactivate(id: string): Promise<GovPolicy> {
+    const policy = await this.policyRepo.findOne({ where: { id } });
+    if (!policy) throw new NotFoundException(`Policy ${id} not found`);
+    policy.status = 'INACTIVE' as any;
+    return this.policyRepo.save(policy);
+  }
+
+  // GOV-POLICY-009: Canary rollout — gradual activation
+  async canaryRollout(id: string, percentage: number): Promise<{ policy: GovPolicy; canaryPercent: number; status: string }> {
+    const policy = await this.policyRepo.findOne({ where: { id } });
+    if (!policy) throw new NotFoundException(`Policy ${id} not found`);
+
+    const clamped = Math.max(0, Math.min(100, percentage));
+    policy.enforcementMode = 'CANARY' as any;
+    policy.applicableScope = {
+      ...(policy.applicableScope ?? {}),
+      canaryPercent: clamped,
+    };
+
+    const saved = await this.policyRepo.save(policy);
+    return {
+      policy: saved,
+      canaryPercent: clamped,
+      status: clamped >= 100 ? 'fully_activated' : 'canary_active',
+    };
+  }
 }

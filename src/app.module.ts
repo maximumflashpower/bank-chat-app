@@ -60,6 +60,7 @@ import { GovDecisionLog } from './modules/governance/entities/gov-decision-log.e
 import { GovDriftDetection } from './modules/governance/entities/gov-drift-detection.entity';
 import { GovFrameworkMapping } from './modules/governance/entities/gov-framework-mapping.entity';
 import { GovViolation } from './modules/governance/entities/gov-violation.entity';
+import { GovRegComp } from './modules/governance/entities/gov-reg-comp.entity';
 import { DataPipeline } from './modules/data-pipeline/entities/data-pipeline.entity';
 import { DataCatalogEntry } from './modules/data-pipeline/entities/data-catalog-entry.entity';
 import { MonitorMetric } from './modules/monitoring/entities/monitor-metric.entity';
@@ -154,6 +155,7 @@ import * as path from 'path';
           GovDriftDetection,
           GovFrameworkMapping,
           GovViolation,
+    GovRegComp,
           DataPipeline,
           DataCatalogEntry,
           MonitorMetric,
