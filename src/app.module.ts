@@ -21,6 +21,7 @@ import { TaxModule } from './modules/tax/tax.module.js';
 import { AccountingAiModule } from './modules/accounting-ai/accounting-ai.module.js';
 import { PaymentsModule } from './modules/payments/payments.module.js';
 import { SmbModule } from './modules/smb/smb.module.js';
+import { SmbInventoryModule } from './modules/smb-inventory/smb-inventory.module.js';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -82,6 +83,10 @@ import { SmbCompanyProfile } from './modules/smb/entities/smb-company-profile.en
 import { SmbContactParty } from './modules/smb/entities/smb-contact-party.entity.js';
 import { SmbInvoiceDocument } from './modules/smb/entities/smb-invoice-document.entity.js';
 import { SmbBankAccountLinked } from './modules/smb/entities/smb-bank-account-linked.entity.js';
+import { SmbInventoryItem } from './modules/smb-inventory/entities/smb-inventory-item.entity.js';
+import { SmbWarehouse } from './modules/smb-inventory/entities/smb-warehouse.entity.js';
+import { SmbStockMovement } from './modules/smb-inventory/entities/smb-stock-movement.entity.js';
+import { SmbStockLevel } from './modules/smb-inventory/entities/smb-stock-level.entity.js';
 import * as path from 'path';
 
 @Module({
@@ -166,6 +171,10 @@ import * as path from 'path';
           SmbContactParty,
           SmbInvoiceDocument,
           SmbBankAccountLinked,
+          SmbInventoryItem,
+          SmbWarehouse,
+          SmbStockMovement,
+          SmbStockLevel,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -203,6 +212,7 @@ import * as path from 'path';
     AccountingAiModule,
     PaymentsModule,
     SmbModule,
+    SmbInventoryModule,
   ],
   providers: [
     {
