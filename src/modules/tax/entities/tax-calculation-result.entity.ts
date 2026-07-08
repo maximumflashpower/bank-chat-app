@@ -10,8 +10,8 @@ import { IdentityUser } from '../../identity/entities/identity-user.entity';
 
 @Entity('tax_calculation_result')
 export class TaxCalculationResult extends BaseEntity {
-  @Column({ type: 'uuid', nullable: false })
-  transactionId: string;
+  @Column({ type: 'uuid', nullable: true })
+  transactionId?: string;
 
   @Column({ type: 'timestamptz', nullable: false, default: () => 'now()' })
   calculatedAt: Date;

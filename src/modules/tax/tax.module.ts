@@ -5,6 +5,7 @@ import { TaxJurisdictionRule } from './entities/tax-jurisdiction-rule.entity';
 import { TaxDeclarationPeriod } from './entities/tax-declaration-period.entity';
 import { TaxWithholdingCertificate } from './entities/tax-withholding-certificate.entity';
 import { TaxProductMapping } from './entities/tax-product-mapping.entity';
+import { InventoryTaxLine } from './entities/inventory-tax-line.entity';
 import { TaxCalculationService } from './services/tax-calculation.service';
 import { TaxJurisdictionService } from './services/tax-jurisdiction.service';
 import { TaxDeclarationService } from './services/tax-declaration.service';
@@ -14,10 +15,12 @@ import { TaxProductMappingService } from './services/tax-product-mapping.service
 import { TaxNexusService } from './services/tax-nexus.service';
 import { TaxAuditService } from './services/tax-audit.service';
 import { TaxRegulatoryService } from './services/tax-regulatory.service';
+import { InventoryTaxService } from './services/inventory-tax.service';
 import { TaxController } from './controllers/tax.controller';
 import { DeclarationController } from './controllers/declaration.controller';
 import { WithholdingController } from './controllers/withholding.controller';
 import { NexusController } from './controllers/nexus.controller';
+import { InventoryTaxController } from './controllers/inventory-tax.controller';
 
 @Module({
   imports: [
@@ -27,6 +30,7 @@ import { NexusController } from './controllers/nexus.controller';
       TaxDeclarationPeriod,
       TaxWithholdingCertificate,
       TaxProductMapping,
+      InventoryTaxLine,
     ]),
   ],
   controllers: [
@@ -34,6 +38,7 @@ import { NexusController } from './controllers/nexus.controller';
     DeclarationController,
     WithholdingController,
     NexusController,
+    InventoryTaxController,
   ],
   providers: [
     TaxCalculationService,
@@ -45,12 +50,14 @@ import { NexusController } from './controllers/nexus.controller';
     TaxNexusService,
     TaxAuditService,
     TaxRegulatoryService,
+    InventoryTaxService,
   ],
   exports: [
     TaxCalculationService,
     TaxJurisdictionService,
     TaxDeclarationService,
     TaxWithholdingService,
+    InventoryTaxService,
   ],
 })
 export class TaxModule {}
