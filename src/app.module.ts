@@ -90,6 +90,7 @@ import { SmbStockLevel } from './modules/smb-inventory/entities/smb-stock-level.
 import { InventoryAccountMapping } from './modules/ledger/entities/inventory-account-mapping.entity';
 import { InventoryJournalLink } from './modules/ledger/entities/inventory-journal-link.entity';
 import { InventoryPostingRule } from './modules/ledger/entities/inventory-posting-rule.entity';
+import { InventoryTaxLine } from './modules/tax/entities/inventory-tax-line.entity';
 import * as path from 'path';
 
 @Module({
@@ -181,6 +182,7 @@ import * as path from 'path';
           InventoryAccountMapping,
           InventoryJournalLink,
           InventoryPostingRule,
+          InventoryTaxLine,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
