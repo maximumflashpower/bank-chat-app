@@ -11,7 +11,6 @@ describe('TaxRegulatoryService', () => {
     service = new TaxRegulatoryService(mockRepo);
   });
 
-  // ─── recordRegulatoryChange ────────────────────────────────
   describe('recordRegulatoryChange', () => {
     it('should record change without throwing', async () => {
       await expect(service.recordRegulatoryChange({
@@ -24,7 +23,6 @@ describe('TaxRegulatoryService', () => {
     });
   });
 
-  // ─── getHistoricalChanges ───────────────────────────────────
   describe('getHistoricalChanges', () => {
     it('should return changes filtered by countryCode', async () => {
       await service.recordRegulatoryChange({
@@ -54,7 +52,6 @@ describe('TaxRegulatoryService', () => {
     });
   });
 
-  // ─── getCurrentRate ────────────────────────────────────────
   describe('getCurrentRate', () => {
     it('should return rateStandard when active rule exists', async () => {
       mockRepo.find.mockResolvedValue([
@@ -105,7 +102,6 @@ describe('TaxRegulatoryService', () => {
     });
   });
 
-  // ─── assessImpact ──────────────────────────────────────────
   describe('assessImpact', () => {
     it('should calculate deltaTax and percentageIncrease', async () => {
       const result = await service.assessImpact(0.10, 0.15, 10000);
