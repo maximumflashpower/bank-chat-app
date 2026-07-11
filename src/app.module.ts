@@ -23,6 +23,7 @@ import { PaymentsModule } from './modules/payments/payments.module.js';
 import { SmbModule } from './modules/smb/smb.module.js';
 import { SmbReportingModule } from './modules/smb/smb-reporting.module';
 import { SmbInventoryModule } from './modules/smb-inventory/smb-inventory.module.js';
+import { SmbBudgetingModule } from './modules/smb-budgeting/smb-budgeting.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -58,6 +59,11 @@ import { StoredFile } from './modules/storage/entities/stored-file.entity';
 import { GovPolicy } from './modules/governance/entities/gov-policy.entity';
 import { GovDecisionLog } from './modules/governance/entities/gov-decision-log.entity';
 import { GovDriftDetection } from './modules/governance/entities/gov-drift-detection.entity';
+import { BudgetHeader } from './modules/smb-budgeting/entities/budget-header.entity';
+import { BudgetLineItem } from './modules/smb-budgeting/entities/budget-line-item.entity';
+import { ProjectRegistry } from './modules/smb-budgeting/entities/project-registry.entity';
+import { TimeEntryLog } from './modules/smb-budgeting/entities/time-entry-log.entity';
+import { OverheadAllocationMethod } from './modules/smb-budgeting/entities/overhead-allocation-method.entity';
 import { GovFrameworkMapping } from './modules/governance/entities/gov-framework-mapping.entity';
 import { GovViolation } from './modules/governance/entities/gov-violation.entity';
 import { GovRegComp } from './modules/governance/entities/gov-reg-comp.entity';
@@ -190,6 +196,11 @@ import * as path from 'path';
           InventoryTaxLine,
           SmbInvoiceLineItem,
           SmbReportSnapshot,
+          BudgetHeader,
+          BudgetLineItem,
+          ProjectRegistry,
+          TimeEntryLog,
+          OverheadAllocationMethod,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -229,6 +240,7 @@ import * as path from 'path';
     SmbModule,
     SmbReportingModule,
     SmbInventoryModule,
+    SmbBudgetingModule,
   ],
   providers: [
     {
