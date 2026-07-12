@@ -13,6 +13,7 @@ import { AuditModule } from './modules/audit/audit.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { ReconciliationModule } from './modules/reconciliation/reconciliation.module.js';
 import { GovernanceModule } from './modules/governance/governance.module';
 import { DataPipelineModule } from './modules/data-pipeline/data-pipeline.module';
 import { MonitoringModule } from './modules/monitoring/monitoring.module';
@@ -230,6 +231,7 @@ import * as path from 'path';
     NotificationModule,
     ChatModule,
     StorageModule,
+    ReconciliationModule,
     GovernanceModule,
     DataPipelineModule,
     MonitoringModule,
