@@ -25,6 +25,7 @@ import { SmbModule } from './modules/smb/smb.module.js';
 import { SmbReportingModule } from './modules/smb/smb-reporting.module';
 import { SmbInventoryModule } from './modules/smb-inventory/smb-inventory.module.js';
 import { SmbBudgetingModule } from './modules/smb-budgeting/smb-budgeting.module';
+import { RegulatoryExamModule } from './modules/regulatory/exam/regulatory-exam.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -40,6 +41,7 @@ import { RetentionSchedule } from './modules/privacy/entities/retention-schedule
 import { PolicyVersion } from './modules/privacy/entities/policy-version.entity';
 import { DpoContact } from './modules/privacy/entities/dpo-contact.entity';
 import { ThirdPartyProcessor } from './modules/privacy/entities/third-party-processor.entity';
+import { RegExam } from './modules/regulatory/exam/entities/reg-exam.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -140,6 +142,7 @@ import * as path from 'path';
           PolicyVersion,
           DpoContact,
           ThirdPartyProcessor,
+RegExam,
           UserProfile,
           Account,
           Transaction,
@@ -243,6 +246,7 @@ import * as path from 'path';
     SmbReportingModule,
     SmbInventoryModule,
     SmbBudgetingModule,
+RegulatoryExamModule,
   ],
   providers: [
     {
