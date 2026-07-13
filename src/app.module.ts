@@ -29,6 +29,8 @@ import { RegulatoryExamModule } from './modules/regulatory/exam/regulatory-exam.
 import { SoxModule } from './modules/regulatory/sox/sox.module';
 import { SurveillanceModule } from './modules/regulatory/surveillance/surveillance.module';
 import { EthicsModule } from './modules/regulatory/ethics/ethics.module';
+import { BaselModule } from './modules/regulatory/basel/basel.module';
+import { ExportControlModule } from './modules/regulatory/export-control/export-control.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -50,6 +52,8 @@ import { SurveillanceAlert } from './modules/regulatory/surveillance/entities/su
 import { EthicsCase } from './modules/regulatory/ethics/entities/ethics-case.entity';
 import { ConflictOfInterest } from './modules/regulatory/ethics/entities/conflict-of-interest.entity';
 import { GiftEntertainmentLog } from './modules/regulatory/ethics/entities/gift-entertainment-log.entity';
+import { BaselReport } from './modules/regulatory/basel/entities/basel-report.entity';
+import { ExportControlLicense } from './modules/regulatory/export-control/entities/export-control-license.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -156,6 +160,8 @@ SurveillanceAlert,
 EthicsCase,
 ConflictOfInterest,
 GiftEntertainmentLog,
+BaselReport,
+ExportControlLicense,
           UserProfile,
           Account,
           Transaction,
@@ -263,6 +269,8 @@ RegulatoryExamModule,
 SoxModule,
 SurveillanceModule,
 EthicsModule,
+BaselModule,
+ExportControlModule,
   ],
   providers: [
     {
