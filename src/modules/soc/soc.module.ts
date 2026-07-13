@@ -11,10 +11,12 @@ import { SocDashboardService } from './services/soc-dashboard.service';
 import { SoarPlaybookService } from './services/soar-playbook.service';
 import { ThreatIntelService } from './services/threat-intel.service';
 import { VulnerabilityService } from './services/vulnerability.service';
+import { ModularityService } from './services/modularity.service';
 import { SocDashboardController } from './controllers/soc-dashboard.controller';
 import { SoarPlaybookController } from './controllers/soar-playbook.controller';
 import { ThreatIntelController } from './controllers/threat-intel.controller';
 import { VulnerabilityController } from './controllers/vulnerability.controller';
+import { ModularityController } from './controllers/modularity.controller';
 
 @Module({
   imports: [
@@ -33,18 +35,21 @@ import { VulnerabilityController } from './controllers/vulnerability.controller'
     SoarPlaybookController,
     ThreatIntelController,
     VulnerabilityController,
+    ModularityController,
   ],
   providers: [
     SocDashboardService,
     SoarPlaybookService,
     ThreatIntelService,
     VulnerabilityService,
+    ModularityService,
   ],
   exports: [
     SocDashboardService,
     SoarPlaybookService,
     ThreatIntelService,
     VulnerabilityService,
+    ModularityService,
   ],
 })
 export class SocModule {}
