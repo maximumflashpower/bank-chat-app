@@ -27,6 +27,7 @@ import { PasswordlessService } from './services/passwordless.service';
 import { AuthSecurityService } from './services/auth-security.service';
 import { ComplianceService } from './services/compliance.service';
 import { SecurityAuditService } from './services/security-audit.service';
+import { DidService } from './services/did.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { IdentityUser } from './entities/identity-user.entity';
 import { Credential } from './entities/credential.entity';
@@ -44,6 +45,7 @@ import { DeviceTrust } from './entities/device-trust.entity';
 import { GovAuditLog } from './entities/gov-audit-log.entity';
 import { IdentitySession } from './entities/identity-session.entity';
 import { IdentitySsoConfig } from './entities/identity-sso-config.entity';
+import { IdentityDid } from './entities/identity-did.entity';
 import { AuditModule } from '../audit/audit.module';
 
 @Module({
@@ -65,6 +67,7 @@ import { AuditModule } from '../audit/audit.module';
       GovAuditLog,
       IdentitySession,
       IdentitySsoConfig,
+      IdentityDid,
     ]),
     PassportModule,
     JwtModule.registerAsync({
@@ -88,6 +91,7 @@ import { AuditModule } from '../audit/audit.module';
     AuthExtendedController,
   ],
   providers: [
+    DidService,
     IdentityService,
     RbacService,
     MfaService,
@@ -128,6 +132,7 @@ import { AuditModule } from '../audit/audit.module';
     AuthSecurityService,
     ComplianceService,
     SecurityAuditService,
+    DidService,
   ],
 })
 export class IdentityModule {}
