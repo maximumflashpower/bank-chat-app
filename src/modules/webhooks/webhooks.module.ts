@@ -4,12 +4,14 @@ import { WebhookSubscription } from './entities/webhook-subscription.entity';
 import { WebhookDeliveryLog } from './entities/webhook-delivery-log.entity';
 import { ApiKey } from './entities/api-key.entity';
 import { Tenant } from './entities/tenant.entity';
-import { TenantService } from './services/tenant.service';
 import { WebhookService } from './services/webhook.service';
 import { ApiKeyService } from './services/api-key.service';
+import { TenantService } from './services/tenant.service';
+import { DeveloperPortalService } from './services/developer-portal.service';
 import { WebhookController } from './controllers/webhook.controller';
 import { ApiKeyController } from './controllers/api-key.controller';
 import { TenantController } from './controllers/tenant.controller';
+import { DeveloperPortalController } from './controllers/developer-portal.controller';
 
 @Module({
   imports: [
@@ -24,16 +26,19 @@ import { TenantController } from './controllers/tenant.controller';
     WebhookController,
     ApiKeyController,
     TenantController,
+    DeveloperPortalController,
   ],
   providers: [
     WebhookService,
     ApiKeyService,
     TenantService,
+    DeveloperPortalService,
   ],
   exports: [
     WebhookService,
     ApiKeyService,
     TenantService,
+    DeveloperPortalService,
   ],
 })
 export class WebhooksModule {}
