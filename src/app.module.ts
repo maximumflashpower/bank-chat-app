@@ -26,6 +26,7 @@ import { SmbReportingModule } from './modules/smb/smb-reporting.module';
 import { SmbInventoryModule } from './modules/smb-inventory/smb-inventory.module.js';
 import { SmbBudgetingModule } from './modules/smb-budgeting/smb-budgeting.module';
 import { RegulatoryExamModule } from './modules/regulatory/exam/regulatory-exam.module';
+import { SoxModule } from './modules/regulatory/sox/sox.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -42,6 +43,7 @@ import { PolicyVersion } from './modules/privacy/entities/policy-version.entity'
 import { DpoContact } from './modules/privacy/entities/dpo-contact.entity';
 import { ThirdPartyProcessor } from './modules/privacy/entities/third-party-processor.entity';
 import { RegExam } from './modules/regulatory/exam/entities/reg-exam.entity';
+import { SoxControl } from './modules/regulatory/sox/entities/sox-control.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -143,6 +145,7 @@ import * as path from 'path';
           DpoContact,
           ThirdPartyProcessor,
 RegExam,
+SoxControl,
           UserProfile,
           Account,
           Transaction,
@@ -247,6 +250,7 @@ RegExam,
     SmbInventoryModule,
     SmbBudgetingModule,
 RegulatoryExamModule,
+SoxModule,
   ],
   providers: [
     {
