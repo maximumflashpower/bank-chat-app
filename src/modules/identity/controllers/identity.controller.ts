@@ -1,32 +1,20 @@
 import {
-  Controller,
-  Post,
-  Get,
-  Body,
-  UseGuards,
-  Request,
-  Param,
-  HttpCode,
-  HttpStatus,
+  Controller, Post, Get, Body, UseGuards, Request, HttpCode, HttpStatus, Param,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiBody,
+  ApiTags, ApiOperation, ApiResponse, ApiBearerAuth,
 } from '@nestjs/swagger';
 import { IdentityService } from '../services/identity.service';
-import { DidService } from '../services/did.service';
 import { RegisterDto } from '../dto/register.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { LoginDto } from '../dto/login.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { DidService } from '../services/did.service';
 import { DidRegisterDto } from '../dto/did-register.dto';
 import { IdentityDid } from '../entities/identity-did.entity';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
-@ApiTags('Auth')
+@ApiTags('auth')
 @Controller('auth')
 export class IdentityController {
   constructor(
@@ -34,51 +22,43 @@ export class IdentityController {
     private readonly didService: DidService,
   ) {}
 
+  /**
+   * AUTH-CORE-001: Phone Registration OTP
+   */
   @Post('register')
-  @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Register a new user by phone number' })
-  @ApiResponse({ status: 201, description: 'OTP sent to phone number' })
-  @ApiResponse({ status: 409, description: 'Phone number already registered' })
-  async register(@Body() dto: RegisterDto) {
+  @ApiOperation({ summary: 'Registrar nuevo usuario vía teléfono' })
+  async register(@Body() dto: RegisterDto): Promise<any> {
     return this.identityService.register(dto);
   }
 
+  /**
+   * AUTH-CORE-001: Verify OTP
+   */
   @Post('verify-otp')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Verify OTP and activate account' })
-  @ApiResponse({ status: 200, description: 'Account activated, tokens issued' })
-  @ApiResponse({ status: 400, description: 'Invalid or expired OTP' })
-  async verifyOtp(@Body() dto: VerifyOtpDto) {
+  @ApiOperation({ summary: 'Verificar OTP de registro' })
+  async verifyOtp(@Body() dto: VerifyOtpDto): Promise<any> {
     return this.identityService.verifyOtp(dto);
   }
 
+  /**
+   * AUTH-CORE-002: Login con JWT
+   */
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Login with phone + password' })
-  @ApiResponse({ status: 200, description: 'Login successful' })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async login(@Body() dto: LoginDto) {
+  @ApiOperation({ summary: 'Login con phone y password' })
+  async login(@Body() dto: LoginDto): Promise<any> {
     return this.identityService.login(dto);
   }
 
+  /**
+   * AUTH-CORE-003: Refresh Token
+   */
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Refresh access token' })
-  @ApiBody({ type: RefreshTokenDto })
-  @ApiResponse({ status: 200, description: 'New access token' })
-  @ApiResponse({ status: 401, description: 'Invalid refresh token' })
-  async refresh(@Body() dto: RefreshTokenDto) {
+  @ApiOperation({ summary: 'Rotar refresh token' })
+  async refreshToken(@Body() dto: RefreshTokenDto): Promise<any> {
     return this.identityService.refreshToken(dto.refreshToken);
-  }
-
-  @Get('me')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get current authenticated user' })
-  @ApiResponse({ status: 200, description: 'User profile' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async me(@Request() req: any) {
-    return this.identityService.getMe(req.user.id);
   }
 
   /**
@@ -86,14 +66,15 @@ export class IdentityController {
    */
   @Post('did/register')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Registrar DID Self-Sovereign Identity' })
-  @ApiResponse({ status: 201, description: 'DID registrado correctamente' })
+  @ApiBearerAuth()
   async registerDid(
     @Request() req: any,
     @Body() dto: DidRegisterDto,
   ): Promise<IdentityDid> {
-    return this.didService.registerDid(req.user.id, dto);
+    const userId = req.user?.id || req.user?.sub;
+    if (!userId) throw new Error('Usuario no autenticado');
+    return this.didService.registerDid(userId, dto);
   }
 
   /**
@@ -101,10 +82,12 @@ export class IdentityController {
    */
   @Get('did')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Listar DIDs del usuario' })
+  @ApiBearerAuth()
   async listMyDids(@Request() req: any): Promise<IdentityDid[]> {
-    return this.didService.findByUserId(req.user.id);
+    const userId = req.user?.id || req.user?.sub;
+    if (!userId) throw new Error('Usuario no autenticado');
+    return this.didService.findByUserId(userId);
   }
 
   /**
@@ -112,7 +95,6 @@ export class IdentityController {
    */
   @Get('did/resolve/:didDocumentId')
   @ApiOperation({ summary: 'Resolver DID Document (público)' })
-  @ApiResponse({ status: 200, description: 'DID Document resuelto' })
   async resolveDid(
     @Param('didDocumentId') didDocumentId: string,
   ): Promise<Record<string, unknown> | null> {
