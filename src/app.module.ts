@@ -13,6 +13,7 @@ import { AuditModule } from './modules/audit/audit.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { ReconciliationModule } from './modules/reconciliation/reconciliation.module.js';
 import { GovernanceModule } from './modules/governance/governance.module';
 import { DataPipelineModule } from './modules/data-pipeline/data-pipeline.module';
 import { MonitoringModule } from './modules/monitoring/monitoring.module';
@@ -24,6 +25,14 @@ import { SmbModule } from './modules/smb/smb.module.js';
 import { SmbReportingModule } from './modules/smb/smb-reporting.module';
 import { SmbInventoryModule } from './modules/smb-inventory/smb-inventory.module.js';
 import { SmbBudgetingModule } from './modules/smb-budgeting/smb-budgeting.module';
+import { RegulatoryExamModule } from './modules/regulatory/exam/regulatory-exam.module';
+import { SoxModule } from './modules/regulatory/sox/sox.module';
+import { SurveillanceModule } from './modules/regulatory/surveillance/surveillance.module';
+import { EthicsModule } from './modules/regulatory/ethics/ethics.module';
+import { BaselModule } from './modules/regulatory/basel/basel.module';
+import { ExportControlModule } from './modules/regulatory/export-control/export-control.module';
+import { MiscModule } from './modules/regulatory/misc/misc.module';
+import { AiRegulatoryModule } from './modules/regulatory/ai/ai-regulatory.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -39,6 +48,16 @@ import { RetentionSchedule } from './modules/privacy/entities/retention-schedule
 import { PolicyVersion } from './modules/privacy/entities/policy-version.entity';
 import { DpoContact } from './modules/privacy/entities/dpo-contact.entity';
 import { ThirdPartyProcessor } from './modules/privacy/entities/third-party-processor.entity';
+import { RegExam } from './modules/regulatory/exam/entities/reg-exam.entity';
+import { SoxControl } from './modules/regulatory/sox/entities/sox-control.entity';
+import { SurveillanceAlert } from './modules/regulatory/surveillance/entities/surveillance-alert.entity';
+import { EthicsCase } from './modules/regulatory/ethics/entities/ethics-case.entity';
+import { ConflictOfInterest } from './modules/regulatory/ethics/entities/conflict-of-interest.entity';
+import { GiftEntertainmentLog } from './modules/regulatory/ethics/entities/gift-entertainment-log.entity';
+import { BaselReport } from './modules/regulatory/basel/entities/basel-report.entity';
+import { ExportControlLicense } from './modules/regulatory/export-control/entities/export-control-license.entity';
+import { RegulatoryChange } from './modules/regulatory/misc/entities/regulatory-change.entity';
+import { ComplianceTraining } from './modules/regulatory/misc/entities/compliance-training.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -139,6 +158,16 @@ import * as path from 'path';
           PolicyVersion,
           DpoContact,
           ThirdPartyProcessor,
+RegExam,
+SoxControl,
+SurveillanceAlert,
+EthicsCase,
+ConflictOfInterest,
+GiftEntertainmentLog,
+BaselReport,
+ExportControlLicense,
+RegulatoryChange,
+ComplianceTraining,
           UserProfile,
           Account,
           Transaction,
@@ -230,6 +259,7 @@ import * as path from 'path';
     NotificationModule,
     ChatModule,
     StorageModule,
+    ReconciliationModule,
     GovernanceModule,
     DataPipelineModule,
     MonitoringModule,
@@ -241,6 +271,14 @@ import * as path from 'path';
     SmbReportingModule,
     SmbInventoryModule,
     SmbBudgetingModule,
+RegulatoryExamModule,
+SoxModule,
+SurveillanceModule,
+EthicsModule,
+BaselModule,
+ExportControlModule,
+MiscModule,
+AiRegulatoryModule,
   ],
   providers: [
     {
