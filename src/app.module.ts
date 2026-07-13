@@ -31,6 +31,7 @@ import { SurveillanceModule } from './modules/regulatory/surveillance/surveillan
 import { EthicsModule } from './modules/regulatory/ethics/ethics.module';
 import { BaselModule } from './modules/regulatory/basel/basel.module';
 import { ExportControlModule } from './modules/regulatory/export-control/export-control.module';
+import { MiscModule } from './modules/regulatory/misc/misc.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -54,6 +55,8 @@ import { ConflictOfInterest } from './modules/regulatory/ethics/entities/conflic
 import { GiftEntertainmentLog } from './modules/regulatory/ethics/entities/gift-entertainment-log.entity';
 import { BaselReport } from './modules/regulatory/basel/entities/basel-report.entity';
 import { ExportControlLicense } from './modules/regulatory/export-control/entities/export-control-license.entity';
+import { RegulatoryChange } from './modules/regulatory/misc/entities/regulatory-change.entity';
+import { ComplianceTraining } from './modules/regulatory/misc/entities/compliance-training.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -162,6 +165,8 @@ ConflictOfInterest,
 GiftEntertainmentLog,
 BaselReport,
 ExportControlLicense,
+RegulatoryChange,
+ComplianceTraining,
           UserProfile,
           Account,
           Transaction,
@@ -271,6 +276,7 @@ SurveillanceModule,
 EthicsModule,
 BaselModule,
 ExportControlModule,
+MiscModule,
   ],
   providers: [
     {
