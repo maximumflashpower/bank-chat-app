@@ -5,6 +5,7 @@ import {
   Body,
   UseGuards,
   Request,
+  Param,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -16,16 +17,22 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { IdentityService } from '../services/identity.service';
+import { DidService } from '../services/did.service';
 import { RegisterDto } from '../dto/register.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { LoginDto } from '../dto/login.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
+import { DidRegisterDto } from '../dto/did-register.dto';
+import { IdentityDid } from '../entities/identity-did.entity';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class IdentityController {
-  constructor(private readonly identityService: IdentityService) {}
+  constructor(
+    private readonly identityService: IdentityService,
+    private readonly didService: DidService,
+  ) {}
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
@@ -72,5 +79,43 @@ export class IdentityController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async me(@Request() req: any) {
     return this.identityService.getMe(req.user.id);
+  }
+
+  /**
+   * AUTH-MOD-005: Register new DID (Self-Sovereign Identity)
+   */
+  @Post('did/register')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Registrar DID Self-Sovereign Identity' })
+  @ApiResponse({ status: 201, description: 'DID registrado correctamente' })
+  async registerDid(
+    @Request() req: any,
+    @Body() dto: DidRegisterDto,
+  ): Promise<IdentityDid> {
+    return this.didService.registerDid(req.user.id, dto);
+  }
+
+  /**
+   * Listar DIDs del usuario actual
+   */
+  @Get('did')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Listar DIDs del usuario' })
+  async listMyDids(@Request() req: any): Promise<IdentityDid[]> {
+    return this.didService.findByUserId(req.user.id);
+  }
+
+  /**
+   * Resolver DID Document público
+   */
+  @Get('did/resolve/:didDocumentId')
+  @ApiOperation({ summary: 'Resolver DID Document (público)' })
+  @ApiResponse({ status: 200, description: 'DID Document resuelto' })
+  async resolveDid(
+    @Param('didDocumentId') didDocumentId: string,
+  ): Promise<Record<string, unknown> | null> {
+    return this.didService.resolveDidDocument(didDocumentId);
   }
 }
