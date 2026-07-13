@@ -33,6 +33,7 @@ import { BaselModule } from './modules/regulatory/basel/basel.module';
 import { ExportControlModule } from './modules/regulatory/export-control/export-control.module';
 import { MiscModule } from './modules/regulatory/misc/misc.module';
 import { AiRegulatoryModule } from './modules/regulatory/ai/ai-regulatory.module';
+import { SocModule } from './modules/soc/soc.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -279,6 +280,7 @@ BaselModule,
 ExportControlModule,
 MiscModule,
 AiRegulatoryModule,
+    SocModule,
   ],
   providers: [
     {
