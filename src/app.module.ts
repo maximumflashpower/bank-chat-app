@@ -7,6 +7,7 @@ import { RedisModule } from '@nestjs-modules/ioredis';
 import { envValidationSchema } from './config/env_validation';
 import { IdentityModule } from './modules/identity/identity.module';
 import { PrivacyModule } from './modules/privacy/privacy.module';
+import { WebhooksModule } from './modules/webhooks/webhooks.module';
 import { UserModule } from './modules/user/user.module';
 import { LedgerModule } from './modules/ledger/ledger.module';
 import { AuditModule } from './modules/audit/audit.module';
@@ -254,6 +255,7 @@ ComplianceTraining,
 
     IdentityModule,
     PrivacyModule,
+    WebhooksModule,
     UserModule,
     LedgerModule,
     AuditModule,
