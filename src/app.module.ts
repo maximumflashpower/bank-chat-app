@@ -28,6 +28,7 @@ import { SmbBudgetingModule } from './modules/smb-budgeting/smb-budgeting.module
 import { RegulatoryExamModule } from './modules/regulatory/exam/regulatory-exam.module';
 import { SoxModule } from './modules/regulatory/sox/sox.module';
 import { SurveillanceModule } from './modules/regulatory/surveillance/surveillance.module';
+import { EthicsModule } from './modules/regulatory/ethics/ethics.module';
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -46,6 +47,9 @@ import { ThirdPartyProcessor } from './modules/privacy/entities/third-party-proc
 import { RegExam } from './modules/regulatory/exam/entities/reg-exam.entity';
 import { SoxControl } from './modules/regulatory/sox/entities/sox-control.entity';
 import { SurveillanceAlert } from './modules/regulatory/surveillance/entities/surveillance-alert.entity';
+import { EthicsCase } from './modules/regulatory/ethics/entities/ethics-case.entity';
+import { ConflictOfInterest } from './modules/regulatory/ethics/entities/conflict-of-interest.entity';
+import { GiftEntertainmentLog } from './modules/regulatory/ethics/entities/gift-entertainment-log.entity';
 import { UserProfile } from './modules/user/entities/user-profile.entity';
 import { Account } from './modules/ledger/entities/account.entity';
 import { Transaction } from './modules/ledger/entities/transaction.entity';
@@ -149,6 +153,9 @@ import * as path from 'path';
 RegExam,
 SoxControl,
 SurveillanceAlert,
+EthicsCase,
+ConflictOfInterest,
+GiftEntertainmentLog,
           UserProfile,
           Account,
           Transaction,
@@ -255,6 +262,7 @@ SurveillanceAlert,
 RegulatoryExamModule,
 SoxModule,
 SurveillanceModule,
+EthicsModule,
   ],
   providers: [
     {
