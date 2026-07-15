@@ -35,17 +35,18 @@ import { ExportControlModule } from './modules/regulatory/export-control/export-
 import { MiscModule } from './modules/regulatory/misc/misc.module';
 import { AiRegulatoryModule } from './modules/regulatory/ai/ai-regulatory.module';
 import { SocModule } from './modules/soc/soc.module';
+import { LoansModule } from "./modules/loans/loans.module.js";
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
 import { UserRole } from './modules/identity/entities/user-role.entity';
 import { MfaFactor } from './modules/identity/entities/mfa-factor.entity';
 import { Passkey } from './modules/identity/entities/passkey.entity';
-import { Consent } from './modules/privacy/entities/consent.entity';
-import { DsarRequest } from './modules/privacy/entities/dsar-request.entity';
-import { ProcessingActivity } from './modules/privacy/entities/processing-activity.entity';
-import { Dpia } from './modules/privacy/entities/dpia.entity';
-import { BreachNotification } from './modules/privacy/entities/breach-notification.entity';
+import { PrivacyConsent as Consent } from './modules/privacy/entities/privacy-consent.entity';
+import { PrivacyDsarRequest as DsarRequest } from './modules/privacy/entities/privacy-dsar-request.entity';
+import { PrivacyProcessingActivity as ProcessingActivity } from './modules/privacy/entities/privacy-processing-activity.entity';
+import { PrivacyDpiaAssessment as Dpia } from './modules/privacy/entities/privacy-dpia-assessment.entity';
+import { PrivacyBreachNotification as BreachNotification } from './modules/privacy/entities/privacy-breach-notification.entity';
 import { RetentionSchedule } from './modules/privacy/entities/retention-schedule.entity';
 import { PolicyVersion } from './modules/privacy/entities/policy-version.entity';
 import { DpoContact } from './modules/privacy/entities/dpo-contact.entity';
@@ -78,6 +79,12 @@ import { ConversationParticipant } from './modules/chat/entities/conversation-pa
 import { Message } from './modules/chat/entities/message.entity';
 import { StoredFile } from './modules/storage/entities/stored-file.entity';
 import { GovPolicy } from './modules/governance/entities/gov-policy.entity';
+import { LoanProduct } from "./modules/loans/entities/loan-product.entity.js";
+import { LoanApplication } from "./modules/loans/entities/loan-application.entity.js";
+import { LoanMaster } from "./modules/loans/entities/loan-master.entity.js";
+import { LoanAmortizationSchedule } from "./modules/loans/entities/loan-amortization-schedule.entity.js";
+import { LoanCollateral } from "./modules/loans/entities/loan-collateral.entity.js";
+import { LoanDelinquencyEvent } from "./modules/loans/entities/loan-delinquency-event.entity.js";
 import { GovDecisionLog } from './modules/governance/entities/gov-decision-log.entity';
 import { GovDriftDetection } from './modules/governance/entities/gov-drift-detection.entity';
 import { BudgetHeader } from './modules/smb-budgeting/entities/budget-header.entity';
@@ -188,6 +195,12 @@ ComplianceTraining,
           Message,
           StoredFile,
           GovPolicy,
+          LoanProduct,
+          LoanApplication,
+          LoanMaster,
+          LoanAmortizationSchedule,
+          LoanCollateral,
+          LoanDelinquencyEvent,
           GovDecisionLog,
           GovDriftDetection,
           GovFrameworkMapping,
@@ -264,6 +277,7 @@ ComplianceTraining,
     StorageModule,
     ReconciliationModule,
     GovernanceModule,
+    LoansModule,
     DataPipelineModule,
     MonitoringModule,
     ChangeManagementModule,

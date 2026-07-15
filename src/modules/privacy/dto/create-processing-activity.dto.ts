@@ -1,6 +1,6 @@
 import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ConsentLegalBasis } from '../entities/consent-legal-basis.enum';
+import { LegalBasis as ConsentLegalBasis } from '../entities/privacy-consent.entity';
 
 export class CreateProcessingActivityDto {
   @ApiProperty({ description: 'Nombre del proceso de tratamiento' })
