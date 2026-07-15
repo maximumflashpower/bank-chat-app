@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BreachNotification } from '../entities/breach-notification.entity';
+import { PrivacyBreachNotification as BreachNotification } from '../entities/privacy-breach-notification.entity';
 import { BreachSeverity, BREACH_NOTIFICATION_RULES } from '../entities/breach-severity.enum';
 import { BreachStatus, BREACH_TRANSITIONS } from '../entities/breach-status.enum';
 import { CreateBreachDto } from '../dto/create-breach.dto';
@@ -28,7 +28,7 @@ export class BreachService {
     const where = statusFilter ? { status: statusFilter } : {};
     return this.repo.find({
       where,
-      order: { discoveredAt: 'DESC' },
+      order: { detectedAt: 'DESC' },
     });
   }
 
@@ -57,10 +57,10 @@ export class BreachService {
 
     const partial: Partial<BreachNotification> = {
       ...dto,
-      discoveredAt: now,
+      detectedAt: now,
       status: BreachStatus.DETECTED,
       detectionSource: dto.detectionSource || 'manual',
-      affectedUserCount: dto.affectedUserCount || 0,
+      affectedUsersCount: dto.affectedUserCount || 0 || 0,
       notificationDeadline: notificationDeadline,
       containedAt: null,
       authorityNotifiedAt: null,
@@ -124,7 +124,7 @@ export class BreachService {
     }
 
     if (BREACH_NOTIFICATION_RULES[breach.severityLevel].slaHours <= 72) {
-      const elapsedHours = Math.floor((new Date().getTime() - breach.discoveredAt!.getTime()) / (1000 * 60 * 60));
+      const elapsedHours = Math.floor((new Date().getTime() - breach.detectedAt!.getTime()) / (1000 * 60 * 60));
       if (elapsedHours >= 72) {
         this.logger.warn(
           `Advertencia: Notificación tardía (${elapsedHours} horas) - Riesgo regulatorio`,
@@ -141,7 +141,7 @@ export class BreachService {
     }
 
     this.logger.log(
-      `Autoridad notificada: id=${breachId}, tiempo transcurrido=${Math.floor((new Date().getTime() - breach.discoveredAt!.getTime()) / 3600000)} horas`,
+      `Autoridad notificada: id=${breachId}, tiempo transcurrido=${Math.floor((new Date().getTime() - breach.detectedAt!.getTime()) / 3600000)} horas`,
     );
 
     return this.repo.save(breach);
@@ -176,7 +176,7 @@ export class BreachService {
     breach.status = BreachStatus.NOTIFIED_USERS;
 
     this.logger.log(
-      `Usuarios notificados: id=${breachId}, cantidad=${breach.affectedUserCount}`,
+      `Usuarios notificados: id=${breachId}, cantidad=${breach.affectedUsersCount}`,
     );
 
     return this.repo.save(breach);

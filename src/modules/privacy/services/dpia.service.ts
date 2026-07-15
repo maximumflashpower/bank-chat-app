@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Dpia } from '../entities/dpia.entity';
-import { ProcessingActivity } from '../entities/processing-activity.entity';
+import { PrivacyDpiaAssessment as Dpia } from '../entities/privacy-dpia-assessment.entity';
+import { PrivacyProcessingActivity as ProcessingActivity } from '../entities/privacy-processing-activity.entity';
 import { DpiaStatus } from '../entities/dpia-status.enum';
 import { DpiaRiskLevel } from '../entities/dpia-risk-level.enum';
 import { CreateDpiaDto } from '../dto/create-dpia.dto';
@@ -27,7 +27,6 @@ export class DpiaService {
    * PRIV-DPIA-001: Crear DPIA para actividad de procesamiento
    */
   async createDpia(dto: CreateDpiaDto): Promise<Dpia> {
-    // Verificar que la actividad existe
     const activity = await this.activityRepo.findOne({
       where: { id: dto.activityId },
     });
@@ -36,18 +35,17 @@ export class DpiaService {
       throw new NotFoundException(`Actividad no encontrada: ${dto.activityId}`);
     }
 
-    const dpia = this.dpiaRepo.create({
-      activityId: dto.activityId,
-      riskLevel: dto.riskLevel,
-      riskDescription: dto.riskDescription || null,
-      mitigationMeasures: dto.mitigationMeasures || null,
-      residualRisk: dto.residualRisk || null,
-      consultedDpo: false,
-      dpoOpinion: null,
-      supervisoryAuthorityNotified: false,
-      status: DpiaStatus.DRAFT,
-      createdBy: dto.createdBy,
-    });
+    const dpia = new Dpia();
+    dpia.activityId = dto.activityId;
+    dpia.riskLevel = dto.riskLevel;
+    dpia.riskDescription = dto.riskDescription || null;
+    dpia.mitigationMeasures = dto.mitigationMeasures || null;
+    dpia.residualRisk = dto.residualRisk || null;
+    dpia.consultedDpo = false;
+    dpia.dpoOpinion = null;
+    dpia.supervisoryAuthorityNotified = false;
+    dpia.status = DpiaStatus.DRAFT;
+    dpia.createdBy = dto.createdBy;
 
     const saved = await this.dpiaRepo.save(dpia);
 
@@ -64,7 +62,6 @@ export class DpiaService {
   async getById(id: string): Promise<Dpia> {
     const dpia = await this.dpiaRepo.findOne({
       where: { id },
-      relations: { activity: true },
     });
 
     if (!dpia) {
@@ -113,7 +110,6 @@ export class DpiaService {
   ): Promise<Dpia> {
     const dpia = await this.getById(id);
 
-    // La consulta al DPO es obligatoria si el riesgo es alto
     if (dpia.riskLevel === DpiaRiskLevel.HIGH && !dpia.consultedDpo) {
       this.logger.warn(
         `DPIA de alto riesgo requiere consulta DPO: id=${id}`,
@@ -141,7 +137,6 @@ export class DpiaService {
       throw new BadRequestException('DPIA ya aprobado no se puede modificar');
     }
 
-    // Validar que高风险 DPIA tenga consulta DPO antes de aprobar
     if (
       dto.status === DpiaStatus.APPROVED &&
       dpia.riskLevel === DpiaRiskLevel.HIGH &&
@@ -159,7 +154,6 @@ export class DpiaService {
       dpia.supervisoryAuthorityNotified = dto.supervisoryAuthorityNotified;
     if (dto.residualRisk !== undefined) dpia.residualRisk = dto.residualRisk;
 
-    // Si se aprueba, marcar actividad como DPO-approved
     if (dto.status === DpiaStatus.APPROVED) {
       await this.activityRepo.update(
         { id: dpia.activityId },
@@ -180,7 +174,6 @@ export class DpiaService {
     const where = statusFilter ? { status: statusFilter } : {};
     return this.dpiaRepo.find({
       where,
-      relations: { activity: true },
       order: { createdAt: 'DESC' },
     });
   }
@@ -191,7 +184,6 @@ export class DpiaService {
   async listHighRiskPending(): Promise<Dpia[]> {
     return this.dpiaRepo.find({
       where: { riskLevel: DpiaRiskLevel.HIGH, status: DpiaStatus.DRAFT },
-      relations: { activity: true },
       order: { createdAt: 'ASC' },
     });
   }
