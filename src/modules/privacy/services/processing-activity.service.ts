@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProcessingActivity } from '../entities/processing-activity.entity';
+import { PrivacyProcessingActivity as ProcessingActivity } from '../entities/privacy-processing-activity.entity';
 import { CreateProcessingActivityDto } from '../dto/create-processing-activity.dto';
 import { UpdateProcessingActivityDto } from '../dto/update-processing-activity.dto';
 

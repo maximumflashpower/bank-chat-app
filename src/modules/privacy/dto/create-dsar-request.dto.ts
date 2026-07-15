@@ -1,32 +1,21 @@
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum, IsOptional, IsString,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { DsarRequestType } from '../entities/dsar-request-type.enum';
-import { DsarReceivedChannel } from '../entities/dsar-received-channel.enum';
+import { DsarRequestType, DsarChannel } from '../entities/privacy-dsar-request.entity';
 
 export class CreateDsarRequestDto {
-  @ApiProperty({
-    description: 'Tipo de solicitud DSAR',
-    enum: DsarRequestType,
-    example: 'access',
-  })
+  @ApiProperty({ enum: DsarRequestType, example: DsarRequestType.ACCESS })
   @IsEnum(DsarRequestType)
   requestType: DsarRequestType;
 
-  @ApiProperty({
-    description: 'Canal de recepción de la solicitud',
-    enum: DsarReceivedChannel,
-    required: false,
-    example: 'web',
-  })
+  @ApiProperty({ enum: DsarChannel, example: DsarChannel.WEB })
+  @IsEnum(DsarChannel)
   @IsOptional()
-  @IsEnum(DsarReceivedChannel)
-  receivedChannel?: DsarReceivedChannel;
+  receivedChannel?: DsarChannel;
 
-  @ApiProperty({
-    description: 'Notas adicionales del solicitante',
-    required: false,
-  })
-  @IsOptional()
+  @ApiProperty({ example: 'Solicitud para revisar todos mis datos personales', required: false })
   @IsString()
-  notes?: string;
+  @IsOptional()
+  additionalNotes?: string;
 }

@@ -1,15 +1,10 @@
-import { Injectable, NotFoundException, ConflictException, Logger } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Consent } from '../entities/consent.entity';
-import { ConsentPurpose } from '../entities/consent-purpose.enum';
-import { ConsentLegalBasis, LEGAL_BASIS_REQUIREMENTS } from '../entities/consent-legal-basis.enum';
-import { GrantConsentDto } from '../dto/grant-consent.dto';
-import { UpdatePreferencesDto } from '../dto/update-preferences.dto';
-import { AuditEventType } from '../../audit/entities/audit-event.enum';
+import { PrivacyConsent, ConsentPurpose, LegalBasis } from '../entities/privacy-consent.entity';
 
 /**
- * Servicio de gestión de consentimientos GDPR
+ * Servicio de gestión de consentimientos granulares
  * Cubre funciones: PRIV-CONSENT-001 a PRIV-CONSENT-005
  */
 @Injectable()
@@ -17,14 +12,26 @@ export class ConsentService {
   private readonly logger = new Logger(ConsentService.name);
 
   constructor(
-    @InjectRepository(Consent)
-    private readonly consentRepo: Repository<Consent>,
+    @InjectRepository(PrivacyConsent)
+    private readonly consentRepo: Repository<PrivacyConsent>,
   ) {}
 
   /**
-   * PRIV-CONSENT-001: Listar consentimientos de un usuario
+   * Listar todos los consentimientos (admin view)
    */
-  async listUserConsents(userId: string): Promise<Consent[]> {
+  async findAll(page: number = 1, limit: number = 20): Promise<{ data: PrivacyConsent[]; total: number }> {
+    const [data, total] = await this.consentRepo.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { createdAt: 'DESC' },
+    });
+    return { data, total };
+  }
+
+  /**
+   * PRIV-CONSENT-001: Listar consentimientos por usuario
+   */
+  async findByCustomer(userId: string): Promise<PrivacyConsent[]> {
     return this.consentRepo.find({
       where: { userId },
       order: { createdAt: 'DESC' },
@@ -32,246 +39,254 @@ export class ConsentService {
   }
 
   /**
-   * PRIV-CONSENT-001: Obtener o crear consentimiento por propósito
+   * Alias para compatibilidad con controller
    */
-  async getOrCreateConsent(userId: string, purpose: ConsentPurpose): Promise<Consent> {
-    let consent = await this.consentRepo.findOne({
+  async listUserConsents(userId: string): Promise<PrivacyConsent[]> {
+    return this.findByCustomer(userId);
+  }
+
+  /**
+   * PRIV-CONSENT-002: Otorgar consentimiento granular
+   */
+  async grant(
+    userId: string,
+    purpose: ConsentPurpose,
+    dto: {
+      legalBasis: LegalBasis;
+      granularity?: Record<string, boolean>;
+      version?: string;
+      ipAddress?: string;
+      userAgent?: string;
+    },
+  ): Promise<PrivacyConsent> {
+    // Verificar si ya existe y está otorgado
+    const existing = await this.consentRepo.findOne({
       where: { userId, purpose },
     });
 
-    if (!consent) {
-      consent = this.consentRepo.create({
-        userId,
-        purpose,
-        legalBasis: ConsentLegalBasis.CONSENT,
-        granted: false,
-      });
-      await this.consentRepo.save(consent);
+    if (existing && existing.granted) {
+      throw new Error(`Consentimiento ya otorgado para propósito: ${purpose}`);
     }
 
-    return consent;
+    const consent = new PrivacyConsent();
+    consent.userId = userId;
+    consent.purpose = purpose;
+    consent.legalBasis = dto.legalBasis;
+    consent.granted = true;
+    consent.grantedAt = new Date();
+    consent.revokedAt = null;
+    consent.granularity = dto.granularity || null;
+    consent.version = dto.version || '1.0';
+    consent.ipAddress = dto.ipAddress || null;
+    consent.userAgent = dto.userAgent || null;
+
+    const saved = await this.consentRepo.save(consent);
+
+    this.logger.log(`Consentimiento otorgado: userId=${userId}, purpose=${purpose}`);
+
+    return saved;
   }
 
   /**
-   * PRIV-CONSENT-002 + 003: Otorgar consentimiento granular con versioning
+   * Alias para compatibilidad con controller
    */
   async grantConsent(
     userId: string,
-    dto: GrantConsentDto,
+    dto: any,
     ipAddress?: string,
     userAgent?: string,
-  ): Promise<Consent> {
-    // Verificar si ya existe un consentimiento activo para este propósito
-    const existing = await this.consentRepo.findOne({
-      where: { userId, purpose: dto.purpose },
-    });
-
-    if (existing && existing.granted) {
-      throw new ConflictException(
-        `Consentimiento ya otorgado para el propósito: ${dto.purpose}`,
-      );
-    }
-
-    // PRIV-CONSENT-005: Validar que la base legal permite revocación
-    const requirements = LEGAL_BASIS_REQUIREMENTS[dto.legalBasis];
-
-    if (existing) {
-      // Actualizar consentimiento existente
-      existing.legalBasis = dto.legalBasis;
-      existing.granted = true;
-      existing.grantedAt = new Date();
-      existing.revokedAt = null;
-      existing.granularity = dto.granularity || null;
-      existing.version = dto.version || existing.version;
-      existing.ipAddress = ipAddress || null;
-      existing.userAgent = userAgent || null;
-      return this.consentRepo.save(existing);
-    }
-
-    // Crear nuevo consentimiento
-    const consent = this.consentRepo.create({
-      userId,
-      purpose: dto.purpose,
+  ): Promise<PrivacyConsent> {
+    return this.grant(userId, dto.purpose, {
       legalBasis: dto.legalBasis,
-      granted: true,
-      grantedAt: new Date(),
-      granularity: dto.granularity || null,
-      version: dto.version || null,
-      ipAddress: ipAddress || null,
-      userAgent: userAgent || null,
+      granularity: dto.granularity,
+      version: dto.version,
+      ipAddress,
+      userAgent,
     });
-
-    this.logger.log(
-      `Consentimiento otorgado: usuario=${userId}, propósito=${dto.purpose}, versión=${dto.version || 'N/A'}`,
-    );
-
-    return this.consentRepo.save(consent);
   }
 
   /**
-   * PRIV-CONSENT-004 + 005: Revocar consentimiento con propagación
+   * PRIV-CONSENT-004: Revocar consentimiento específico
    */
-  async revokeConsent(
-    consentId: string,
-    userId: string,
-  ): Promise<Consent> {
-    const consent = await this.consentRepo.findOne({
-      where: { id: consentId, userId },
-    });
+  async revoke(consentId: string, userId?: string): Promise<PrivacyConsent> {
+    const where: Record<string, unknown> = { id: consentId };
+    if (userId) {
+      where['userId'] = userId;
+    }
 
+    const consent = await this.consentRepo.findOne({ where });
     if (!consent) {
-      throw new NotFoundException(`Consentimiento no encontrado: ${consentId}`);
+      throw new NotFoundException(`Consentimiento ${consentId} no encontrado`);
     }
 
     if (!consent.granted) {
-      throw new ConflictException('El consentimiento ya está revocado');
-    }
-
-    // Verificar si la base legal permite revocación
-    const requirements = LEGAL_BASIS_REQUIREMENTS[consent.legalBasis];
-    if (!requirements.canRevoke) {
-      throw new ConflictException(
-        `No se puede revocar: base legal "${consent.legalBasis}" no permite revocación`,
-      );
+      throw new Error('Este consentimiento nunca fue otorgado');
     }
 
     consent.granted = false;
     consent.revokedAt = new Date();
 
-    this.logger.log(
-      `Consentimiento revocado: id=${consentId}, usuario=${userId}, propósito=${consent.purpose}`,
-    );
+    const saved = await this.consentRepo.save(consent);
 
-    // PRIV-CONSENT-004: Aquí se notificaría a sistemas consumidores
-    // (en implementación completa, se emitiría un evento a través de un EventEmitter)
+    this.logger.log(`Consentimiento revocado: consentId=${consentId}, userId=${consent.userId}`);
+
+    return saved;
+  }
+
+  /**
+   * Alias para compatibilidad con controller
+   */
+  async revokeConsent(consentId: string, userId?: string): Promise<PrivacyConsent> {
+    return this.revoke(consentId, userId);
+  }
+
+  /**
+   * Update consentimiento (granularidad)
+   */
+  async update(consentId: string, dto: {
+    granted?: boolean;
+    granularity?: Record<string, boolean>;
+    revokedAt?: string;
+  }): Promise<PrivacyConsent> {
+    const consent = await this.consentRepo.findOne({
+      where: { id: consentId },
+    });
+
+    if (!consent) {
+      throw new NotFoundException(`Consentimiento ${consentId} no encontrado`);
+    }
+
+    if (dto.granted !== undefined) {
+      consent.granted = dto.granted;
+    }
+    if (dto.granularity !== undefined) {
+      consent.granularity = dto.granularity;
+    }
+    if (dto.revokedAt) {
+      consent.revokedAt = new Date(dto.revokedAt);
+    }
 
     return this.consentRepo.save(consent);
   }
 
   /**
-   * PRIV-CONSENT-002: Obtener preferencias de privacidad del usuario
-   */
-  async getPreferences(userId: string): Promise<{
-    consents: Consent[];
-    summary: Record<string, boolean>;
-  }> {
-    const consents = await this.listUserConsents(userId);
-
-    // Asegurar que todos los propósitos existan
-    for (const purpose of Object.values(ConsentPurpose)) {
-      const exists = consents.find((c) => c.purpose === purpose);
-      if (!exists) {
-        const newConsent = await this.getOrCreateConsent(userId, purpose);
-        consents.push(newConsent);
-      }
-    }
-
-    const summary: Record<string, boolean> = {};
-    for (const consent of consents) {
-      summary[consent.purpose] = consent.granted;
-    }
-
-    return { consents, summary };
-  }
-
-  /**
-   * PRIV-CONSENT-002: Actualizar preferencias globales
-   */
-  async updatePreferences(
-    userId: string,
-    dto: UpdatePreferencesDto,
-    ipAddress?: string,
-    userAgent?: string,
-  ): Promise<Consent[]> {
-    const allPurposes = Object.values(ConsentPurpose);
-    const results: Consent[] = [];
-
-    if (dto.revokeAllNonEssential) {
-      // Revocar todos excepto essential
-      for (const purpose of allPurposes) {
-        if (purpose !== ConsentPurpose.ESSENTIAL) {
-          const existing = await this.consentRepo.findOne({
-            where: { userId, purpose },
-          });
-          if (existing && existing.granted) {
-            existing.granted = false;
-            existing.revokedAt = new Date();
-            await this.consentRepo.save(existing);
-            results.push(existing);
-          } else if (existing) {
-            results.push(existing);
-          }
-        }
-      }
-      return results;
-    }
-
-    if (dto.purposes) {
-      // Otorgar los listados, revocar los demás
-      for (const purpose of allPurposes) {
-        const shouldGrant = dto.purposes.includes(purpose);
-        const existing = await this.consentRepo.findOne({
-          where: { userId, purpose },
-        });
-
-        if (shouldGrant) {
-          if (!existing || !existing.granted) {
-            const granted = await this.grantConsent(
-              userId,
-              {
-                purpose,
-                legalBasis: ConsentLegalBasis.CONSENT,
-              },
-              ipAddress,
-              userAgent,
-            );
-            results.push(granted);
-          } else {
-            results.push(existing);
-          }
-        } else {
-          if (existing && existing.granted && purpose !== ConsentPurpose.ESSENTIAL) {
-            const revoked = await this.revokeConsent(existing.id, userId);
-            results.push(revoked);
-          } else if (existing) {
-            results.push(existing);
-          }
-        }
-      }
-    }
-
-    return results;
-  }
-
-  /**
-   * PRIV-CONSENT-003: Verificar si un usuario tiene consentimiento para un propósito
+   * Check if user has granted consent for specific purpose
    */
   async hasConsent(userId: string, purpose: ConsentPurpose): Promise<boolean> {
     const consent = await this.consentRepo.findOne({
-      where: { userId, purpose },
+      where: { userId, purpose, granted: true },
     });
-    return consent?.granted ?? false;
+    return !!consent;
   }
 
   /**
-   * PRIV-CONSENT-003: Invalidar consentimientos por cambio de versión de política
+   * PRIV-CONSENT-005: Revoke ALL consents for user (global opt-out)
    */
-  async invalidateForNewPolicyVersion(
-    newVersion: string,
-  ): Promise<number> {
-    const result = await this.consentRepo.update(
-      { granted: true, version: (() => {
-        // Solo los que tienen una versión diferente
-        const qb = this.consentRepo.createQueryBuilder('c');
-        return qb.getQuery();
-      })() as any },
-      { version: null },
-    );
+  async revokeAll(userId: string): Promise<number> {
+    const consents = await this.consentRepo.find({
+      where: { userId, granted: true },
+    });
 
-    this.logger.log(
-      `Consentimientos marcados para re-consent por nueva política v${newVersion}`,
-    );
+    let count = 0;
+    for (const consent of consents) {
+      consent.granted = false;
+      consent.revokedAt = new Date();
+      await this.consentRepo.save(consent);
+      count++;
+    }
 
-    return result.affected || 0;
+    this.logger.log(`Consentimientos revocados masivamente: userId=${userId}, count=${count}`);
+
+    return count;
+  }
+
+  /**
+   * Centro de preferencias de privacidad (consolidado)
+   */
+  async getPreferences(userId: string): Promise<{
+    consents: PrivacyConsent[];
+    marketingEnabled: boolean;
+    analyticsEnabled: boolean;
+    thirdPartyEnabled: boolean;
+  }> {
+    const consents = await this.findByCustomer(userId);
+
+    const marketingEnabled = consents.some(c => c.purpose === ConsentPurpose.MARKETING && c.granted);
+    const analyticsEnabled = consents.some(c => c.purpose === ConsentPurpose.ANALYTICS && c.granted);
+    const thirdPartyEnabled = consents.some(c => c.purpose === ConsentPurpose.THIRD_PARTY && c.granted);
+
+    return {
+      consents,
+      marketingEnabled,
+      analyticsEnabled,
+      thirdPartyEnabled,
+    };
+  }
+
+  /**
+   * Actualizar preferencias globales (bulk update)
+   */
+  async updatePreferences(
+    userId: string,
+    dto: any,
+    ipAddress?: string,
+    userAgent?: string,
+  ): Promise<PrivacyConsent[]> {
+    const updates: PrivacyConsent[] = [];
+
+    if (dto.marketingEnabled !== undefined) {
+      const consent = await this.ensureConsent(userId, ConsentPurpose.MARKETING, LegalBasis.CONSENT);
+      consent.granted = dto.marketingEnabled;
+      consent.grantedAt = dto.marketingEnabled ? new Date() : consent.grantedAt;
+      consent.revokedAt = dto.marketingEnabled ? null : new Date();
+      consent.ipAddress = ipAddress || consent.ipAddress;
+      consent.userAgent = userAgent || consent.userAgent;
+      updates.push(await this.consentRepo.save(consent));
+    }
+
+    if (dto.analyticsEnabled !== undefined) {
+      const consent = await this.ensureConsent(userId, ConsentPurpose.ANALYTICS, LegalBasis.CONSENT);
+      consent.granted = dto.analyticsEnabled;
+      consent.grantedAt = dto.analyticsEnabled ? new Date() : consent.grantedAt;
+      consent.revokedAt = dto.analyticsEnabled ? null : new Date();
+      consent.ipAddress = ipAddress || consent.ipAddress;
+      consent.userAgent = userAgent || consent.userAgent;
+      updates.push(await this.consentRepo.save(consent));
+    }
+
+    if (dto.thirdPartyEnabled !== undefined) {
+      const consent = await this.ensureConsent(userId, ConsentPurpose.THIRD_PARTY, LegalBasis.CONSENT);
+      consent.granted = dto.thirdPartyEnabled;
+      consent.grantedAt = dto.thirdPartyEnabled ? new Date() : consent.grantedAt;
+      consent.revokedAt = dto.thirdPartyEnabled ? null : new Date();
+      consent.ipAddress = ipAddress || consent.ipAddress;
+      consent.userAgent = userAgent || consent.userAgent;
+      updates.push(await this.consentRepo.save(consent));
+    }
+
+    this.logger.log(`Preferencias actualizadas: userId=${userId}, updated=${updates.length}`);
+
+    return updates;
+  }
+
+  /**
+   * Helper: asegurar que exista un consentimiento
+   */
+  private async ensureConsent(userId: string, purpose: ConsentPurpose, legalBasis: LegalBasis): Promise<PrivacyConsent> {
+    let consent = await this.consentRepo.findOne({
+      where: { userId, purpose },
+    });
+
+    if (!consent) {
+      consent = new PrivacyConsent();
+      consent.userId = userId;
+      consent.purpose = purpose;
+      consent.legalBasis = legalBasis;
+      consent.granted = false;
+      consent.version = '1.0';
+      consent = await this.consentRepo.save(consent);
+    }
+
+    return consent;
   }
 }

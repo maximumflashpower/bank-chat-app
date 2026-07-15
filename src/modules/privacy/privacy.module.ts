@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Consent } from './entities/consent.entity';
-import { DsarRequest } from './entities/dsar-request.entity';
-import { ProcessingActivity } from './entities/processing-activity.entity';
-import { Dpia } from './entities/dpia.entity';
-import { BreachNotification } from './entities/breach-notification.entity';
+import { PrivacyConsent } from './entities/privacy-consent.entity';
+import { PrivacyDsarRequest } from './entities/privacy-dsar-request.entity';
+import { PrivacyProcessingActivity } from './entities/privacy-processing-activity.entity';
+import { PrivacyDpiaAssessment } from './entities/privacy-dpia-assessment.entity';
+import { PrivacyBreachNotification } from './entities/privacy-breach-notification.entity';
+import { PrivacyErasureRequest } from './entities/privacy-erasure-request.entity';
+// Entidades existentes que se mantienen
 import { RetentionSchedule } from './entities/retention-schedule.entity';
 import { PolicyVersion } from './entities/policy-version.entity';
 import { DpoContact } from './entities/dpo-contact.entity';
 import { ThirdPartyProcessor } from './entities/third-party-processor.entity';
+// Services
 import { ConsentService } from './services/consent.service';
 import { DsarService } from './services/dsar.service';
 import { ProcessingActivityService } from './services/processing-activity.service';
@@ -21,6 +24,7 @@ import { ThirdPartyProcessorService } from './services/third-party-processor.ser
 import { PrivacyByDesignService } from './services/privacy-by-design.service';
 import { PrivacyMetricsService } from './services/privacy-metrics.service';
 import { AiPrivacyService } from './services/ai-privacy.service';
+// Controllers
 import { ConsentController } from './controllers/consent.controller';
 import { DsarController } from './controllers/dsar.controller';
 import { ProcessingActivityController } from './controllers/processing-activity.controller';
@@ -37,11 +41,12 @@ import { AiPrivacyController } from './controllers/ai-privacy.controller';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Consent,
-      DsarRequest,
-      ProcessingActivity,
-      Dpia,
-      BreachNotification,
+      PrivacyConsent,
+      PrivacyDsarRequest,
+      PrivacyProcessingActivity,
+      PrivacyDpiaAssessment,
+      PrivacyBreachNotification,
+      PrivacyErasureRequest,
       RetentionSchedule,
       PolicyVersion,
       DpoContact,

@@ -1,6 +1,6 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { DsarStatus } from '../entities/dsar-status.enum';
+import { DsarStatus } from '../entities/privacy-dsar-request.entity';
 
 export class DsarReviewDto {
   @ApiProperty({
