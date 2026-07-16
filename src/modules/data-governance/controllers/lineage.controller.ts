@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { LineageService } from '../services/lineage.service';
 
-@Controller('api/v1/datagov/lineage')
+@Controller('v1/datagov/lineage')
 export class LineageController {
   constructor(private readonly lineageService: LineageService) {}
 
