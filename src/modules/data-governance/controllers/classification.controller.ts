@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Body, Param, Query } from '@nestjs/common';
 import { ClassificationService } from '../services/classification.service';
 import { AutoClassifyDto, ManualClassifyDto, OverrideClassificationDto } from '../dto/classification.dto';
 
-@Controller('api/v1/datagov/classify')
+@Controller('v1/datagov/classify')
 export class ClassificationController {
   constructor(private readonly classificationService: ClassificationService) {}
 

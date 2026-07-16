@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Body, Param, Query } from '@nestjs/common';
 import { CatalogService } from '../services/catalog.service';
 import { RegisterDatasetDto, SearchCatalogDto } from '../dto/catalog.dto';
 
-@Controller('api/v1/datagov/catalog')
+@Controller('v1/datagov/catalog')
 export class CatalogController {
   constructor(private readonly catalogService: CatalogService) {}
 

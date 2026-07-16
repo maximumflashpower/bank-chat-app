@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { QualityService } from '../services/quality.service';
 
-@Controller('api/v1/datagov/quality')
+@Controller('v1/datagov/quality')
 export class QualityController {
   constructor(private readonly qualityService: QualityService) {}
 

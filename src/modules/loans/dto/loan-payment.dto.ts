@@ -1,6 +1,4 @@
-// src/modules/loans/dto/loan-payment.dto.ts
-
-import { IsUUID, IsNumber, IsOptional, IsBoolean, Min } from 'class-validator';
+import { IsUUID, IsNumber, IsOptional, IsBoolean, IsInt, IsString, Min } from 'class-validator';
 
 export class LoanPaymentDto {
   @IsUUID()
@@ -65,4 +63,14 @@ export class ModifyLoanDto {
   modificationReason?: string;
 }
 
-import { IsInt, IsString } from 'class-validator';
+export class CreateLoanPaymentDto extends LoanPaymentDto {}
+
+export class UpdateLoanPaymentDto {
+  @IsOptional()
+  @IsNumber()
+  amount?: number;
+
+  @IsOptional()
+  @IsString()
+  notes?: string;
+}
