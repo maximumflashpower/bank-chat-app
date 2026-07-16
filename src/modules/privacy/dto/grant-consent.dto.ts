@@ -1,7 +1,7 @@
 import { IsEnum, IsObject, IsOptional, IsString, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ConsentPurpose } from '../entities/consent-purpose.enum';
-import { ConsentLegalBasis } from '../entities/consent-legal-basis.enum';
+import { ConsentPurpose } from '../entities/privacy-consent.entity';
+import { LegalBasis as ConsentLegalBasis } from '../entities/privacy-consent.entity';
 
 export class GrantConsentDto {
   @ApiProperty({

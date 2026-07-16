@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DsarRequest } from '../entities/dsar-request.entity';
-import { DsarStatus } from '../entities/dsar-status.enum';
-import { DsarRequestType } from '../entities/dsar-request-type.enum';
-import { Consent } from '../entities/consent.entity';
-import { ProcessingActivity } from '../entities/processing-activity.entity';
-import { BreachNotification } from '../entities/breach-notification.entity';
+import { PrivacyDsarRequest as DsarRequest } from '../entities/privacy-dsar-request.entity';
+import { DsarStatus } from '../entities/privacy-dsar-request.entity';
+import { DsarRequestType } from '../entities/privacy-dsar-request.entity';
+import { PrivacyConsent as Consent } from '../entities/privacy-consent.entity';
+import { PrivacyProcessingActivity as ProcessingActivity } from '../entities/privacy-processing-activity.entity';
+import { PrivacyBreachNotification as BreachNotification } from '../entities/privacy-breach-notification.entity';
 import { RetentionSchedule } from '../entities/retention-schedule.entity';
 import { PolicyVersion } from '../entities/policy-version.entity';
 import { ThirdPartyProcessor } from '../entities/third-party-processor.entity';

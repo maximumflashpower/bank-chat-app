@@ -1,6 +1,6 @@
 import { IsArray, IsOptional, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ConsentPurpose } from '../entities/consent-purpose.enum';
+import { ConsentPurpose } from '../entities/privacy-consent.entity';
 
 export class UpdatePreferencesDto {
   @ApiProperty({
