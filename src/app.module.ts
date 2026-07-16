@@ -36,6 +36,7 @@ import { MiscModule } from './modules/regulatory/misc/misc.module';
 import { AiRegulatoryModule } from './modules/regulatory/ai/ai-regulatory.module';
 import { SocModule } from './modules/soc/soc.module';
 import { LoansModule } from "./modules/loans/loans.module.js";
+import { DataGovernanceModule } from "./modules/data-governance/data-governance.module.js";
 import { IdentityUser } from './modules/identity/entities/identity-user.entity';
 import { Credential } from './modules/identity/entities/credential.entity';
 import { Role } from './modules/identity/entities/role.entity';
@@ -82,6 +83,13 @@ import { GovPolicy } from './modules/governance/entities/gov-policy.entity';
 import { LoanProduct } from "./modules/loans/entities/loan-product.entity.js";
 import { LoanApplication } from "./modules/loans/entities/loan-application.entity.js";
 import { LoanMaster } from "./modules/loans/entities/loan-master.entity.js";
+import { DatagovClassification } from './modules/data-governance/entities/datagov-classification.entity.js';
+import { DatagovRetentionPolicy } from './modules/data-governance/entities/datagov-retention-policy.entity.js';
+import { DatagovDlpRule } from './modules/data-governance/entities/datagov-dlp-rule.entity.js';
+import { DatagovDlpViolation } from './modules/data-governance/entities/datagov-dlp-violation.entity.js';
+import { DatagovCatalogEntry } from './modules/data-governance/entities/datagov-catalog-entry.entity.js';
+import { DatagovQualityScore } from './modules/data-governance/entities/datagov-quality-score.entity.js';
+import { DatagovLineage } from './modules/data-governance/entities/datagov-lineage.entity.js';
 import { LoanAmortizationSchedule } from "./modules/loans/entities/loan-amortization-schedule.entity.js";
 import { LoanCollateral } from "./modules/loans/entities/loan-collateral.entity.js";
 import { LoanDelinquencyEvent } from "./modules/loans/entities/loan-delinquency-event.entity.js";
@@ -201,6 +209,13 @@ ComplianceTraining,
           LoanAmortizationSchedule,
           LoanCollateral,
           LoanDelinquencyEvent,
+DatagovClassification,
+DatagovRetentionPolicy,
+DatagovDlpRule,
+DatagovDlpViolation,
+DatagovCatalogEntry,
+DatagovQualityScore,
+DatagovLineage,
           GovDecisionLog,
           GovDriftDetection,
           GovFrameworkMapping,
@@ -278,6 +293,7 @@ ComplianceTraining,
     ReconciliationModule,
     GovernanceModule,
     LoansModule,
+DataGovernanceModule,
     DataPipelineModule,
     MonitoringModule,
     ChangeManagementModule,
