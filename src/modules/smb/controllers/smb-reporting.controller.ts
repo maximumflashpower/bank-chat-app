@@ -8,7 +8,7 @@ import { RolesGuard } from '../../identity/guards/roles.guard';
 import { Roles } from '../../identity/decorators/roles.decorator';
 import { RoleType } from '../../identity/entities/role.enum';
 
-@Controller('api/v1/smb/reports')
+@Controller('v1/smb/reports')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SmbReportingController {
   constructor(private readonly reportingService: SmbReportingService) {}

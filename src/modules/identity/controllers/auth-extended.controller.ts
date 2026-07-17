@@ -17,7 +17,7 @@ import { BruteForceConfigDto, SessionLimitDto } from '../dto/security-hardening.
 
 @ApiTags('Auth Extended')
 @ApiBearerAuth()
-@Controller('api/v1/auth')
+@Controller('v1/auth')
 export class AuthExtendedController {
   constructor(
     private readonly ssoService: SsoService,

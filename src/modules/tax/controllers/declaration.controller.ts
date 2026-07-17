@@ -14,7 +14,7 @@ import { TaxDeclarationService } from '../services/tax-declaration.service';
 import { GenerateDeclarationDto } from '../dto/generate-declaration.dto';
 import { FileDeclarationDto } from '../dto/file-declaration.dto';
 
-@Controller('api/v1/tax/declarations')
+@Controller('v1/tax/declarations')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class DeclarationController {
   constructor(

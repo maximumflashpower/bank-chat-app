@@ -12,7 +12,7 @@ import { ObjectionDto } from '../dto/objection.dto';
 @ApiTags('Privacy — DSAR')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class DsarController {
   constructor(private readonly dsarService: DsarService) {}
 

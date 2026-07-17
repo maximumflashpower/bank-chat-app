@@ -2,7 +2,7 @@ import { Controller, Post, Get, Query, Param, Logger } from '@nestjs/common';
 import { PepService } from '../services/pep.service';
 import { BeneficialOwnerService } from '../services/beneficial-owner.service';
 
-@Controller('api/v1')
+@Controller('v1')
 export class PepController {
   private readonly logger = new Logger(PepController.name);
 

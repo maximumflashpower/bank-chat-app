@@ -9,7 +9,7 @@ import { SecurityEventCategory } from '../entities/security-event-category.enum'
 @ApiTags('Security Events')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/security')
+@Controller('v1/security')
 export class SecurityEventController {
   constructor(private readonly securityEventService: SecurityEventService) {}
 

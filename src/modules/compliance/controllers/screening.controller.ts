@@ -3,7 +3,7 @@ import { ScreeningService } from '../services/screening.service';
 import { EntityType } from '../entities/entity-type.enum';
 import { ListSource } from '../entities/list-source.enum';
 
-@Controller('api/v1/screening')
+@Controller('v1/screening')
 export class ScreeningController {
   private readonly logger = new Logger(ScreeningController.name);
 

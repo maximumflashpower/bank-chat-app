@@ -13,7 +13,7 @@ import { FxService } from '../services/fx-service';
 import { FxRateQueryDto } from '../dto/fx-rate-query.dto';
 import { FxConvertDto } from '../dto/fx-convert.dto';
 
-@Controller('api/v1/payments/foreign-exchange')
+@Controller('v1/payments/foreign-exchange')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class FxController {
   constructor(

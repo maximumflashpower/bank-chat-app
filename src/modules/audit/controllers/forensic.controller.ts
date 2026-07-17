@@ -10,7 +10,7 @@ import { ForensicCaseStatus } from '../entities/forensic-case-status.enum';
 @ApiTags('Forensics')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/forensic')
+@Controller('v1/forensic')
 export class ForensicController {
   constructor(private readonly forensicService: ForensicService) {}
 

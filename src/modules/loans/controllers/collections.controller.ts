@@ -3,7 +3,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { CollectionsService } from '../services/collections.service.js';
 
-@Controller('api/v1/loans')
+@Controller('v1/loans')
 export class CollectionsController {
   constructor(private readonly collectionsService: CollectionsService) {}
 

@@ -2,7 +2,7 @@ import { Controller, Post, Get, Body, Param, Headers, Logger } from '@nestjs/com
 import { KycService } from '../services/kyc.service';
 import { DocumentType } from '../entities/document-type.enum';
 
-@Controller('api/v1/kyc')
+@Controller('v1/kyc')
 export class KycController {
   private readonly logger = new Logger(KycController.name);
 

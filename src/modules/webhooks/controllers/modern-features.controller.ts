@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ModernFeaturesService } from '../services/modern-features.service';
 
 @ApiTags('Modern Features — AI/Machine Learning')
-@Controller('api/v1/modern')
+@Controller('v1/modern')
 export class ModernFeaturesController {
   constructor(private readonly modernService: ModernFeaturesService) {}
 

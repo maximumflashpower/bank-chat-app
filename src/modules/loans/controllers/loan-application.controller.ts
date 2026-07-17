@@ -6,7 +6,7 @@ import { ScoringService } from '../services/scoring.service.js';
 import { CreateLoanApplicationDto } from '../dto/create-loan-application.dto.js';
 import { AcceptOfferDto } from '../dto/accept-offer.dto.js';
 
-@Controller('api/v1/loans/application')
+@Controller('v1/loans/application')
 export class LoanApplicationController {
   constructor(
     private readonly applicationService: LoanApplicationService,

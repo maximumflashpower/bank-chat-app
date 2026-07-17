@@ -25,7 +25,7 @@ import { SessionKickDto } from '../dto/session-kick.dto';
 
 @ApiTags('Governance')
 @ApiBearerAuth()
-@Controller('api/v1/gov')
+@Controller('v1/gov')
 export class GovernanceController {
   constructor(
     private readonly passkeySync: PasskeySyncService,

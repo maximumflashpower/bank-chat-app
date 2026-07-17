@@ -13,7 +13,7 @@ import { RoleType } from '../../identity/entities/role.enum';
 import { TaxNexusService } from '../services/tax-nexus.service';
 import { RegisterNexusDto } from '../dto/register-nexus.dto';
 
-@Controller('api/v1/tax')
+@Controller('v1/tax')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class NexusController {
   constructor(

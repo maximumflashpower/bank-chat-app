@@ -12,7 +12,7 @@ import { SyncFeedsDto } from '../dto/sync-feeds.dto';
 import { IoCType, IoCTag } from '../entities/ioc-cache.entity';
 
 @ApiTags('Threat Intelligence')
-@Controller('api/v1/threat/intel')
+@Controller('v1/threat/intel')
 export class ThreatIntelController {
   constructor(private readonly intelService: ThreatIntelService) {}
 

@@ -22,7 +22,7 @@ import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { PaymentRecordDto } from '../dto/payment-record.dto';
 import { ReminderCampaignDto } from '../dto/reminder-campaign.dto';
 
-@Controller('api/v1/smb')
+@Controller('v1/smb')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SmbController {
   constructor(
