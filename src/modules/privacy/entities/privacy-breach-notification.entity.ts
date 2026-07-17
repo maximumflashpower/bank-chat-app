@@ -36,7 +36,7 @@ export class PrivacyBreachNotification extends BaseEntity {
   detectedAt: Date;
 
   @Column({ name: 'contained_at', type: 'timestamptz', nullable: true })
-  containedAt: Date | null;
+  containedAt: Date | null | null;
 
   @Column({ name: 'affected_users_count', type: 'integer', nullable: true })
   affectedUsersCount: number;
@@ -45,10 +45,10 @@ export class PrivacyBreachNotification extends BaseEntity {
   dataCategoriesAffected: string[] | null;
 
   @Column({ name: 'authority_notified_at', type: 'timestamptz', nullable: true })
-  authorityNotifiedAt: Date | null;
+  authorityNotifiedAt: Date | null | null;
 
   @Column({ name: 'users_notified_at', type: 'timestamptz', nullable: true })
-  usersNotifiedAt: Date | null;
+  usersNotifiedAt: Date | null | null;
 
   @Column({ name: 'evidence_preserved', type: 'boolean', default: false })
   evidencePreserved: boolean;
