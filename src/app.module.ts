@@ -143,6 +143,8 @@ import { InventoryAccountMapping } from './modules/ledger/entities/inventory-acc
 import { InventoryJournalLink } from './modules/ledger/entities/inventory-journal-link.entity';
 import { InventoryPostingRule } from './modules/ledger/entities/inventory-posting-rule.entity';
 import { InventoryTaxLine } from './modules/tax/entities/inventory-tax-line.entity';
+import { TaxExemption } from './modules/tax/entities/tax-exemption.entity';
+import { TaxNexus } from './modules/tax/entities/tax-nexus.entity';
 import { SmbInvoiceLineItem } from './modules/smb/entities/smb-invoice-line-item.entity';
 import { SmbReportSnapshot } from './modules/smb/entities/smb-report-snapshot.entity';
 import * as path from 'path';
@@ -269,6 +271,8 @@ DatagovLineage,
           InventoryJournalLink,
           InventoryPostingRule,
           InventoryTaxLine,
+      TaxExemption,
+      TaxNexus,
           SmbInvoiceLineItem,
           SmbReportSnapshot,
           BudgetHeader,

@@ -18,7 +18,7 @@ import { ApprovePaymentDto } from '../dto/approve-payment.dto';
 import { ExecutePaymentDto } from '../dto/execute-payment.dto';
 import { ReconcileAutoDto } from '../dto/reconcile-auto.dto';
 
-@Controller('api/v1/payments')
+@Controller('v1/payments')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class PaymentsController {
   constructor(

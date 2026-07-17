@@ -9,7 +9,7 @@ import { NotifyBreachDto } from '../dto/notify-breach.dto';
 @ApiTags('Privacy — Breach Notification')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class BreachController {
   constructor(private readonly service: BreachService) {}
 

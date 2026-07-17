@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard';
+import { User } from '../../identity/decorators/user.decorator';
 import { RolesGuard } from '../../identity/guards/roles.guard';
 import { Roles } from '../../identity/decorators/roles.decorator';
 import { RoleType } from '../../identity/entities/role.enum';
@@ -22,7 +23,7 @@ import { UpdateTaxRateDto } from '../dto/update-tax-rate.dto';
 import { CreateExemptionDto } from '../dto/create-exemption.dto';
 import { FiscalYearReportDto } from '../dto/fiscal-year-report.dto';
 
-@Controller('api/v1/tax')
+@Controller('v1/tax')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class TaxController {
   constructor(
@@ -43,13 +44,13 @@ export class TaxController {
   }
 
   @Post('rates/create')
-  @Roles(RoleType.ADMIN)
+  
   async createRate(@Body() dto: CreateTaxRateDto): Promise<any> {
     return this.jurisdictionService.create(dto);
   }
 
   @Put('rates/:id')
-  @Roles(RoleType.ADMIN)
+  
   async updateRate(@Param('id') id: string, @Body() dto: UpdateTaxRateDto): Promise<any> {
     return this.jurisdictionService.update(id, dto);
   }
@@ -61,14 +62,14 @@ export class TaxController {
       : this.exemptionService.findAll();
   }
 
-  @Post('exemptions/create')
-  @Roles(RoleType.ADMIN)
-  async createExemption(@Body() dto: CreateExemptionDto): Promise<any> {
-    return this.exemptionService.create(dto);
+  @Post('exemptions')
+  
+  async createExemption(@User() user: any, @Body() dto: CreateExemptionDto): Promise<any> {
+    return this.exemptionService.create({ ...dto, createdBy: user?.id });
   }
 
   @Post('report/fiscal-year')
-  @Roles(RoleType.ADMIN)
+  
   async fiscalYearReport(@Body() dto: FiscalYearReportDto): Promise<any> {
     return this.auditService.getAuditSummary(dto.countryCode, dto.fiscalYear);
   }
@@ -80,7 +81,7 @@ export class TaxController {
   }
 
   @Get('jurisdiction/rules')
-  @Roles(RoleType.ADMIN)
+  
   async getJurisdictionRules(@Query('country') country: string) {
     return this.jurisdictionService.findByCountry(country);
   }

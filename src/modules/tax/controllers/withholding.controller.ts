@@ -13,7 +13,7 @@ import { RoleType } from '../../identity/entities/role.enum';
 import { TaxWithholdingService } from '../services/tax-withholding.service';
 import { CalculateWithholdingDto } from '../dto/calculate-withholding.dto';
 
-@Controller('api/v1/tax/withholding')
+@Controller('v1/tax/withholding')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class WithholdingController {
   constructor(

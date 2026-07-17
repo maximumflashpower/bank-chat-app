@@ -2,7 +2,8 @@ import { Injectable, NotFoundException, BadRequestException, Logger } from '@nes
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PrivacyBreachNotification as BreachNotification } from '../entities/privacy-breach-notification.entity';
-import { BreachSeverity, BREACH_NOTIFICATION_RULES } from '../entities/breach-severity.enum';
+import { BreachSeverity } from '../entities/privacy-breach-notification.entity';
+import { BREACH_NOTIFICATION_RULES } from '../entities/breach-severity.enum';
 import { BreachStatus, BREACH_TRANSITIONS } from '../entities/breach-status.enum';
 import { CreateBreachDto } from '../dto/create-breach.dto';
 import { AssessBreachDto } from '../dto/assess-breach.dto';

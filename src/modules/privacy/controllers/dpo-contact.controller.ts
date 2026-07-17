@@ -7,7 +7,7 @@ import { CreateDpoContactDto } from '../dto/create-dpo-contact.dto';
 @ApiTags('Privacy — DPO Contacts')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class DpoContactController {
   constructor(private readonly service: DpoContactService) {}
 

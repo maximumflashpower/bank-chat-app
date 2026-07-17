@@ -14,7 +14,7 @@ import { RoleType } from '../../identity/entities/role.enum';
 import { SmbInventoryInvoiceService } from '../services/smb-inventory-invoice.service';
 import { CreateInvoiceWithItemsDto } from '../dto/create-invoice-with-items.dto';
 
-@Controller('api/v1/smb/inventory-invoices')
+@Controller('v1/smb/inventory-invoices')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SmbInventoryInvoiceController {
   constructor(private readonly invoiceService: SmbInventoryInvoiceService) {}

@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeveloperPortalService } from '../services/developer-portal.service';
 
 @ApiTags('Developer Portal')
-@Controller('api/v1/dev-portal')
+@Controller('v1/dev-portal')
 export class DeveloperPortalController {
   constructor(private readonly devPortalService: DeveloperPortalService) {}
 

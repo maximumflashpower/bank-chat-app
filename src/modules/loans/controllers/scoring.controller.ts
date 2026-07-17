@@ -4,7 +4,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ScoringService } from '../services/scoring.service.js';
 import { LoanApplicationService } from '../services/loan-application.service.js';
 
-@Controller('api/v1/loans/scoring')
+@Controller('v1/loans/scoring')
 export class ScoringController {
   constructor(
     private readonly scoringService: ScoringService,

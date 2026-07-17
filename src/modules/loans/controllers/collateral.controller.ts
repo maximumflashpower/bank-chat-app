@@ -4,7 +4,7 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { CollateralService } from '../services/collateral.service.js';
 import { RegisterCollateralDto } from '../dto/register-collateral.dto.js';
 
-@Controller('api/v1/loans')
+@Controller('v1/loans')
 export class CollateralController {
   constructor(private readonly collateralService: CollateralService) {}
 

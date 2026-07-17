@@ -13,7 +13,7 @@ import { RoleType } from '../../identity/entities/role.enum';
 import { AnomalyDetectionService } from '../services/anomaly-detection.service';
 import { FlagFraudDto } from '../dto/flag-fraud.dto';
 
-@Controller('api/v1/accounting/anomalies')
+@Controller('v1/accounting/anomalies')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AnomalyController {
   constructor(

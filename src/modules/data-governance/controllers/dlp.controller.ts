@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { DlpService } from '../services/dlp.service';
 import { CreateDlpRuleDto, EvaluateContentDto, ApproveExceptionDto } from '../dto/dlp.dto';
 
-@Controller('api/v1/datagov/dlp')
+@Controller('v1/datagov/dlp')
 export class DlpController {
   constructor(private readonly dlpService: DlpService) {}
 

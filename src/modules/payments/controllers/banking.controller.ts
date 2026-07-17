@@ -12,7 +12,7 @@ import { RoleType } from '../../identity/entities/role.enum';
 import { BankConnectionService } from '../services/bank-connection.service';
 import { TestConnectionDto } from '../dto/test-connection.dto';
 
-@Controller('api/v1/payments/banking')
+@Controller('v1/payments/banking')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class BankingController {
   constructor(

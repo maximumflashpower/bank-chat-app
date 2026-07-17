@@ -12,7 +12,7 @@ import { RoleType } from '../../identity/entities/role.enum';
 import { CashflowClassificationService } from '../services/cashflow-classification.service';
 import { CashflowProjectionDto } from '../dto/cashflow-projection.dto';
 
-@Controller('api/v1/accounting/cashflow')
+@Controller('v1/accounting/cashflow')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class CashflowController {
   constructor(

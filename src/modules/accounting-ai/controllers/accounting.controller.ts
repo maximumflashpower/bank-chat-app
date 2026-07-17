@@ -20,7 +20,7 @@ import { ApproveEntryDto } from '../dto/approve-entry.dto';
 import { RejectEntryDto } from '../dto/reject-entry.dto';
 import { RecurringSetupDto } from '../dto/recurring-setup.dto';
 
-@Controller('api/v1/accounting')
+@Controller('v1/accounting')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AccountingController {
   constructor(
