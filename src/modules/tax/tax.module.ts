@@ -5,6 +5,8 @@ import { TaxJurisdictionRule } from './entities/tax-jurisdiction-rule.entity';
 import { TaxDeclarationPeriod } from './entities/tax-declaration-period.entity';
 import { TaxWithholdingCertificate } from './entities/tax-withholding-certificate.entity';
 import { TaxProductMapping } from './entities/tax-product-mapping.entity';
+import { TaxExemption } from './entities/tax-exemption.entity';
+import { TaxNexus } from './entities/tax-nexus.entity';
 import { InventoryTaxLine } from './entities/inventory-tax-line.entity';
 import { TaxCalculationService } from './services/tax-calculation.service';
 import { TaxJurisdictionService } from './services/tax-jurisdiction.service';
@@ -30,6 +32,8 @@ import { InventoryTaxController } from './controllers/inventory-tax.controller';
       TaxDeclarationPeriod,
       TaxWithholdingCertificate,
       TaxProductMapping,
+      TaxExemption,
+      TaxNexus,
       InventoryTaxLine,
     ]),
   ],
