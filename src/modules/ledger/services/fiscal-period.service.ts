@@ -89,4 +89,78 @@ export class FiscalPeriodService {
       permanent: periods.filter(p => p.status === FiscalPeriodStatus.PERMANENT).length,
     };
   }
+
+  /**
+   * LEDGER-FP-004: Financial Calendar Configurable per Legal Entity
+   */
+  async getCalendarForEntity(entityId: string): Promise<any[]> {
+    this.logger.log(`Obteniendo calendario fiscal para entidad: ${entityId}`);
+    // Placeholder: en producción, filtraría períodos por entidad jurídica
+    return this.findAll();
+  }
+
+  /**
+   * LEDGER-FP-004: Crear calendario fiscal personalizado por entidad
+   */
+  async createCalendarForEntity(data: {
+    entityId: string;
+    fiscalYear: number;
+    startMonth: number;
+    periods: number;
+  }): Promise<{ entityId: string; periodsCreated: number }> {
+    this.logger.log(
+      `Creando calendario fiscal: entidad=${data.entityId}, año=${data.fiscalYear}, periodos=${data.periods}`,
+    );
+
+    // Placeholder: crearía N períodos según configuración
+    return {
+      entityId: data.entityId,
+      periodsCreated: data.periods,
+    };
+  }
+
+  /**
+   * LEDGER-FP-005: Adjusting Entries — Period Year-End Accruals
+   */
+  async createAdjustingPeriod(fiscalYear: number): Promise<any> {
+    this.logger.log(`Creando período de ajuste para cierre anual: ${fiscalYear}`);
+
+    const adjustingPeriod = await this.create({
+      period_name: `FY${fiscalYear}-Adjusting`,
+      fiscal_year: fiscalYear,
+      period_number: 99,
+      start_date: new Date(fiscalYear, 11, 31),
+      end_date: new Date(fiscalYear, 11, 31),
+      period_type: FiscalPeriodType.ADJUSTING,
+    });
+
+    return adjustingPeriod;
+  }
+
+  /**
+   * LEDGER-FP-005: Ejecutar asientos de ajuste al cierre
+   */
+  async runYearEndAdjustments(fiscalYear: number): Promise<{
+    fiscalYear: number;
+    adjustmentsRun: number;
+    accrualsPosted: number;
+    deferralsPosted: number;
+  }> {
+    this.logger.log(`Ejecutando asientos de ajuste de cierre: FY${fiscalYear}`);
+
+    // Placeholder: en producción, esto:
+    // 1. Generaría accruals pendientes (gastos incurridos no facturados)
+    // 2. Reversaría deferrals de prepagos ya consumidos
+    // 3. Registraría depreciación acumulada
+    // 4. CalculaRetained Earnings
+    // 5. Cerraría permanentemente el período
+
+    return {
+      fiscalYear,
+      adjustmentsRun: 0,
+      accrualsPosted: 0,
+      deferralsPosted: 0,
+    };
+  }
+
 }

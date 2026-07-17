@@ -70,6 +70,14 @@ import { LedgerJournalLine } from './modules/ledger/entities/ledger_journal_line
 import { LedgerChartOfAccounts } from './modules/ledger/entities/ledger_chart_of_accounts.entity';
 import { LedgerFiscalPeriod } from './modules/ledger/entities/ledger_fiscal_period.entity';
 import { LedgerReconciliation } from './modules/ledger/entities/ledger_reconciliation.entity';
+import { LedgerSegment } from './modules/ledger/entities/ledger-segment.entity';
+import { LedgerExchangeRate } from './modules/ledger/entities/ledger-exchange-rate.entity';
+import { LedgerAccrual } from './modules/ledger/entities/ledger-accrual.entity';
+import { LedgerIntercompany } from './modules/ledger/entities/ledger-intercompany.entity';
+import { LedgerBudget } from './modules/ledger/entities/ledger-budget.entity';
+import { LedgerEncumbrance } from './modules/ledger/entities/ledger-budget.entity';
+import { LedgerSubLedgerRule } from './modules/ledger/entities/ledger-sub-ledger-rule.entity';
+import { LedgerSubLedgerEntry } from './modules/ledger/entities/ledger-sub-ledger-rule.entity';
 import { AuditLog } from './modules/audit/entities/audit-log.entity';
 import { ForensicCase } from './modules/audit/entities/forensic-case.entity';
 import { ForensicEvidenceItem } from './modules/audit/entities/forensic-evidence-item.entity';
@@ -193,6 +201,14 @@ ComplianceTraining,
           LedgerChartOfAccounts,
           LedgerFiscalPeriod,
           LedgerReconciliation,
+      LedgerSegment,
+      LedgerExchangeRate,
+      LedgerAccrual,
+      LedgerIntercompany,
+      LedgerBudget,
+      LedgerEncumbrance,
+      LedgerSubLedgerRule,
+      LedgerSubLedgerEntry,
           AuditLog,
           ForensicCase,
           ForensicEvidenceItem,

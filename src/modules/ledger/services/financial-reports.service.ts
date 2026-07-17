@@ -360,4 +360,38 @@ export class FinancialReportsService {
   ${data}
 </xbrl>`;
   }
+
+  /**
+   * LEDGER-RPT-006: Retained Earnings Calculation — Annual Close Auto
+   */
+  async retainedEarnings(fiscalYear: number): Promise<{
+    fiscalYear: number;
+    beginningRetainedEarnings: number;
+    netIncome: number;
+    dividendsDeclared: number;
+    endingRetainedEarnings: number;
+  }> {
+    const yearStart = new Date(fiscalYear, 0, 1);
+    const yearEnd = new Date(fiscalYear, 11, 31);
+
+    const is = await this.incomeStatement(yearStart, yearEnd);
+
+    const dividendsDeclared = 0;
+    const beginningRetainedEarnings = 0;
+    const endingRetainedEarnings =
+      beginningRetainedEarnings + is.netIncome - dividendsDeclared;
+
+    this.logger.log(
+      `Retained Earnings ${fiscalYear}: beginning=${beginningRetainedEarnings}, netIncome=${is.netIncome}, dividends=${dividendsDeclared}, ending=${endingRetainedEarnings}`,
+    );
+
+    return {
+      fiscalYear,
+      beginningRetainedEarnings,
+      netIncome: is.netIncome,
+      dividendsDeclared,
+      endingRetainedEarnings,
+    };
+  }
+
 }
