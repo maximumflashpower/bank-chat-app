@@ -4,7 +4,7 @@ import { ReconDashboardService } from '../services/recon-dashboard.service';
 
 @ApiTags('Reconciliation - Dashboard')
 @ApiBearerAuth()
-@Controller('api/v1/recon/dashboard')
+@Controller('v1/recon/dashboard')
 export class DashboardController {
   constructor(private readonly dashboard: ReconDashboardService) {}
 

@@ -12,7 +12,7 @@ import { TenantService } from '../services/tenant.service';
 import { TenantPlan } from '../entities/tenant.entity';
 
 @ApiTags('Tenants')
-@Controller('api/v1/tenants')
+@Controller('v1/tenants')
 export class TenantController {
   constructor(private readonly tenantService: TenantService) {}
 

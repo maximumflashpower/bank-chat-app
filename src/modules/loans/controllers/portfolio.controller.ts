@@ -6,7 +6,7 @@ import { LoanMaster } from '../entities/loan-master.entity.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-@Controller('api/v1/loans/portfolio')
+@Controller('v1/loans/portfolio')
 export class PortfolioController {
   constructor(
     @InjectRepository(LoanMaster)

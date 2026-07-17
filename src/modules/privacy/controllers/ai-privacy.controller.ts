@@ -17,7 +17,7 @@ import { AiPrivacyService } from '../services/ai-privacy.service';
 @ApiTags('AI Privacy')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy/ai')
+@Controller('v1/privacy/ai')
 export class AiPrivacyController {
   constructor(
     private readonly aiService: AiPrivacyService,

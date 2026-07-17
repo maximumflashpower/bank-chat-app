@@ -9,7 +9,7 @@ import { SearchCatalogDto } from '../dto/search-catalog.dto';
 @ApiTags('Data Pipeline')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/data-pipeline')
+@Controller('v1/data-pipeline')
 export class DataPipelineController {
   constructor(private readonly dataPipelineService: DataPipelineService) {}
 

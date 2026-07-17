@@ -12,7 +12,7 @@ import { Roles } from '../../identity/decorators/roles.decorator';
 import { RoleType } from '../../identity/entities/role.enum';
 import { MonthEndCloseService } from '../services/month-end-close.service';
 
-@Controller('api/v1/accounting/close')
+@Controller('v1/accounting/close')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class CloseController {
   constructor(

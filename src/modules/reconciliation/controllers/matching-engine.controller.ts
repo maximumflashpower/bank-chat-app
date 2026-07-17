@@ -7,7 +7,7 @@ import { BulkReconcileDto } from '../dto/bulk-reconcile.dto';
 
 @ApiTags('Reconciliation - Matching Engine')
 @ApiBearerAuth()
-@Controller('api/v1/recon')
+@Controller('v1/recon')
 export class MatchingEngineController {
   constructor(private readonly matchingEngine: MatchingEngineService) {}
 

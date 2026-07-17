@@ -10,7 +10,7 @@ import { Roles } from '../../identity/decorators/roles.decorator';
 import { RoleType } from '../../identity/entities/role.enum';
 import { SmbReportService } from '../services/smb-report.service';
 
-@Controller('api/v1/smb/reports')
+@Controller('v1/smb/reports')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class ReportsController {
   constructor(

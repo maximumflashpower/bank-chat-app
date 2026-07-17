@@ -8,7 +8,7 @@ import { UpdateProcessingActivityDto } from '../dto/update-processing-activity.d
 @ApiTags('Privacy — Processing Activities (Art 30)')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class ProcessingActivityController {
   constructor(private readonly service: ProcessingActivityService) {}
 

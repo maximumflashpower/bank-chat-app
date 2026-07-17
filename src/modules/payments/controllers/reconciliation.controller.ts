@@ -13,7 +13,7 @@ import { PaymentReconciliationService } from '../services/payment-reconciliation
 import { ReconcileAutoDto } from '../dto/reconcile-auto.dto';
 import { ManualMatchDto } from '../dto/manual-match.dto';
 
-@Controller('api/v1/payments/reconcile')
+@Controller('v1/payments/reconcile')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class ReconciliationController {
   constructor(

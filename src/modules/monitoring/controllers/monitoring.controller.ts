@@ -8,7 +8,7 @@ import { CreateAlertRuleDto } from '../dto/create-alert-rule.dto';
 @ApiTags('Monitoring')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/monitoring')
+@Controller('v1/monitoring')
 export class MonitoringController {
   constructor(private readonly monitoringService: MonitoringService) {}
 

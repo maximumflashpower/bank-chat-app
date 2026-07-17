@@ -8,7 +8,7 @@ import { PublishPolicyVersionDto } from '../dto/publish-policy-version.dto';
 @ApiTags('Privacy — Policy Versioning')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class PolicyVersionController {
   constructor(private readonly service: PolicyVersionService) {}
 

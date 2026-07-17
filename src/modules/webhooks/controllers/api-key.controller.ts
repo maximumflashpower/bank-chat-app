@@ -12,7 +12,7 @@ import { ApiKeyService } from '../services/api-key.service';
 import { ApiKeyTier } from '../entities/api-key.entity';
 
 @ApiTags('API Keys')
-@Controller('api/v1/api-keys')
+@Controller('v1/api-keys')
 export class ApiKeyController {
   constructor(private readonly apiKeyService: ApiKeyService) {}
 

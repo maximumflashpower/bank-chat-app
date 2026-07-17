@@ -8,7 +8,7 @@ import { ReviewDpiaDto } from '../dto/review-dpia.dto';
 @ApiTags('Privacy — DPIA')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class DpiaController {
   constructor(private readonly service: DpiaService) {}
 

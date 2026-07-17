@@ -15,7 +15,7 @@ import { PrivacyMetricsService } from '../services/privacy-metrics.service';
 @ApiTags('Privacy Metrics')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy/metrics')
+@Controller('v1/privacy/metrics')
 export class PrivacyMetricsController {
   constructor(
     private readonly metricsService: PrivacyMetricsService,

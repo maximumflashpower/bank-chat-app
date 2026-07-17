@@ -7,7 +7,7 @@ import { CreateThirdPartyProcessorDto } from '../dto/create-third-party-processo
 @ApiTags('Privacy — Third-Party Processors')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class ThirdPartyProcessorController {
   constructor(private readonly service: ThirdPartyProcessorService) {}
 

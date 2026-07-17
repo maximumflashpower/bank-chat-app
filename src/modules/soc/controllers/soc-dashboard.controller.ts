@@ -16,7 +16,7 @@ import { InvestigateAlertDto } from '../dto/investigate-alert.dto';
 import { CreateIncidentDto } from '../dto/create-incident.dto';
 
 @ApiTags('SOC')
-@Controller('api/v1/soc')
+@Controller('v1/soc')
 export class SocDashboardController {
   constructor(private readonly dashboardService: SocDashboardService) {}
 

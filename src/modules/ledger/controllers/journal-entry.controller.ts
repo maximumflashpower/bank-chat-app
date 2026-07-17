@@ -8,7 +8,7 @@ import { QueryJournalEntriesDto } from '../dto/query-journal-entries.dto';
 @ApiTags('Ledger - Journal Entries')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/ledger/journal-entry')
+@Controller('v1/ledger/journal-entry')
 export class JournalEntryController {
   constructor(private readonly journalEntryService: JournalEntryService) {}
 
