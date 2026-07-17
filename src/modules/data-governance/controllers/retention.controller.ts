@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { RetentionService } from '../services/retention.service';
 import { CreateRetentionPolicyDto } from '../dto/retention.dto';
 
-@Controller('api/v1/datagov/retention')
+@Controller('v1/datagov/retention')
 export class RetentionController {
   constructor(private readonly retentionService: RetentionService) {}
 

@@ -37,6 +37,7 @@ import { InventoryReportController } from './controllers/inventory-report.contro
     InventoryReportService,
   ],
   exports: [
+    TypeOrmModule,
     InventoryItemService,
     StockMovementService,
     ValuationService,
