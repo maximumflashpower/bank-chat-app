@@ -93,4 +93,54 @@ export class ReconciliationService {
 
     return queryBuilder.take(50).getMany();
   }
+
+  /**
+   * LEDGER-REC-003: Discrepancy Report — Difference Justification
+   */
+  async getDiscrepancyReport(reconciliationId: string): Promise<{
+    reconciliationId: string;
+    statementBalance: number;
+    bookBalance: number;
+    difference: number;
+    discrepancies: Array<{
+      type: string;
+      amount: number;
+      description: string;
+      justification: string | null;
+      resolved: boolean;
+    }>;
+    totalUnresolved: number;
+  }> {
+    const recon = await this.findById(reconciliationId);
+
+    this.logger.log(
+      `Generando reporte de discrepancias para reconciliación: ${reconciliationId}`,
+    );
+
+    // Placeholder: en producción, consultaría journal lines no matcheados
+    // y generaría análisis de diferencias por tipo
+    const discrepancies = [
+      {
+        type: 'timing_difference',
+        amount: Math.abs(recon.difference),
+        description: 'Diferencia de timing - transacciones en tránsito',
+        justification: recon.difference === 0 ? 'Sin diferencia' : null,
+        resolved: recon.difference === 0,
+      },
+    ];
+
+    const totalUnresolved = discrepancies
+      .filter((d) => !d.resolved)
+      .reduce((sum, d) => sum + d.amount, 0);
+
+    return {
+      reconciliationId,
+      statementBalance: recon.statement_balance,
+      bookBalance: recon.book_balance,
+      difference: recon.difference,
+      discrepancies,
+      totalUnresolved,
+    };
+  }
+
 }
