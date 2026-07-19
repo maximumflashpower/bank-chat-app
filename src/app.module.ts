@@ -10,6 +10,7 @@ import { PrivacyModule } from './modules/privacy/privacy.module';
 import { WebhooksModule } from './modules/webhooks/webhooks.module';
 import { UserModule } from './modules/user/user.module';
 import { LedgerModule } from './modules/ledger/ledger.module';
+import { BusinessBankingModule } from './modules/business-banking/business-banking.module.js';
 import { AuditModule } from './modules/audit/audit.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ChatModule } from './modules/chat/chat.module';
@@ -26,6 +27,19 @@ import { SmbModule } from './modules/smb/smb.module.js';
 import { SmbReportingModule } from './modules/smb/smb-reporting.module';
 import { SmbInventoryModule } from './modules/smb-inventory/smb-inventory.module.js';
 import { SmbBudgetingModule } from './modules/smb-budgeting/smb-budgeting.module';
+import { ConsolidationEntity } from './modules/consolidation/entities/consolidation-entity.entity';
+import { ConsolidationRun } from './modules/consolidation/entities/consolidation-run.entity';
+import { ConsolidationEliminationEntry } from './modules/consolidation/entities/consolidation-elimination-entry.entity';
+import { ConsolidationCurrencyTranslation } from './modules/consolidation/entities/consolidation-currency-translation.entity';
+import { ConsolidationAcquisitionRegister } from './modules/consolidation/entities/consolidation-acquisition-register.entity';
+import { RetailAccount } from './modules/retail-banking/entities/retail-account.entity';
+import { RetailJointHolder } from './modules/retail-banking/entities/retail-joint-holder.entity';
+import { RetailDepositProduct } from './modules/retail-banking/entities/retail-deposit-product.entity';
+import { RetailTransferInstruction } from './modules/retail-banking/entities/retail-transfer-instruction.entity';
+import { RetailOverdraftEvent } from './modules/retail-banking/entities/retail-overdraft-event.entity';
+import { RetailAccountAlert } from './modules/retail-banking/entities/retail-account-alert.entity';
+import { ConsolidationModule } from './modules/consolidation/consolidation.module';
+import { RetailBankingModule } from './modules/retail-banking/retail-banking.module';
 import { RegulatoryExamModule } from './modules/regulatory/exam/regulatory-exam.module';
 import { SoxModule } from './modules/regulatory/sox/sox.module';
 import { SurveillanceModule } from './modules/regulatory/surveillance/surveillance.module';
@@ -280,6 +294,17 @@ DatagovLineage,
           ProjectRegistry,
           TimeEntryLog,
           OverheadAllocationMethod,
+          ConsolidationEntity,
+          ConsolidationRun,
+          ConsolidationEliminationEntry,
+          ConsolidationCurrencyTranslation,
+          ConsolidationAcquisitionRegister,
+          RetailAccount,
+          RetailJointHolder,
+          RetailDepositProduct,
+          RetailTransferInstruction,
+          RetailOverdraftEvent,
+          RetailAccountAlert,
         ],
         migrations: [path.join(__dirname, '../db/migrations/*{.ts,.js}')],
         migrationsRun: false,
@@ -306,6 +331,7 @@ DatagovLineage,
     WebhooksModule,
     UserModule,
     LedgerModule,
+    BusinessBankingModule,
     AuditModule,
     NotificationModule,
     ChatModule,
@@ -324,6 +350,8 @@ DataGovernanceModule,
     SmbReportingModule,
     SmbInventoryModule,
     SmbBudgetingModule,
+    ConsolidationModule,
+    RetailBankingModule,
 RegulatoryExamModule,
 SoxModule,
 SurveillanceModule,
