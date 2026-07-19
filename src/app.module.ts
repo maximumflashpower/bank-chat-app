@@ -15,6 +15,7 @@ import { AuditModule } from './modules/audit/audit.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { LoyaltyModule } from './modules/loyalty/loyalty.module.js'; 
 import { ReconciliationModule } from './modules/reconciliation/reconciliation.module.js';
 import { GovernanceModule } from './modules/governance/governance.module';
 import { DataPipelineModule } from './modules/data-pipeline/data-pipeline.module';
