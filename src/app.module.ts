@@ -17,6 +17,7 @@ import { ChatModule } from './modules/chat/chat.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { LoyaltyModule } from './modules/loyalty/loyalty.module.js'; 
 import { BancassuranceModule } from './modules/bancassurance/bancassurance.module.js';
+import { WalletPaymentsModule } from './modules/wallet-payments/wallet-payments.module.js';
 import { MobileBankingModule } from './modules/mobile-banking/mobile-banking.module.js';
 import { ReconciliationModule } from './modules/reconciliation/reconciliation.module.js';
 import { GovernanceModule } from './modules/governance/governance.module';
@@ -354,6 +355,7 @@ DataGovernanceModule,
     SmbInventoryModule,
     SmbBudgetingModule,
     MobileBankingModule,
+    WalletPaymentsModule,
     ConsolidationModule,
     RetailBankingModule,
 RegulatoryExamModule,
