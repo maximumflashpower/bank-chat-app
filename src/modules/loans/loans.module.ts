@@ -15,6 +15,8 @@ import { ScoringService } from './services/scoring.service.js';
 import { CollateralService } from './services/collateral.service.js';
 import { CollectionsService } from './services/collections.service.js';
 import { MortgageService } from './services/mortgage.service.js';
+import { EscrowService } from './services/escrow.service.js';
+import { PortfolioService } from './services/portfolio.service.js';
 import { ProductController } from './controllers/product.controller.js';
 import { LoanApplicationController } from './controllers/loan-application.controller.js';
 import { LoanController } from './controllers/loan.controller.js';
@@ -55,6 +57,8 @@ import { ScoringController } from './controllers/scoring.controller.js';
     CollateralService,
     CollectionsService,
     MortgageService,
+    EscrowService,
+    PortfolioService,
   ],
   exports: [
     ProductService,
@@ -64,6 +68,8 @@ import { ScoringController } from './controllers/scoring.controller.js';
     CollateralService,
     CollectionsService,
     MortgageService,
+    EscrowService,
+    PortfolioService,
   ],
 })
 export class LoansModule {}
