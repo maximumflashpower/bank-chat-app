@@ -12,6 +12,12 @@ import { NostroAccountService } from './services/nostro-account.service';
 import { NostroReconciliationService } from './services/nostro-reconciliation.service';
 import { RemittanceService } from './services/remittance.service';
 import { SwiftGpiService } from './services/swift-gpi.service';
+import { CorrespondentBankController } from './controllers/correspondent-bank.controller';
+import { NostroAccountController } from './controllers/nostro-account.controller';
+import { CorrespondentComplianceController } from './controllers/correspondent-compliance.controller';
+import { NostroReconciliationController } from './controllers/nostro-reconciliation.controller';
+import { RemittanceController } from './controllers/remittance.controller';
+import { SwiftGpiController } from './controllers/swift-gpi.controller';
 
 @Module({
   imports: [
@@ -23,6 +29,14 @@ import { SwiftGpiService } from './services/swift-gpi.service';
       RemittanceInstruction,
       SanctionsScreeningResult,
     ]),
+  ],
+  controllers: [
+    CorrespondentBankController,
+    NostroAccountController,
+    CorrespondentComplianceController,
+    NostroReconciliationController,
+    RemittanceController,
+    SwiftGpiController,
   ],
   providers: [
     CorrespondentBankService,
