@@ -12,11 +12,13 @@ import { QueueService } from './services/queue.service.js';
 import { TicketService } from './services/ticket.service.js';
 import { ChatbotService } from './services/chatbot.service.js';
 import { CrmAuxService } from './services/crm-aux.service.js';
+import { AgentPerformanceService } from './services/agent-performance.service';
 import { Customer360Controller } from './controllers/customer-360.controller.js';
 import { NbaOpportunityController } from './controllers/nba-opportunity.controller.js';
 import { QueueController } from './controllers/queue.controller.js';
 import { TicketController } from './controllers/ticket.controller.js';
 import { ChatbotFeedbackController } from './controllers/chatbot-feedback.controller.js';
+import { AgentPerformanceController } from './controllers/agent-performance.controller';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { ChatbotFeedbackController } from './controllers/chatbot-feedback.contro
     ]),
   ],
   providers: [
+    AgentPerformanceService,
     Customer360Service,
     NbaOpportunityService,
     QueueService,
@@ -43,8 +46,10 @@ import { ChatbotFeedbackController } from './controllers/chatbot-feedback.contro
     QueueController,
     TicketController,
     ChatbotFeedbackController,
+    AgentPerformanceController,
   ],
   exports: [
+    AgentPerformanceService,
     Customer360Service,
     NbaOpportunityService,
     QueueService,

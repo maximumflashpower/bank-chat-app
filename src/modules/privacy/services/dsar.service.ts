@@ -36,7 +36,7 @@ export class DsarService {
     request.userId = userId;
     request.requestType = dto.requestType;
     request.status = DsarStatus.RECEIVED;
-    request.receivedChannel = dto.receivedChannel || null;
+    request.receivedChannel = dto.receivedChannel ? dto.receivedChannel as any : null;
     request.deadline = deadline;
     request.reviewNotes = dto.additionalNotes || null;
 
