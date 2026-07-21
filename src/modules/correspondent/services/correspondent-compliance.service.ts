@@ -1,0 +1,240 @@
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CorrespondentBank } from '../entities/correspondent-bank.entity';
+import { SanctionsScreeningResult } from '../entities/sanctions-screening-result.entity';
+
+@Injectable()
+export class CorrespondentComplianceService {
+  constructor(
+    @InjectRepository(CorrespondentBank)
+    private bankRepo: Repository<CorrespondentBank>,
+    @InjectRepository(SanctionsScreeningResult)
+    private screeningRepo: Repository<SanctionsScreeningResult>,
+  ) {}
+
+  async screenCorrespondent(
+    correspondentBankId: string,
+    entityName: string,
+    bic?: string,
+    country?: string,
+  ): Promise<SanctionsScreeningResult> {
+    const bank = await this.bankRepo.findOne({ where: { id: correspondentBankId } });
+    if (!bank) throw new NotFoundException(`Correspondent bank ${correspondentBankId} not found`);
+
+    // Simulated screening against multiple lists
+    const lists = ['OFAC', 'UN', 'EU', 'HMT', 'OFAC_NSD'];
+    const results: SanctionsScreeningResult[] = [];
+
+    for (const list of lists) {
+      const matchScore = this.simulateMatch(entityName, list);
+      const result = new SanctionsScreeningResult();
+      result.correspondentBankId = correspondentBankId;
+      result.screenedEntityName = entityName;
+      result.screeningListSource = list;
+      result.screenedBic = bic || null;
+      result.screenedCountry = country || null;
+      result.matchScore = matchScore;
+      result.resultStatus = matchScore > 80 ? 'confirmed_match' : matchScore > 50 ? 'potential_match' : 'clear';
+      result.escalated = matchScore > 80;
+      results.push(result);
+    }
+
+    const saved = await this.screeningRepo.save(results);
+
+    // Update bank's last sanction screen date
+    bank.lastSanctionScreenDate = new Date();
+    await this.bankRepo.save(bank);
+
+    // Return the highest-risk result
+    return saved.sort((a, b) => Number(b.matchScore) - Number(a.matchScore))[0];
+  }
+
+  private simulateMatch(name: string, list: string): number {
+    // Deterministic pseudo-score based on name hash
+    const hash = name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    return (hash % 100);
+  }
+
+  async getScreeningResults(correspondentBankId: string): Promise<SanctionsScreeningResult[]> {
+    return this.screeningRepo.find({
+      where: { correspondentBankId },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async escalateScreening(resultId: string, escalatedToUserId: string): Promise<SanctionsScreeningResult> {
+    const result = await this.screeningRepo.findOne({ where: { id: resultId } });
+    if (!result) throw new NotFoundException(`Screening result ${resultId} not found`);
+
+    result.escalated = true;
+    result.escalatedToUserId = escalatedToUserId;
+    return this.screeningRepo.save(result);
+  }
+
+  async resolveScreening(
+    resultId: string,
+    action: string,
+    notes: string,
+    resolvedByUserId: string,
+  ): Promise<SanctionsScreeningResult> {
+    const result = await this.screeningRepo.findOne({ where: { id: resultId } });
+    if (!result) throw new NotFoundException(`Screening result ${resultId} not found`);
+
+    result.resolutionAction = action;
+    result.resolutionNotes = notes;
+    result.resolvedByUserId = resolvedByUserId;
+    result.resolvedAt = new Date();
+
+    if (action === 'blocked' || action === 'reported_sar') {
+      result.sarFiled = action === 'reported_sar';
+    }
+
+    return this.screeningRepo.save(result);
+  }
+
+  async assessWolfsbergCompliance(correspondentBankId: string): Promise<{
+    bankId: string;
+    bankName: string;
+    wolfsbergMember: boolean;
+    amlGrade: string | null;
+    kycStatus: string | null;
+    riskScore: number | null;
+    assessment: string;
+    recommendations: string[];
+  }> {
+    const bank = await this.bankRepo.findOne({ where: { id: correspondentBankId } });
+    if (!bank) throw new NotFoundException(`Correspondent bank ${correspondentBankId} not found`);
+
+    const recommendations: string[] = [];
+
+    if (!bank.wolfsbergMember) {
+      recommendations.push('Bank is not a Wolfsberg Group member — recommend enhanced due diligence');
+    }
+    if (bank.kycStatus !== 'verified') {
+      recommendations.push('KYC not fully verified — complete due diligence before transactions');
+    }
+    if (bank.riskScoreInternal && bank.riskScoreInternal > 70) {
+      recommendations.push('High internal risk score — restrict exposure limits');
+    }
+    if (!bank.amlProgramGrade || bank.amlProgramGrade === 'C' || bank.amlProgramGrade === 'D') {
+      recommendations.push('AML program grade below threshold — require remediation plan');
+    }
+
+    let assessment = 'compliant';
+    if (recommendations.length > 2) {
+      assessment = 'non_compliant';
+    } else if (recommendations.length > 0) {
+      assessment = 'conditional';
+    }
+
+    return {
+      bankId: bank.id,
+      bankName: bank.bankLegalName,
+      wolfsbergMember: bank.wolfsbergMember,
+      amlGrade: bank.amlProgramGrade,
+      kycStatus: bank.kycStatus,
+      riskScore: bank.riskScoreInternal ? Number(bank.riskScoreInternal) : null,
+      assessment,
+      recommendations,
+    };
+  }
+
+  async getCountryExposure(countryCode: string): Promise<{
+    countryCode: string;
+    totalBanks: number;
+    totalExposureUsd: number;
+    highRiskCount: number;
+    banks: Array<{ bankName: string; swift: string; exposure: number; riskScore: number | null }>;
+  }> {
+    const banks = await this.bankRepo
+      .createQueryBuilder('cb')
+      .where('cb.headquartersCountry = :country', { country: countryCode })
+      .andWhere('cb.relationshipStatus = :status', { status: 'active' })
+      .getMany();
+
+    const totalExposure = banks.reduce((sum, b) => sum + Number(b.currentExposureUsd || 0), 0);
+    const highRiskCount = banks.filter(b => b.riskScoreInternal && Number(b.riskScoreInternal) > 70).length;
+
+    return {
+      countryCode,
+      totalBanks: banks.length,
+      totalExposureUsd: totalExposure,
+      highRiskCount,
+      banks: banks.map(b => ({
+        bankName: b.bankLegalName,
+        swift: b.bankCodeSwift,
+        exposure: Number(b.currentExposureUsd || 0),
+        riskScore: b.riskScoreInternal ? Number(b.riskScoreInternal) : null,
+      })),
+    };
+  }
+
+  async checkExposureLimit(correspondentBankId: string): Promise<{
+    bankId: string;
+    currentExposure: number;
+    maxExposure: number;
+    utilizationPct: number;
+    breached: boolean;
+  }> {
+    const bank = await this.bankRepo.findOne({ where: { id: correspondentBankId } });
+    if (!bank) throw new NotFoundException(`Correspondent bank ${correspondentBankId} not found`);
+
+    const current = Number(bank.currentExposureUsd || 0);
+    const max = Number(bank.maximumExposureUsd || 0);
+    const utilization = max > 0 ? (current / max) * 100 : 0;
+
+    return {
+      bankId: bank.id,
+      currentExposure: current,
+      maxExposure: max,
+      utilizationPct: utilization,
+      breached: utilization >= 100,
+    };
+  }
+
+  async generateAmlReport(correspondentBankId: string): Promise<{
+    bankId: string;
+    bankName: string;
+    swift: string;
+    country: string;
+    screeningResultsCount: number;
+    confirmedMatches: number;
+    potentialMatches: number;
+    escalatedCount: number;
+    sarFiledCount: number;
+    assessment: string;
+  }> {
+    const bank = await this.bankRepo.findOne({ where: { id: correspondentBankId } });
+    if (!bank) throw new NotFoundException(`Correspondent bank ${correspondentBankId} not found`);
+
+    const screenings = await this.screeningRepo.find({
+      where: { correspondentBankId },
+    });
+
+    const confirmedMatches = screenings.filter(s => s.resultStatus === 'confirmed_match').length;
+    const potentialMatches = screenings.filter(s => s.resultStatus === 'potential_match').length;
+    const escalatedCount = screenings.filter(s => s.escalated).length;
+    const sarFiledCount = screenings.filter(s => s.sarFiled).length;
+
+    let assessment = 'low_risk';
+    if (confirmedMatches > 0 || sarFiledCount > 0) {
+      assessment = 'high_risk';
+    } else if (potentialMatches > 0 || escalatedCount > 0) {
+      assessment = 'medium_risk';
+    }
+
+    return {
+      bankId: bank.id,
+      bankName: bank.bankLegalName,
+      swift: bank.bankCodeSwift,
+      country: bank.headquartersCountry,
+      screeningResultsCount: screenings.length,
+      confirmedMatches,
+      potentialMatches,
+      escalatedCount,
+      sarFiledCount,
+      assessment,
+    };
+  }
+}

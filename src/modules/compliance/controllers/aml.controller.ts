@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, Param, Logger } from '@nestjs/common';
 import { AmlService } from '../services/aml.service';
 
-@Controller('api/v1/aml')
+@Controller('v1/aml')
 export class AmlController {
   private readonly logger = new Logger(AmlController.name);
 

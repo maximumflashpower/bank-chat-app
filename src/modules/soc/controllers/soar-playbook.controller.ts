@@ -12,7 +12,7 @@ import { CreatePlaybookDto } from '../dto/create-playbook.dto';
 import { RunPlaybookDto } from '../dto/run-playbook.dto';
 
 @ApiTags('SOAR')
-@Controller('api/v1/soar')
+@Controller('v1/soar')
 export class SoarPlaybookController {
   constructor(private readonly soarService: SoarPlaybookService) {}
 

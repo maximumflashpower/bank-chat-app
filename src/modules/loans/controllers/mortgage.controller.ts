@@ -4,7 +4,7 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { MortgageService } from '../services/mortgage.service.js';
 import { OrderAppraisalDto, TitleSearchDto } from '../dto/mortgage.dto.js';
 
-@Controller('api/v1/loans/mortgage')
+@Controller('v1/loans/mortgage')
 export class MortgageController {
   constructor(private readonly mortgageService: MortgageService) {}
 

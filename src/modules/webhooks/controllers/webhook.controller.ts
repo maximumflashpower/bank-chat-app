@@ -14,7 +14,7 @@ import { CreateWebhookDto } from '../dto/create-webhook.dto';
 import { TriggerWebhookDto } from '../dto/trigger-webhook.dto';
 
 @ApiTags('Webhooks')
-@Controller('api/v1/webhooks')
+@Controller('v1/webhooks')
 export class WebhookController {
   constructor(private readonly webhookService: WebhookService) {}
 

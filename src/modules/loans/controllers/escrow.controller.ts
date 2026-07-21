@@ -3,7 +3,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ConfigureEscrowDto } from '../dto/loan-payment.dto.js';
 
-@Controller('api/v1/loans')
+@Controller('v1/loans')
 export class EscrowController {
   @Post(':loanId/escrow/configure')
   async configureEscrow(@Param('loanId') loanId: string, @Body() dto: ConfigureEscrowDto) {

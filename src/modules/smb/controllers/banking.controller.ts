@@ -14,7 +14,7 @@ import { RoleType } from '../../identity/entities/role.enum';
 import { SmbBankingService } from '../services/smb-banking.service';
 import { BankConnectDto } from '../dto/bank-connect.dto';
 
-@Controller('api/v1/smb/banking')
+@Controller('v1/smb/banking')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class BankingController {
   constructor(

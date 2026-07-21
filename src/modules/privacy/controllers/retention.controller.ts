@@ -7,7 +7,7 @@ import { CreateRetentionScheduleDto } from '../dto/create-retention-schedule.dto
 @ApiTags('Privacy — Retention & Data Deletion')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class RetentionController {
   constructor(private readonly service: RetentionService) {}
 

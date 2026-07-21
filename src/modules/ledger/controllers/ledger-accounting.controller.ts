@@ -13,7 +13,7 @@ import { ReconcileAutoDto } from '../dto/reconcile-auto.dto';
 @ApiTags('Ledger - Accounting')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/ledger')
+@Controller('v1/ledger')
 export class LedgerAccountingController {
   constructor(
     private readonly coaService: ChartOfAccountsService,

@@ -9,7 +9,7 @@ import { UpdatePreferencesDto } from '../dto/update-preferences.dto';
 @ApiTags('Privacy — Consent')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy')
+@Controller('v1/privacy')
 export class ConsentController {
   constructor(private readonly consentService: ConsentService) {}
 

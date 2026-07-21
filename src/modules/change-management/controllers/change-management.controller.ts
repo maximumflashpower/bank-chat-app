@@ -10,7 +10,7 @@ import { CreateFeatureFlagDto } from '../dto/create-feature-flag.dto';
 @ApiTags('Change Management')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/change-management')
+@Controller('v1/change-management')
 export class ChangeManagementController {
   constructor(private readonly changeManagementService: ChangeManagementService) {}
 

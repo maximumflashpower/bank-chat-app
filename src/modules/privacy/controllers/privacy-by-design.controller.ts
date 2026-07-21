@@ -17,7 +17,7 @@ import { PrivacyByDesignService } from '../services/privacy-by-design.service';
 @ApiTags('Privacy by Design')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/privacy/by-design')
+@Controller('v1/privacy/by-design')
 export class PrivacyByDesignController {
   constructor(
     private readonly pbdService: PrivacyByDesignService,

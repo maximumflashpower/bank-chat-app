@@ -5,7 +5,7 @@ import { RunInterSystemDto } from '../dto/run-inter-system.dto';
 
 @ApiTags('Reconciliation - Inter-System')
 @ApiBearerAuth()
-@Controller('api/v1/recon')
+@Controller('v1/recon')
 export class InterSystemReconController {
   constructor(private readonly interSystem: InterSystemReconService) {}
 

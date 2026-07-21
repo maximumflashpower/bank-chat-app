@@ -9,7 +9,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { ModularityService } from '../services/modularity.service';
 
 @ApiTags('Security AI/ML')
-@Controller('api/v1/soc/modern')
+@Controller('v1/soc/modern')
 export class ModularityController {
   constructor(private readonly modService: ModularityService) {}
 

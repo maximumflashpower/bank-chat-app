@@ -5,7 +5,7 @@ import { CalculateNettingDto } from '../dto/calculate-netting.dto';
 
 @ApiTags('Reconciliation - Netting')
 @ApiBearerAuth()
-@Controller('api/v1/recon')
+@Controller('v1/recon')
 export class NettingController {
   constructor(private readonly netting: NettingService) {}
 
