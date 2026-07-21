@@ -17,6 +17,14 @@ import { CollectionsService } from './services/collections.service.js';
 import { MortgageService } from './services/mortgage.service.js';
 import { EscrowService } from './services/escrow.service.js';
 import { PortfolioService } from './services/portfolio.service.js';
+import { InterestAccrualService } from './services/interest-accrual.service.js';
+import { ChargeOffService } from './services/charge-off.service.js';
+import { CreditScoringService } from './services/credit-scoring.service.js';
+import { MarginCallService } from './services/margin-call.service.js';
+import { LoanRestructureService } from './services/loan-restructure.service.js';
+import { CreditScoringController } from './controllers/credit-scoring.controller.js';
+import { MarginCallController } from './controllers/margin-call.controller.js';
+import { LoanRestructureController } from './controllers/loan-restructure.controller.js';
 import { ProductController } from './controllers/product.controller.js';
 import { LoanApplicationController } from './controllers/loan-application.controller.js';
 import { LoanController } from './controllers/loan.controller.js';
@@ -48,6 +56,9 @@ import { ScoringController } from './controllers/scoring.controller.js';
     PortfolioController,
     EscrowController,
     ScoringController,
+    CreditScoringController,
+    MarginCallController,
+    LoanRestructureController,
   ],
   providers: [
     ProductService,
@@ -59,6 +70,11 @@ import { ScoringController } from './controllers/scoring.controller.js';
     MortgageService,
     EscrowService,
     PortfolioService,
+          InterestAccrualService,
+          ChargeOffService,
+          CreditScoringService,
+          MarginCallService,
+          LoanRestructureService,
   ],
   exports: [
     ProductService,

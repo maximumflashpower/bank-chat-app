@@ -1,18 +1,31 @@
-import { IsNumber, IsString, IsOptional, IsDate, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional, IsDateString } from 'class-validator';
 
 export class RestructureLoanDto {
   @IsString()
-  newTermMonths: number;
+  @IsNotEmpty()
+  reason: string;
 
   @IsNumber()
-  @Min(0)
-  newInterestRate: number;
+  @IsOptional()
+  newTermMonths?: number;
+
+  @IsNumber()
+  @IsOptional()
+  newInterestRate?: number;
+
+  @IsNumber()
+  @IsOptional()
+  newMonthlyPayment?: number;
 
   @IsString()
   @IsOptional()
-  reason?: string;
+  hardshipType?: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
-  effectiveDate?: Date;
+  effectiveDate?: string;
+
+  @IsNumber()
+  @IsOptional()
+  newRate?: number;
 }
