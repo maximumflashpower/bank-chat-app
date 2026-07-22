@@ -1,5 +1,3 @@
-jest.mock('../entities/processing-activity.entity');
-
 import { ProcessingActivityService } from './processing-activity.service';
 import { NotFoundException } from '@nestjs/common';
 
@@ -51,21 +49,27 @@ describe('ProcessingActivityService', () => {
 
   describe('createActivity', () => {
     it('should create activity with dpoApproved false', async () => {
-      const dto = { activityName: 'Test', purpose: 'Testing', dataCategories: ['personal'], dataSubjects: ['users'], legalBasis: 'consent' };
+      const dto = {
+        activityName: 'Test', purpose: 'Testing',
+        dataCategories: ['personal'], dataSubjects: ['users'], legalBasis: 'consent',
+      };
       const mockCreated = { id: 'a1', ...dto, dpoApproved: false };
       repo.create.mockReturnValue(mockCreated);
       repo.save.mockResolvedValue(mockCreated);
-      const result = await service.createActivity(dto);
+      const result = await service.createActivity(dto as any);
       expect(result).toBe(mockCreated);
       expect(repo.create).toHaveBeenCalledWith(expect.objectContaining({ dpoApproved: false }));
     });
 
-    it('should warn but still create when special category lacks consent basis', async () => {
-      const dto = { activityName: 'Special', purpose: 'Health data', dataCategories: ['special_category'], dataSubjects: ['patients'], legalBasis: 'contract' };
+    it('should still create when special category lacks consent basis', async () => {
+      const dto = {
+        activityName: 'Special', purpose: 'Health data',
+        dataCategories: ['special_category'], dataSubjects: ['patients'], legalBasis: 'contract',
+      };
       const mockCreated = { id: 'a1', ...dto, dpoApproved: false };
       repo.create.mockReturnValue(mockCreated);
       repo.save.mockResolvedValue(mockCreated);
-      const result = await service.createActivity(dto);
+      const result = await service.createActivity(dto as any);
       expect(result).toBe(mockCreated);
     });
   });
@@ -74,8 +78,8 @@ describe('ProcessingActivityService', () => {
     it('should update and reset dpoApproved when purpose changes', async () => {
       const existing = { id: 'a1', dpoApproved: true, purpose: 'Old' };
       repo.findOne.mockResolvedValue(existing);
-      repo.save.mockImplementation((e: any) => Promise.resolve(e));
-      const result = await service.updateActivity('a1', { purpose: 'New' });
+      repo.save.mockImplementation((input: any) => Promise.resolve(input));
+      const result = await service.updateActivity('a1', { purpose: 'New' } as any);
       expect(result.purpose).toBe('New');
       expect(result.dpoApproved).toBe(false);
     });
@@ -83,24 +87,24 @@ describe('ProcessingActivityService', () => {
     it('should reset dpoApproved when dataCategories changes', async () => {
       const existing = { id: 'a1', dpoApproved: true, dataCategories: ['old'] };
       repo.findOne.mockResolvedValue(existing);
-      repo.save.mockImplementation((e: any) => Promise.resolve(e));
-      const result = await service.updateActivity('a1', { dataCategories: ['new'] });
+      repo.save.mockImplementation((input: any) => Promise.resolve(input));
+      const result = await service.updateActivity('a1', { dataCategories: ['new'] } as any);
       expect(result.dpoApproved).toBe(false);
     });
 
     it('should reset dpoApproved when legalBasis changes', async () => {
       const existing = { id: 'a1', dpoApproved: true, legalBasis: 'consent' };
       repo.findOne.mockResolvedValue(existing);
-      repo.save.mockImplementation((e: any) => Promise.resolve(e));
-      const result = await service.updateActivity('a1', { legalBasis: 'contract' });
+      repo.save.mockImplementation((input: any) => Promise.resolve(input));
+      const result = await service.updateActivity('a1', { legalBasis: 'contract' } as any);
       expect(result.dpoApproved).toBe(false);
     });
 
-    it('should not reset dpoApproved when no sensitive fields change', async () => {
+    it('should not reset dpoApproved when non-sensitive field changes', async () => {
       const existing = { id: 'a1', dpoApproved: true, activityName: 'Old' };
       repo.findOne.mockResolvedValue(existing);
-      repo.save.mockImplementation((e: any) => Promise.resolve(e));
-      const result = await service.updateActivity('a1', { activityName: 'New Name' });
+      repo.save.mockImplementation((input: any) => Promise.resolve(input));
+      const result = await service.updateActivity('a1', { activityName: 'New Name' } as any);
       expect(result.dpoApproved).toBe(true);
     });
   });
@@ -138,7 +142,7 @@ describe('ProcessingActivityService', () => {
     it('should set transfer countries and reset dpoApproved', async () => {
       const existing = { id: 'a1', dpoApproved: true, transferCountries: null };
       repo.findOne.mockResolvedValue(existing);
-      repo.save.mockImplementation((e: any) => Promise.resolve(e));
+      repo.save.mockImplementation((input: any) => Promise.resolve(input));
       const result = await service.setTransferCountries('a1', ['US', 'EU']);
       expect(result.transferCountries).toEqual(['US', 'EU']);
       expect(result.dpoApproved).toBe(false);
