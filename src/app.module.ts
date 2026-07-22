@@ -51,6 +51,10 @@ import { SoxModule } from './modules/regulatory/sox/sox.module';
 import { SurveillanceModule } from './modules/regulatory/surveillance/surveillance.module';
 import { EthicsModule } from './modules/regulatory/ethics/ethics.module';
 import { BaselModule } from './modules/regulatory/basel/basel.module';
+import { StressTestingModule } from './modules/regulatory/stress-test/stress-test.module';
+import { ConsumerProtectionModule } from './modules/regulatory/consumer-protection/consumer-protection.module';
+import { ConsumerProtectionMonitor } from './modules/regulatory/consumer-protection/entities/consumer-protection-monitor.entity';
+import { ConsumerProtectionCase } from './modules/regulatory/consumer-protection/entities/consumer-protection-case.entity';
 import { ExportControlModule } from './modules/regulatory/export-control/export-control.module';
 import { MiscModule } from './modules/regulatory/misc/misc.module';
 import { AiRegulatoryModule } from './modules/regulatory/ai/ai-regulatory.module';
@@ -212,6 +216,8 @@ EthicsCase,
 ConflictOfInterest,
 GiftEntertainmentLog,
 BaselReport,
+          ConsumerProtectionMonitor,
+          ConsumerProtectionCase,
 ExportControlLicense,
 RegulatoryChange,
 ComplianceTraining,
@@ -367,6 +373,8 @@ SoxModule,
 SurveillanceModule,
 EthicsModule,
 BaselModule,
+    StressTestingModule,
+    ConsumerProtectionModule,
 ExportControlModule,
 MiscModule,
 AiRegulatoryModule,
