@@ -47,6 +47,7 @@ import { RetailAccountAlert } from './modules/retail-banking/entities/retail-acc
 import { ConsolidationModule } from './modules/consolidation/consolidation.module';
 import { RetailBankingModule } from './modules/retail-banking/retail-banking.module';
 import { RegulatoryExamModule } from './modules/regulatory/exam/regulatory-exam.module';
+import { ReportingCoreModule } from './modules/regulatory/reporting-core/reporting-core.module.js';
 import { SoxModule } from './modules/regulatory/sox/sox.module';
 import { SurveillanceModule } from './modules/regulatory/surveillance/surveillance.module';
 import { EthicsModule } from './modules/regulatory/ethics/ethics.module';
@@ -374,6 +375,7 @@ DataGovernanceModule,
     ConsolidationModule,
     RetailBankingModule,
 RegulatoryExamModule,
+    ReportingCoreModule,
 SoxModule,
 SurveillanceModule,
 EthicsModule,
