@@ -55,9 +55,12 @@ import { StressTestingModule } from './modules/regulatory/stress-test/stress-tes
 import { ConsumerProtectionModule } from './modules/regulatory/consumer-protection/consumer-protection.module';
 import { ConsumerProtectionMonitor } from './modules/regulatory/consumer-protection/entities/consumer-protection-monitor.entity';
 import { ConsumerProtectionCase } from './modules/regulatory/consumer-protection/entities/consumer-protection-case.entity';
+import { CapitalRatio } from './modules/regulatory/capital-liquidity/entities/capital-ratio.entity.js';
+import { LiquidityRatio } from './modules/regulatory/capital-liquidity/entities/liquidity-ratio.entity.js';
 import { ExportControlModule } from './modules/regulatory/export-control/export-control.module';
 import { MiscModule } from './modules/regulatory/misc/misc.module';
 import { AiRegulatoryModule } from './modules/regulatory/ai/ai-regulatory.module';
+import { CapitalLiquidityModule } from './modules/regulatory/capital-liquidity/capital-liquidity.module.js';
 import { SocModule } from './modules/soc/soc.module';
 import { LoansModule } from "./modules/loans/loans.module.js";
 import { DataGovernanceModule } from "./modules/data-governance/data-governance.module.js";
@@ -218,6 +221,8 @@ GiftEntertainmentLog,
 BaselReport,
           ConsumerProtectionMonitor,
           ConsumerProtectionCase,
+          CapitalRatio,
+          LiquidityRatio,
 ExportControlLicense,
 RegulatoryChange,
 ComplianceTraining,
@@ -378,6 +383,7 @@ BaselModule,
 ExportControlModule,
 MiscModule,
 AiRegulatoryModule,
+    CapitalLiquidityModule,
     SocModule,
   ],
   providers: [
