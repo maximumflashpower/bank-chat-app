@@ -12,7 +12,7 @@ import { FxExchangeDto } from '../dto/fx-exchange.dto';
 import { SafeBoxRentDto, SafeBoxAccessDto, SafeBoxReturnDto } from '../dto/safe-box.dto';
 
 @ApiTags('branch-teller-auxiliary')
-@Controller('api/v1/branch-teller')
+@Controller('v1/branch-teller')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class BranchAuxController {

@@ -4,7 +4,7 @@ import { KpiService } from '../services/kpi.service';
 import { UpdateForecastDto } from '../dto/update-forecast.dto';
 
 @ApiTags('SMB Budgeting - KPI')
-@Controller('api/smb-budgeting/kpi')
+@Controller('smb-budgeting/kpi')
 export class KpiController {
   constructor(private readonly kpiService: KpiService) {}
 

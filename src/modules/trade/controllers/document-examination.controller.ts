@@ -4,7 +4,7 @@ import { DocumentExaminationService } from '../services/document-examination.ser
 import { ExaminationResult } from '../enums/examination-result.enum';
 
 @ApiTags('trade')
-@Controller('api/v1/trade/documents')
+@Controller('v1/trade/documents')
 export class DocumentExaminationController {
   constructor(private readonly service: DocumentExaminationService) {}
 

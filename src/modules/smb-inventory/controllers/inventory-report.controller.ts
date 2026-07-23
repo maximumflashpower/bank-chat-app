@@ -10,7 +10,7 @@ import { ValuationService } from '../services/valuation.service';
 import { ReorderService } from '../services/reorder.service';
 import { GeneratePoDto } from '../dto/generate-po.dto';
 
-@Controller('api/smb-inventory/reports')
+@Controller('smb-inventory/reports')
 export class InventoryReportController {
   constructor(
     private readonly reportService: InventoryReportService,

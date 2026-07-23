@@ -5,7 +5,7 @@ import { UnderwritingEvaluateDto } from '../dto/underwriting-evaluate.dto';
 import { UnderwritingDecision } from '../entities/underwriting-assessment.entity';
 
 @ApiTags('insurance')
-@Controller('api/v1/insurance/underwriting')
+@Controller('v1/insurance/underwriting')
 export class UnderwritingController {
   constructor(private readonly underwritingService: UnderwritingService) {}
 

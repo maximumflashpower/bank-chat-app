@@ -12,7 +12,7 @@ import { ReceiveGoodsDto } from '../dto/receive-goods.dto';
 import { CreateTransferDto } from '../dto/create-transfer.dto';
 import { AdjustInventoryDto } from '../dto/adjust-inventory.dto';
 
-@Controller('api/smb-inventory/movements')
+@Controller('smb-inventory/movements')
 export class StockMovementController {
   constructor(private readonly movementService: StockMovementService) {}
 

@@ -31,7 +31,7 @@ import { RoleType } from '../../../identity/entities/role.enum';
 import { EthicsCaseType } from '../entities/ethics-case-type.enum';
 
 @ApiTags('Ethics & Compliance')
-@Controller('api/regulatory/ethics')
+@Controller('regulatory/ethics')
 export class EthicsController {
   constructor(private readonly ethicsService: EthicsService) {}
 

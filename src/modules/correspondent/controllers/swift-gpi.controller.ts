@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { SwiftGpiService } from '../services/swift-gpi.service';
 
 @ApiTags('correspondent')
-@Controller('api/v1/payments')
+@Controller('v1/payments')
 export class SwiftGpiController {
   constructor(private readonly gpiService: SwiftGpiService) {}
 

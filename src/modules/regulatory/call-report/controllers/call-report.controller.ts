@@ -13,7 +13,7 @@ import { ReportType, SubmissionMethod, RegulatoryAuthority } from '../entities/c
 @ApiTags('Regulatory — Call Reports')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('api/regulatory/call-report')
+@Controller('regulatory/call-report')
 export class CallReportController {
   constructor(
     private readonly callReportService: CallReportService,

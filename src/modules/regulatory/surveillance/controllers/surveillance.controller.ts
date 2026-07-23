@@ -27,7 +27,7 @@ import { Roles } from '../../../identity/decorators/roles.decorator';
 import { RoleType } from '../../../identity/entities/role.enum';
 
 @ApiTags('Market Surveillance')
-@Controller('api/regulatory/surveillance')
+@Controller('regulatory/surveillance')
 export class SurveillanceController {
   constructor(private readonly surveillanceService: MarketSurveillanceService) {}
 

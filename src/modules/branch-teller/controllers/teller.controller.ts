@@ -12,7 +12,7 @@ import { DrawerCloseDto } from '../dto/drawer-close.dto';
 import { OverrideRequestDto } from '../dto/override-request.dto';
 
 @ApiTags('branch-teller')
-@Controller('api/v1/branch-teller/teller')
+@Controller('v1/branch-teller/teller')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class TellerController {

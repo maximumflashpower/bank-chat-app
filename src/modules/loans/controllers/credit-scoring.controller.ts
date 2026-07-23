@@ -7,7 +7,7 @@ import { CreditScoringService } from '../services/credit-scoring.service.js';
 import { CalculateCreditScoreDto } from '../dto/create-credit-score.dto.js';
 
 @ApiTags('Loans - Credit Scoring')
-@Controller('api/v1/loans/scoring')
+@Controller('v1/loans/scoring')
 @UseGuards(JwtAuthGuard)
 export class CreditScoringController {
   constructor(private readonly scoringService: CreditScoringService) {}

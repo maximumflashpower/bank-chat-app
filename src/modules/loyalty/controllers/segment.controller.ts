@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { EnrollmentService } from '../services/enrollment.service';
 
 @ApiTags('loyalty')
-@Controller('api/v1/loyalty/customer/segment')
+@Controller('v1/loyalty/customer/segment')
 export class SegmentController {
   constructor(private readonly enrollmentService: EnrollmentService) {}
 

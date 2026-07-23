@@ -6,7 +6,7 @@ import { UpdateBudgetDto } from '../dto/update-budget.dto';
 import { CloneBudgetDto } from '../dto/clone-budget.dto';
 
 @ApiTags('SMB Budgeting - Budget')
-@Controller('api/smb-budgeting/budget')
+@Controller('smb-budgeting/budget')
 export class BudgetController {
   constructor(private readonly budgetService: BudgetService) {}
 

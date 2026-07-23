@@ -7,7 +7,7 @@ import { LogTimeDto } from '../dto/log-time.dto';
 import { ProjectStatus } from '../entities/project-status.enum';
 
 @ApiTags('SMB Budgeting - Project')
-@Controller('api/smb-budgeting/project')
+@Controller('smb-budgeting/project')
 export class ProjectController {
   constructor(
     private readonly projectService: ProjectService,

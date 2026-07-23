@@ -14,7 +14,7 @@ import { GenerateInventoryJournalDto } from '../dto/generate-inventory-journal.d
 import { CreateInventoryPostingRuleDto } from '../dto/create-inventory-posting-rule.dto';
 import { InventoryJournalReportDto } from '../dto/inventory-journal-report.dto';
 
-@Controller('api/ledger/inventory-journals')
+@Controller('ledger/inventory-journals')
 export class InventoryJournalController {
   constructor(
     private readonly journalService: InventoryJournalService,

@@ -4,7 +4,7 @@ import { AllocationService } from '../services/allocation.service';
 import { CreateAllocationMethodDto } from '../dto/create-allocation-method.dto';
 
 @ApiTags('SMB Budgeting - Allocation')
-@Controller('api/smb-budgeting/allocation')
+@Controller('smb-budgeting/allocation')
 export class AllocationController {
   constructor(private readonly allocationService: AllocationService) {}
 

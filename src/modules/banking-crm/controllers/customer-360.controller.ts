@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Body, Param, UseGuards } from '@nestjs/comm
 import { AuthGuard } from '@nestjs/passport';
 import { Customer360Service } from '../services/customer-360.service.js';
 
-@Controller('api/v1/crm')
+@Controller('v1/crm')
 @UseGuards(AuthGuard('jwt'))
 export class Customer360Controller {
   constructor(private readonly customer360Service: Customer360Service) {}

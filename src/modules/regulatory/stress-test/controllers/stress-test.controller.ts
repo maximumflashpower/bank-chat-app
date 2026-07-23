@@ -12,7 +12,7 @@ import { StressTestService } from '../services/stress-test.service';
 import { CreateScenarioDto, RunStressTestDto, ReviewStressTestDto } from '../dto/create-scenario.dto';
 
 @ApiTags('Regulatory — Stress Testing')
-@Controller('api/v1/regulatory/stress-test')
+@Controller('v1/regulatory/stress-test')
 export class StressTestController {
   constructor(private readonly stressTestService: StressTestService) {}
 

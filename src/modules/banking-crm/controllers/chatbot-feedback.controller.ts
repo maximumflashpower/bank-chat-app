@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ChatbotService } from '../services/chatbot.service.js';
 import { CrmAuxService } from '../services/crm-aux.service.js';
 
-@Controller('api/v1/crm')
+@Controller('v1/crm')
 @UseGuards(AuthGuard('jwt'))
 export class ChatbotFeedbackController {
   constructor(

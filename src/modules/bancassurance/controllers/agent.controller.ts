@@ -4,7 +4,7 @@ import { CommissionService } from '../services/commission.service';
 import { PremiumService } from '../services/premium.service';
 
 @ApiTags('insurance')
-@Controller('api/v1/insurance')
+@Controller('v1/insurance')
 export class AgentController {
   constructor(
     private readonly commissionService: CommissionService,

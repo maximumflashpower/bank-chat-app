@@ -28,7 +28,7 @@ import { RolesGuard } from '../../../identity/guards/roles.guard';
 import { Roles } from '../../../identity/decorators/roles.decorator';
 
 @ApiTags('Regulatory Exams')
-@Controller('api/regulatory/exams')
+@Controller('regulatory/exams')
 export class RegulatoryExamController {
   constructor(private readonly examService: RegulatoryExamService) {}
 

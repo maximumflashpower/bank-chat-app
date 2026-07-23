@@ -2,7 +2,7 @@ import { Controller, Post, Get, Delete, Body, Param, UseGuards, Request } from '
 import { AuthGuard } from '@nestjs/passport';
 import { QrPaymentService } from '../services/qr-payment.service.js';
 
-@Controller('api/v1/qrcode')
+@Controller('v1/qrcode')
 @UseGuards(AuthGuard('jwt'))
 export class QrCodeController {
   constructor(private readonly qrPaymentService: QrPaymentService) {}

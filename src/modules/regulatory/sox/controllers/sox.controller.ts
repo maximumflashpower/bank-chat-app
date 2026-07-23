@@ -28,7 +28,7 @@ import { Roles } from '../../../identity/decorators/roles.decorator';
 import { RoleType } from '../../../identity/entities/role.enum';
 
 @ApiTags('SOX Controls')
-@Controller('api/regulatory/sox')
+@Controller('regulatory/sox')
 export class SoxController {
   constructor(private readonly soxService: SoxControlService) {}
 

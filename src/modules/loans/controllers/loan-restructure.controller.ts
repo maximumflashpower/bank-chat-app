@@ -7,7 +7,7 @@ import { LoanRestructureService } from '../services/loan-restructure.service.js'
 import { RestructureLoanDto } from '../dto/restructure-loan.dto.js';
 
 @ApiTags('Loans - Restructuring')
-@Controller('api/v1/loans/restructures')
+@Controller('v1/loans/restructures')
 @UseGuards(JwtAuthGuard)
 export class LoanRestructureController {
   constructor(private readonly restructureService: LoanRestructureService) {}

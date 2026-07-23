@@ -29,7 +29,7 @@ import { Roles } from '../../../identity/decorators/roles.decorator';
 import { RoleType } from '../../../identity/entities/role.enum';
 
 @ApiTags('Regulatory Misc')
-@Controller('api/regulatory')
+@Controller('regulatory')
 export class MiscController {
   constructor(
     private readonly changeService: RegulatoryChangeService,

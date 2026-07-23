@@ -7,7 +7,7 @@ import { IssuePolicyDto } from '../dto/issue-policy.dto';
 import { EndorsementDto } from '../dto/endorsement.dto';
 
 @ApiTags('insurance')
-@Controller('api/v1/insurance')
+@Controller('v1/insurance')
 export class InsuranceController {
   constructor(
     private readonly quoteService: QuoteService,
