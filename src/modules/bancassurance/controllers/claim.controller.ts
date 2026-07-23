@@ -5,7 +5,7 @@ import { CreateClaimDto } from '../dto/create-claim.dto';
 import { UploadEvidenceDto } from '../dto/upload-evidence.dto';
 
 @ApiTags('insurance')
-@Controller('api/v1/insurance/claims')
+@Controller('v1/insurance/claims')
 export class ClaimController {
   constructor(private readonly claimService: ClaimService) {}
 

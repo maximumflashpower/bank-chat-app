@@ -11,7 +11,7 @@ import { InventoryTaxService } from '../services/inventory-tax.service';
 import { CalculateInventorySalesTaxDto } from '../dto/calculate-inventory-sales-tax.dto';
 import { SyncProductMappingDto } from '../dto/sync-product-mapping.dto';
 
-@Controller('api/tax/inventory')
+@Controller('tax/inventory')
 export class InventoryTaxController {
   constructor(private readonly inventoryTaxService: InventoryTaxService) {}
 

@@ -8,7 +8,7 @@ import { VaultService } from '../services/vault.service';
 import { VaultMoveDto } from '../dto/vault-move.dto';
 
 @ApiTags('branch-teller-vault')
-@Controller('api/v1/branch-teller/vault')
+@Controller('v1/branch-teller/vault')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class VaultController {

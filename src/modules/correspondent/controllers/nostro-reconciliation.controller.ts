@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { NostroReconciliationService } from '../services/nostro-reconciliation.service';
 
 @ApiTags('correspondent')
-@Controller('api/v1/nostro')
+@Controller('v1/nostro')
 export class NostroReconciliationController {
   constructor(private readonly reconService: NostroReconciliationService) {}
 

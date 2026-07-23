@@ -11,7 +11,7 @@ import {
 import { InventoryJournalService } from '../services/inventory-journal.service';
 import { CreateInventoryAccountMappingDto } from '../dto/create-inventory-account-mapping.dto';
 
-@Controller('api/ledger/inventory-mappings')
+@Controller('ledger/inventory-mappings')
 export class InventoryAccountMappingController {
   constructor(private readonly journalService: InventoryJournalService) {}
 

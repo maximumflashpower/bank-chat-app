@@ -7,7 +7,7 @@ import { MarginCallService } from '../services/margin-call.service.js';
 import { TriggerMarginCallDto } from '../dto/margin-call.dto.js';
 
 @ApiTags('Loans - Margin Calls')
-@Controller('api/v1/loans/margin-calls')
+@Controller('v1/loans/margin-calls')
 @UseGuards(JwtAuthGuard)
 export class MarginCallController {
   constructor(private readonly marginCallService: MarginCallService) {}

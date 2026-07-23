@@ -2,7 +2,7 @@ import { Controller, Post, Get, Put, Body, Param, Query, UseGuards } from '@nest
 import { AuthGuard } from '@nestjs/passport';
 import { PayhubService } from '../services/payhub.service.js';
 
-@Controller('api/v1/payhub')
+@Controller('v1/payhub')
 @UseGuards(AuthGuard('jwt'))
 export class PayhubController {
   constructor(private readonly payhubService: PayhubService) {}

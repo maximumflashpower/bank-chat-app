@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { RemittanceService } from '../services/remittance.service';
 
 @ApiTags('correspondent')
-@Controller('api/v1/remittance')
+@Controller('v1/remittance')
 export class RemittanceController {
   constructor(private readonly service: RemittanceService) {}
 

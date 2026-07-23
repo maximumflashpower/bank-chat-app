@@ -7,7 +7,7 @@ import { AgentPerformanceQueryDto, UpdateAgentMetricsDto } from '../dto/agent-pe
 @ApiTags('CRM — Agent Performance')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('api/v1/crm/agent')
+@Controller('v1/crm/agent')
 export class AgentPerformanceController {
   constructor(private readonly agentPerformanceService: AgentPerformanceService) {}
 

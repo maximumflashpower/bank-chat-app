@@ -15,7 +15,7 @@ import { ConsumerProtectionCase } from '../entities/consumer-protection-case.ent
 import { RegulationType, CaseStatus } from '../entities/consumer-protection-enum';
 
 @ApiTags('regulatory-consumer-protection')
-@Controller('api/v1/regulatory/consumer-protection')
+@Controller('v1/regulatory/consumer-protection')
 export class ConsumerProtectionController {
   constructor(private readonly service: ConsumerProtectionService) {}
 

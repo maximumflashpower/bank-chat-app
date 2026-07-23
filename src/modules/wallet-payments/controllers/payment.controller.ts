@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { PaymentService } from '../services/payment.service.js';
 import { ChannelType } from '../entities/payment-transaction-hub.entity.js';
 
-@Controller('api/v1/payments')
+@Controller('v1/payments')
 @UseGuards(AuthGuard('jwt'))
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}

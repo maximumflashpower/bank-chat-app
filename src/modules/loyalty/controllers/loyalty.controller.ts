@@ -7,7 +7,7 @@ import { EnrollDto } from '../dto/enroll.dto';
 import { CreateProgramDto } from '../dto/create-program.dto';
 
 @ApiTags('loyalty')
-@Controller('api/v1/loyalty')
+@Controller('v1/loyalty')
 export class LoyaltyController {
   constructor(
     private readonly enrollmentService: EnrollmentService,

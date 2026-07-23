@@ -2,7 +2,7 @@ import { Controller, Post, Get, Put, Delete, Body, Param, Query, UseGuards } fro
 import { AuthGuard } from '@nestjs/passport';
 import { ApiIntegrationService, WebhookRegistration } from '../services/api-integration.service.js';
 
-@Controller('api/v1/api-integration')
+@Controller('v1/api-integration')
 @UseGuards(AuthGuard('jwt'))
 export class ApiIntegrationController {
   constructor(private readonly apiService: ApiIntegrationService) {}

@@ -4,7 +4,7 @@ import { MerchantPartnerService } from '../services/merchant-partner.service';
 import { RegisterMerchantDto } from '../dto/register-merchant.dto';
 
 @ApiTags('loyalty')
-@Controller('api/v1/loyalty/partner')
+@Controller('v1/loyalty/partner')
 export class PartnerController {
   constructor(private readonly merchantService: MerchantPartnerService) {}
 

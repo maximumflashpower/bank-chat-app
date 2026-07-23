@@ -5,7 +5,7 @@ import { RedeemDto, CashbackRedemptionDto } from '../dto/redeem.dto';
 import { RedemptionType } from '../entities/loyalty-redemption-catalog.entity';
 
 @ApiTags('loyalty')
-@Controller('api/v1/loyalty/redeem')
+@Controller('v1/loyalty/redeem')
 export class RedemptionController {
   constructor(private readonly redemptionService: RedemptionService) {}
 

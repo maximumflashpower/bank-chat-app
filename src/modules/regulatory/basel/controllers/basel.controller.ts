@@ -24,7 +24,7 @@ import { Roles } from '../../../identity/decorators/roles.decorator';
 import { RoleType } from '../../../identity/entities/role.enum';
 
 @ApiTags('Basel III Reporting')
-@Controller('api/regulatory/basel')
+@Controller('regulatory/basel')
 export class BaselController {
   constructor(private readonly baselService: BaselReportingService) {}
 

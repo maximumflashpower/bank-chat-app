@@ -5,7 +5,7 @@ import { CreateCorrespondentDto } from '../dto/create-correspondent.dto';
 import { UpdateCorrespondentDto } from '../dto/update-correspondent.dto';
 
 @ApiTags('correspondent')
-@Controller('api/v1/correspondent')
+@Controller('v1/correspondent')
 export class CorrespondentBankController {
   constructor(private readonly bankService: CorrespondentBankService) {}
 

@@ -4,7 +4,7 @@ import { BankGuaranteeService } from '../services/bank-guarantee.service';
 import { GuaranteeStatus } from '../enums/guarantee-status.enum';
 
 @ApiTags('trade')
-@Controller('api/v1/trade/guarantee')
+@Controller('v1/trade/guarantee')
 export class BankGuaranteeController {
   constructor(private readonly service: BankGuaranteeService) {}
 

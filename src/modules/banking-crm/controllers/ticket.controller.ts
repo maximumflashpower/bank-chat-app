@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { TicketService } from '../services/ticket.service.js';
 import { TicketCategory, TicketPriority, TicketStatus } from '../entities/crm-service-ticket.entity.js';
 
-@Controller('api/v1/crm')
+@Controller('v1/crm')
 @UseGuards(AuthGuard('jwt'))
 export class TicketController {
   constructor(private readonly ticketService: TicketService) {}

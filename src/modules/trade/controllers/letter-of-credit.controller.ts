@@ -4,7 +4,7 @@ import { LetterOfCreditService } from '../services/letter-of-credit.service';
 import { LCStatus } from '../enums/lc-status.enum';
 
 @ApiTags('trade')
-@Controller('api/v1/trade/lc')
+@Controller('v1/trade/lc')
 export class LetterOfCreditController {
   constructor(private readonly service: LetterOfCreditService) {}
 

@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { NbaOpportunityService } from '../services/nba-opportunity.service.js';
 import { OpportunityType, OpportunityStage } from '../entities/crm-opportunity.entity.js';
 
-@Controller('api/v1/crm')
+@Controller('v1/crm')
 @UseGuards(AuthGuard('jwt'))
 export class NbaOpportunityController {
   constructor(private readonly nbaService: NbaOpportunityService) {}

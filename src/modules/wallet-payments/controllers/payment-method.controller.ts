@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { PaymentMethodService } from '../services/payment-method.service.js';
 import { PaymentType } from '../entities/payment-method-source.entity.js';
 
-@Controller('api/v1/payment-methods')
+@Controller('v1/payment-methods')
 @UseGuards(AuthGuard('jwt'))
 export class PaymentMethodController {
   constructor(private readonly paymentMethodService: PaymentMethodService) {}

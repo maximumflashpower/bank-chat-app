@@ -12,7 +12,7 @@ interface EnrollDto {
   pushToken?: string;
 }
 
-@Controller('api/v1/mobile')
+@Controller('v1/mobile')
 @UseGuards(AuthGuard('jwt'))
 export class MobileDeviceSessionController {
   constructor(private readonly deviceSessionService: DeviceSessionService) {}

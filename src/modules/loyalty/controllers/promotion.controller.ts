@@ -4,7 +4,7 @@ import { PromotionService } from '../services/promotion.service';
 import { CreatePromotionDto } from '../dto/create-promotion.dto';
 
 @ApiTags('admin')
-@Controller('api/v1/admin/promotion')
+@Controller('v1/admin/promotion')
 export class PromotionController {
   constructor(private readonly promotionService: PromotionService) {}
 

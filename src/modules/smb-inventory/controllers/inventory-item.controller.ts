@@ -12,7 +12,7 @@ import { InventoryItemService } from '../services/inventory-item.service';
 import { CreateItemDto } from '../dto/create-item.dto';
 import { UpdateItemDto } from '../dto/update-item.dto';
 
-@Controller('api/smb-inventory/items')
+@Controller('smb-inventory/items')
 export class InventoryItemController {
   constructor(private readonly itemService: InventoryItemService) {}
 

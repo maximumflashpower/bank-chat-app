@@ -8,7 +8,7 @@ interface SendP2PDto {
   senderNote?: string;
 }
 
-@Controller('api/v1/mobile/p2p')
+@Controller('v1/mobile/p2p')
 @UseGuards(AuthGuard('jwt'))
 export class MobileP2pController {
   constructor(private readonly p2pService: P2pService) {}

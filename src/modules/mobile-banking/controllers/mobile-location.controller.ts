@@ -20,7 +20,7 @@ interface AppointmentDto {
   notes?: string;
 }
 
-@Controller('api/v1/mobile')
+@Controller('v1/mobile')
 @UseGuards(AuthGuard('jwt'))
 export class MobileLocationController {
   constructor(private readonly locationService: LocationService) {}

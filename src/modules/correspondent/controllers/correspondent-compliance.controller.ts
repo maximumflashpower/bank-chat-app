@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { CorrespondentComplianceService } from '../services/correspondent-compliance.service';
 
 @ApiTags('correspondent')
-@Controller('api/v1/correspondent')
+@Controller('v1/correspondent')
 export class CorrespondentComplianceController {
   constructor(private readonly complianceService: CorrespondentComplianceService) {}
 

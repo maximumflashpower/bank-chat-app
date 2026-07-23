@@ -22,7 +22,7 @@ import {
 @ApiTags('Regulatory — Capital & Liquidity (Basel III)')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('api/regulatory/capital-liquidity')
+@Controller('regulatory/capital-liquidity')
 export class CapitalLiquidityController {
   constructor(
     private readonly capitalService: CapitalService,

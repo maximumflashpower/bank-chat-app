@@ -22,7 +22,7 @@ import { Roles } from '../../../identity/decorators/roles.decorator';
 import { RoleType } from '../../../identity/entities/role.enum';
 
 @ApiTags('Export Control')
-@Controller('api/regulatory/export')
+@Controller('regulatory/export')
 export class ExportController {
   constructor(private readonly exportService: ExportControlService) {}
 

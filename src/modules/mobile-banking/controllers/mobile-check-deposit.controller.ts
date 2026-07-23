@@ -13,7 +13,7 @@ interface DepositDto {
   customerConfirmedAmount: boolean;
 }
 
-@Controller('api/v1/mobile/deposit')
+@Controller('v1/mobile/deposit')
 @UseGuards(AuthGuard('jwt'))
 export class MobileCheckDepositController {
   constructor(private readonly checkDepositService: CheckDepositService) {}

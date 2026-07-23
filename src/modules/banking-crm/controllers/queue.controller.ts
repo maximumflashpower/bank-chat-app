@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { QueueService } from '../services/queue.service.js';
 import { QueueChannelOrigin, QueueInteractionType, QueuePriorityLevel, QueueStatus } from '../entities/crm-omnichannel-queue.entity.js';
 
-@Controller('api/v1/crm/queue')
+@Controller('v1/crm/queue')
 @UseGuards(AuthGuard('jwt'))
 export class QueueController {
   constructor(private readonly queueService: QueueService) {}

@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { WalletService } from '../services/wallet.service.js';
 import { WalletProvider } from '../entities/digital-wallet-token.entity.js';
 
-@Controller('api/v1/wallet')
+@Controller('v1/wallet')
 @UseGuards(AuthGuard('jwt'))
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}

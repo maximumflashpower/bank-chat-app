@@ -10,7 +10,7 @@ interface WidgetConfigDto {
   dataCacheJson?: Record<string, any>;
 }
 
-@Controller('api/v1/mobile')
+@Controller('v1/mobile')
 @UseGuards(AuthGuard('jwt'))
 export class MobileDashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
