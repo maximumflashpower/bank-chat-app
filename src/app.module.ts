@@ -62,6 +62,7 @@ import { ExportControlModule } from './modules/regulatory/export-control/export-
 import { MiscModule } from './modules/regulatory/misc/misc.module';
 import { AiRegulatoryModule } from './modules/regulatory/ai/ai-regulatory.module';
 import { CapitalLiquidityModule } from './modules/regulatory/capital-liquidity/capital-liquidity.module.js';
+import { ComplianceAutomationModule } from './modules/regulatory/compliance-automation/compliance-automation.module.js';
 import { SocModule } from './modules/soc/soc.module';
 import { LoansModule } from "./modules/loans/loans.module.js";
 import { DataGovernanceModule } from "./modules/data-governance/data-governance.module.js";
@@ -386,6 +387,7 @@ ExportControlModule,
 MiscModule,
 AiRegulatoryModule,
     CapitalLiquidityModule,
+    ComplianceAutomationModule,
     SocModule,
   ],
   providers: [
